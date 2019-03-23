@@ -1,0 +1,12 @@
+Version 1.0.0
+i) Intial version Release
+
+Version 1.1
+i) Updated readme.txt file
+
+Version 1.2
+i) Some minor changes
+
+
+
+
