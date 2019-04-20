@@ -29,7 +29,7 @@ class Essential_Content_Food_Menu {
 	const MENU_ITEM_LABEL_TAX = 'ect_food_menu_item_label';
 	const MENU_TAX = 'ect_food_menu';
 
-	public $version = '0.1';
+	public $version = ESSENTIAL_CONTENT_TYPES_VERSION;
 
 	protected $default_menu_item_loop_markup = array(
 		'menu_tag'               => 'section',

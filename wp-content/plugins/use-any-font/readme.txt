@@ -3,7 +3,7 @@ Contributors: dnesscarkey
 Tags: custom fonts, font embed, font uploader, any font, embed any font, font uploader, css3 font embed, @font-face embed, font conversion, webfont, ttf, opentype
 Requires at least: 3.0
 Tested up to: 5.1.1
-Stable tag: 5.1
+Stable tag: 5.2
 
 Embed any custom font in your website. #1 Rated custom fonts plugin by WPMUDev.org.
 
@@ -112,6 +112,9 @@ No, our server is needed during font conversion only. After that all fonts are s
 1. Screenshot #6. Assign fonts to custom elements.
 
 == Changelog ==
+
+= 5.2 =
+* Added menu option in elements list.
 
 = 5.1 =
 * Fix url issue.

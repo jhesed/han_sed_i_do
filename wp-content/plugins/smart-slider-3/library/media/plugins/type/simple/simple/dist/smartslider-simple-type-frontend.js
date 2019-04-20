@@ -632,13 +632,13 @@ N2D('SmartSliderMainAnimationSimple', ['SmartSliderMainAnimationAbstract'], func
         if (this.isTouch && this.isReverseAllowed && parallaxOverlap === 0) {
             var reverseSlideIndex = reversed ? currentSlide.index + 1 : currentSlide.index - 1;
             if (reverseSlideIndex < 0) {
-                if (this.slider.parameters.carousel) {
+                if (this.slider.parameters.carousel && !this.slider.blockCarousel) {
                     reverseSlideIndex = this.slider.slides.length - 1;
                 } else {
                     reverseSlideIndex = currentSlide.index;
                 }
             } else if (reverseSlideIndex >= this.slider.slides.length) {
-                if (this.slider.parameters.carousel) {
+                if (this.slider.parameters.carousel && !this.slider.blockCarousel) {
                     reverseSlideIndex = 0;
                 } else {
                     reverseSlideIndex = currentSlide.index;

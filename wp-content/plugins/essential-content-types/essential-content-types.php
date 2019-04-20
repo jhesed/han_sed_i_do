@@ -16,7 +16,7 @@
  * Plugin Name:       Essential Content Types
  * Plugin URI:        https://catchplugins.com/plugins/essential-content-types/
  * Description:       Essential Content Types allows you to feature the impressive content through different content/post types on your website just the way you want it. These content/post types are missed by the themes in WordPress Theme Directory as the feature falls more towards the plugins’ territory.
- * Version:           1.5
+ * Version:           1.5.1
  * Author:            Catch Plugins
  * Author URI:        https://catchplugins.com
  * License:           GPL-3.0+
@@ -31,7 +31,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 // Define Version
-define( 'ESSENTIAL_CONTENT_TYPES_VERSION', '1.5' );
+define( 'ESSENTIAL_CONTENT_TYPES_VERSION', '1.5.1' );
 
 /**
  * The code that runs during plugin activation.
@@ -174,34 +174,19 @@ function ect_get_template_part( $slug, $name = '', $atts ) {
     // Allow 3rd party plugins to filter template file from their plugin.
     $template = apply_filters( 'ect_get_template_part', $template, $slug, $name );
 
-    //die($template);
-    //die(ect_template_path($name) . "{$slug}-{$name}.php");
     if ( $template ) {
         load_template( $template, false, 'atts' );
     }
 }
 endif;
 
-/*
-if( ! function_exists( 'ect_enqueue_scripts' ) ) :
-function ect_enqueue_scripts() {
-	die('asdf');
-	wp_enqueue_script( 'ect-scripts', plugin_dir_url( __FILE__ ) . 'js/scripts.js', array( 'jquery' ), $this->version, false );
-}
-add_action( 'wp_enqueue_scripts', 'ect_enqueue_scripts' );
-endif;*/
-
 function ect_body_classes( $classes ){
 	$classes[] = 'ect-post';
 	return $classes;
 }
 add_filter( 'body_class', 'ect_body_classes' );
+
 /* Adds Catch Themes tab in Add theme page and Themes by Catch Themes in Customizer's change theme option. */
-require plugin_dir_path( __FILE__ ) . 'includes/our-themes.php';
-
-
-/* Adds Catch Plugins tab in Add theme page.  */
-require plugin_dir_path( __FILE__ ) . 'includes/our-plugins.php';
-
-
-
+if( ! class_exists( 'CatchThemesThemePlugin' ) && ! function_exists( 'add_our_plugins_tab' ) ) {
+	require plugin_dir_path( __FILE__ ) . 'includes/CatchThemesThemePlugin.php';
+}

@@ -8,7 +8,7 @@ class Essential_Content_Jetpack_Testimonial {
     const OPTION_NAME            = 'jetpack_testimonial';
     const OPTION_READING_SETTING = 'jetpack_testimonial_posts_per_page';
 
-    public $version = '0.1';
+    public $version = ESSENTIAL_CONTENT_TYPES_VERSION;
 
     static function init() {
         static $instance = false;
@@ -279,6 +279,7 @@ class Essential_Content_Jetpack_Testimonial {
             'supports' => array(
                 'title',
                 'editor',
+                'excerpt',
                 'thumbnail',
                 'page-attributes',
                 'revisions',
@@ -725,7 +726,7 @@ class Essential_Content_Jetpack_Testimonial_Metabox {
     */
     public function add($postType) {
         if( in_array( $postType, $this->meta_box['post_type'] ) ) {
-            add_meta_box( $this->meta_box['id'], $this->meta_box['title'], array( $this, 'show' ), $postType );
+            add_meta_box( $this->meta_box['id'], $this->meta_box['title'], array( $this, 'show' ), null, 'side', 'high' );
         }
     }
 
@@ -743,20 +744,11 @@ class Essential_Content_Jetpack_Testimonial_Metabox {
 
         $position = get_post_meta( $post->ID, 'ect_testimonial_position', true );
 
-        // Begin the form table?>
-        <table class="form-table">
-            <tbody>
-                <tr>
-                    <td>
-                        <label for="ect_testimonial_position"><?php esc_html_e( 'Position', 'essential-content-types' ); ?></label>
-                    </td>
-
-                    <td>
-                        <input type="text" class="regular-text" name="ect_testimonial_position" value="<?php echo esc_attr( $position ); ?>" />
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        // Begin the form ?>
+        <p>
+            <label for="ect_testimonial_position"><?php esc_html_e( 'Position', 'essential-content-types' ); ?></label>
+            <input type="text" class="widefat ect-testimonial-position" name="ect_testimonial_position" value="<?php echo esc_attr( $position ); ?>" />
+        </p>
     <?php
     }
 

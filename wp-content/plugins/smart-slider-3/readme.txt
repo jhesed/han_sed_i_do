@@ -3,8 +3,8 @@ Contributors: nextendweb
 Tags: slider, wordpress slider, image slider, layer slider, responsive slider, slideshow, fullwidth slider, post slider, horizontal slider, vertical slider, photo slider, video slider
 Donate link: https://sites.fastspring.com/nextend/product/smartslider3donate
 Requires at least: 4.6
-Tested up to: 5.1
-Stable tag: 3.3.15
+Tested up to: 5.1.1
+Stable tag: 3.3.18
 Requires PHP: 5.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -195,6 +195,24 @@ Of course! Smart Slider use protocol relative urls which works fine on http:// a
 9. Layer slider with layers styles. Made with FREE version.
 
 == Changelog ==
+
+= 3.3.18 - 08. April 2019. =
+* Feature:  Image arrows - Base64 encoding on/off to let you avoid lazy loading or other optimization plugins/extensions caused errors 
+* Feature:  Hide slider with CSS media query option 
+* Feature:  Slide background color overlay 
+* Feature:  Compatibility with EWWW Image Optimizer 
+* Fix:  Parent picker history for deleted parent 
+* Fix:  Elementor + Yoast Seo meta description 
+* Fix:  YouTube layer start time fix (Loop + Reset when slide changes) 
+* Fix:  Compatibility with Swift Performance lazyload-background-images option 
+* Fix:  Slider align - Center 
+* Fix:  Arrow control (slide type) 
+* Improvement:  Better footprint management at the nextend2_section_storage table 
+
+= 3.3.16 - 20. February 2019. =
+* Fix:  Domain activation 
+* Fix:  PHP 7.x compatibility of 3rd party assets 
+* Fix:  Youtube autoplay fix
 
 = 3.3.15 - 20. February 2019. =
 * NEW DEMO: Brand new [demo slider](https://smartslider3.com/autoplaying-thumbnail-slider/) is available to download!

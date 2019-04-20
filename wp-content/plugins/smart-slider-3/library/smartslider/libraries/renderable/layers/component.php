@@ -505,9 +505,9 @@ abstract class  N2SSSlideComponent {
         if ($image != '') {
             $x          = intval($this->data->get('bgimagex', 50));
             $y          = intval($this->data->get('bgimagey', 50));
-            $background .= 'URL("' . N2ImageHelper::fixed($image) . '") ' . $x . '% ' . $y . '% / cover no-repeat' . ($this->data->get('bgimageparallax', 0) ? ' fixed' : '');
+            $background .= 'URL("' . N2ImageHelper::fixed($image) . '") ' . $x . '% ' . $y . '% / cover no-repeat';
 
-            $gradientBackgroundProps = ' ' . $x . '% ' . $y . '% / cover no-repeat' . ($this->data->get('bgimageparallax', 0) ? ' fixed' : '');
+            $gradientBackgroundProps = ' ' . $x . '% ' . $y . '% / cover no-repeat';
         }
 
         $color    = $this->data->get('bgcolor', '00000000');

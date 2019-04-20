@@ -46,8 +46,8 @@ class Olympus_Google_Fonts {
 		include OGF_DIR_PATH . 'includes/customizer/settings.php';
 		include OGF_DIR_PATH . 'includes/customizer/output-css.php';
 
-		// Feedback request class.
-		include OGF_DIR_PATH . 'includes/class-ogf-feedback.php';
+		// Notifications class.
+		include OGF_DIR_PATH . 'includes/class-ogf-notifications.php';
 
 		// Welcome notice class.
 		include OGF_DIR_PATH . 'includes/class-ogf-welcome.php';
@@ -74,7 +74,8 @@ class Olympus_Google_Fonts {
 		$fonts = new OGF_Fonts();
 
 		if ( $fonts->has_custom_fonts() ) {
-			wp_enqueue_style( 'olympus-google-fonts', $fonts->build_url(), array(), OGF_VERSION );
+			$url = $fonts->build_url();
+			wp_enqueue_style( 'olympus-google-fonts', $url, array(), OGF_VERSION );
 		}
 
 	}
@@ -139,7 +140,7 @@ class Olympus_Google_Fonts {
 		array_push( $links, $settings_link );
 
 		// Upgrade Link.
-		$pro_link = '<a href="https://fontsplugin.com?utm_source=wpadmin-settings">' . esc_html__( 'Upgrade to Pro', 'olympus-google-fonts' ) . '</a>';
+		$pro_link = '<a href="https://fontsplugin.com/pro-upgrade?utm_source=wpadmin-settings">' . esc_html__( 'Upgrade to Pro', 'olympus-google-fonts' ) . '</a>';
 
 		array_push( $links, $pro_link );
 

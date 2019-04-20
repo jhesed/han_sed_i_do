@@ -135,7 +135,7 @@ class N2SmartsliderSlidesModel extends N2Model {
     public function simpleEditForm($data = array()) {
         N2Loader::import('libraries.form.form');
         $form = new N2Form(N2Base::getApplication('smartslider')
-            ->getApplicationType('backend'));
+                                 ->getApplicationType('backend'));
 
         $data['publishdates'] = isset($data['publishdates']) ? $data['publishdates'] : ((isset($data['publish_up']) ? $data['publish_up'] : '') . '|*|' . (isset($data['publish_down']) ? $data['publish_down'] : ''));
 
@@ -219,6 +219,8 @@ class N2SmartsliderSlidesModel extends N2Model {
                 'alpha' => true
             ));
 
+            new N2ElementOnOff($slideColorBackground, 'backgroundColorOverlay', n2_('Overlay'), 0);
+
             new N2ElementImageListLabel($slideBackground, 'backgroundMode', n2_('Fill mode'), 'default', array(
                 'options'  => array(
                     'default' => array(
@@ -258,7 +260,7 @@ class N2SmartsliderSlidesModel extends N2Model {
             }
 
             N2SSPluginSliderType::getSliderType($this->slider->data->get('type'))
-                ->renderSlideFields($tab);
+                                ->renderSlideFields($tab);
 
         }
 
@@ -339,7 +341,7 @@ class N2SmartsliderSlidesModel extends N2Model {
 
             new N2ElementButton($generatorTab, 'button', '', n2_('Edit generator'), array(
                 'url' => N2Base::getApplication('smartslider')
-                    ->getApplicationType('backend')->router->createUrl(array(
+                               ->getApplicationType('backend')->router->createUrl(array(
                         "generator/edit",
                         array(
                             'generator_id' => $this->currentData['generator_id']
@@ -462,7 +464,7 @@ class N2SmartsliderSlidesModel extends N2Model {
 
     }
 
-    public function removeFourByteChars($text){
+    public function removeFourByteChars($text) {
         return preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $text);
     }
 
@@ -751,7 +753,7 @@ class N2SmartsliderSlidesModel extends N2Model {
 
     public static function markChanged($sliderid) {
         N2SmartSliderHelper::getInstance()
-            ->setSliderChanged($sliderid, 1);
+                           ->setSliderChanged($sliderid, 1);
     }
 
     public function makeStatic($slideId) {

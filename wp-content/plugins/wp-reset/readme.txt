@@ -1,10 +1,10 @@
 === WP Reset - Best WordPress Reset Plugin ===
-Tags: wordpress reset, reset wordpress, reset database, reset wordpress database, reset, restart wordpress, clean wordpress, default wp, default wordpress, reset wp, wp reset, developer, wp-cli
+Tags: wordpress reset, reset wordpress, reset database, reset wordpress database, reset, restart wordpress, clean wordpress, default wp, default wordpress, reset wp, wp reset, developer, wp-cli, webhooks
 Contributors: WebFactory, wpreset, googlemapswidget, securityninja, underconstructionpage
 Requires at least: 4.0
 Requires PHP: 5.2
 Tested up to: 5.1
-Stable tag: 1.50
+Stable tag: 1.55
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,7 +20,7 @@ For support please use the <a href="https://wordpress.org/support/plugin/wp-rese
 
 Access WP Reset admin page via the "Tools" menu.
 
-> WP Reset is proudly sponsored by <a target="_blank" href="https://ipgeolocation.io/">IP Geolocation</a>, a **premium GeoIP service for developers**. See how you can use their <a href="https://wpreset.com/geoip-transform-boring-data-better-user-experience/">GeoIP service</a> to make boring IP addresses more interesting for users. They offer <a href="https://ipgeolocation.io/signup">50,000 API requests a month FREE for developers</a>, and keep WP Reset updated & maintained.
+WP Reset is fully integrated with <a href="https://wordpress.org/plugins/wp-webhooks/">WP Webhooks</a> plugin - a secure, universal system that connects WP to any 3rd party systems and enables you to initiate actions both from WPs end (for instance start a MailChimp campaign once a new user registers), and from any other application (create a new user in WP when a purchase is made on a 3rd party system). View more <a href="https://underconstructionpage.com/wp-webhooks-connect-integrate-wordpress/" target="_blank">practical use-cases</a> that save hours of repetitive work.
 
 
 **Please read carefully before proceeding to understand what WP Reset does**
@@ -72,6 +72,11 @@ WP Reset has yet to be completely tested with multisite! Please be careful when 
 * Delete .htaccess file - deletes the .htaccess file. If you need to edit .htaccess without FTP use our free <a href="https://wordpress.org/plugins/wp-htaccess-editor/">WP Htaccess Editor</a> plugin.
 
 
+#### Friends who helped us translate WP Reset
+
+* French - <a href="https://www.infrenchtranslation.com/">Jeff Inho</a>
+
+
 == Installation ==
 
 Follow the usual routine;
@@ -97,6 +102,13 @@ Or if needed, upload manually;
 
 == Changelog ==
 
+= v1.55 =
+* 2019/03/25
+* 100k users hit on 2019/01/15 with 560,300 downloads; 34 days for +10k & 71k downloads
+* bug fixes
+* support for WP Webhooks
+* added features survey
+
 = v1.50 =
 * 2019/01/08
 * new tool: delete .htaccess file
@@ -119,7 +131,7 @@ Or if needed, upload manually;
 
 = v1.35 =
 * 2018/09/18
-* WP Reset is proudly sponsored by <a href="https://ipgeolocation.io/">IP Geolocation</a>
+* sponsorship by IP Geolocation
 * 60k users hit on 2018/09/16 with 323,300 downloads; 35 days for +10k
 * added all tools to WP-CLI
 * new tool: delete all files in uploads folder

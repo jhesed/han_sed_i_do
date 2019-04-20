@@ -2,9 +2,9 @@
 
 class N2SS3 {
 
-    public static $version = '3.3.15';
+    public static $version = '3.3.18';
 
-    public static $revision = '3213';
+    public static $revision = '3638';
 
     public static $completeVersion;
 
@@ -167,6 +167,11 @@ class N2SS3 {
     }
 
     public static function initLicense() {
+    }
+
+    public static function sliderChanged() {
+        do_action('smartslider3_slider_changed');
+    
     }
 }
 

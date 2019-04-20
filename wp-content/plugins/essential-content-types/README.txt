@@ -194,6 +194,11 @@ Not so easy way (via FTP) :
 5. Customizer: Services Archive Options
 
 == Changelog ==
+
+= 1.5.1 (Released: April 09, 2019) =
+* Added: Excerpt support for CPT
+* Updated: Catch Themes and Catch Plugins tabs displaying code
+
 = 1.5 (Released: February 21, 2019) =
 * Compatibility check up to version 5.1
 

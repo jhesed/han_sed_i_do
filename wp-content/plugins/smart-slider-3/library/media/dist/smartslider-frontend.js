@@ -434,9 +434,9 @@ N2D('SmartSliderApi', function ($, undefined) {
         if (!$el.data('ss-reset-events')) {
             $el.data('ss-reset-events', 1);
 
-            slide.on('layerAnimationPlayIn.resetCounter', $.extend(function () {
-                $el.data('ss-last-event', '');
-            }, this));
+            slide.on('layerAnimationPlayIn.resetCounter', $.proxy(function (slide) {
+                slide.data('ss-last-event', '');
+            }, this, slide));
         }
 
         var match = parts.length - 1;
@@ -462,7 +462,9 @@ N2D('SmartSliderApi', function ($, undefined) {
     };
 
     SmartSliderApi.prototype.applyActionWithClick = function () {
-        if (!nextend.shouldPreventClick) this.applyAction.apply(this, arguments);
+        if (!nextend.shouldPreventClick) {
+            this.applyAction.apply(this, arguments);
+        }
     };
 
     window.n2ss = new SmartSliderApi();
@@ -637,6 +639,8 @@ N2D('SmartSliderAbstract', function ($, undefined) {
 
         if (n2const.isIE) {
             $sliderElement.attr('data-ie', n2const.isIE);
+        } else if (n2const.isEdge) {
+            $sliderElement.attr('data-ie', n2const.isEdge);
         }
 
         this.slideClass = this.slideClass || 'FrontendSliderSlide';
@@ -666,6 +670,12 @@ N2D('SmartSliderAbstract', function ($, undefined) {
 
         this.needBackgroundWrap = false;
 
+        /**
+         * Block carousel in vertical touch + revert
+         * @type {boolean}
+         */
+        this.blockCarousel = false;
+
         this.parameters = $.extend({
             admin: false,
             playWhenVisible: 1,
@@ -677,11 +687,10 @@ N2D('SmartSliderAbstract', function ($, undefined) {
             maintainSession: 0,
             align: 'normal',
             controls: {
-                drag: false,
                 touch: 'horizontal',
                 keyboard: false,
-                scroll: false,
-                tilt: false
+                mousewheel: false,
+                blockCarouselInteraction: 1
             },
             hardwareAcceleration: true,
             layerMode: {
@@ -1165,27 +1174,87 @@ N2D('SmartSliderAbstract', function ($, undefined) {
     };
 
     SmartSliderAbstract.prototype.focus = function (isSystem) {
-        var deferred = $.Deferred();
-        if (isSystem === undefined) {
-            isSystem = 0;
+        var needFocus = false;
+
+        if (this.responsive.parameters.focusUser && !isSystem) {
+            needFocus = true;
+        } else if (this.responsive.parameters.focusAutoplay && isSystem) {
+            needFocus = true;
         }
-        if (this.responsive.parameters.focusUser && !isSystem || this.responsive.parameters.focusAutoplay && isSystem) {
-            var top = this.sliderElement.offset().top - (this.responsive.verticalOffsetSelectors.height() || 0);
-            if ($(window).scrollTop() !== top) {
-                window.nextendScrollFocus = true;
-                $("html, body").animate({scrollTop: top}, 400, $.proxy(function () {
-                    deferred.resolve();
-                    setTimeout(function () {
-                        window.nextendScrollFocus = false;
-                    }, 300);
-                }, this));
+
+        if (needFocus) {
+            /**
+             * .getBoundingClientRect() adjusted by the $(window).scrollTop()
+             */
+            var scrollTop = $(window).scrollTop(),
+                focusOffsetTop = this.responsive.focusOffsetTop,
+                focusOffsetBottom = this.responsive.focusOffsetBottom,
+                windowHeight = $(window).height(),
+                sliderBoundingClientRect = this.sliderElement[0].getBoundingClientRect(),
+                topLine = sliderBoundingClientRect.top - focusOffsetTop,
+                bottomLine = windowHeight - sliderBoundingClientRect.bottom - focusOffsetBottom;
+
+            if (topLine <= 0 && bottomLine <= 0) {
+                // Do nothing, slider is taller than the screen and the the slider on the screen
+            } else if (topLine > 0 && bottomLine > 0) {
+                // Do nothing, slider is shorter than the screen and the the slider on the screen
             } else {
-                deferred.resolve();
+                var targetTop = scrollTop;
+                if (topLine < 0) {
+                    if (-topLine <= bottomLine) {
+                        // scroll to the top edge
+                        targetTop = scrollTop - focusOffsetTop + sliderBoundingClientRect.top;
+                    } else {
+                        // scroll to the bottom edge
+                        targetTop = scrollTop + focusOffsetBottom + sliderBoundingClientRect.bottom - windowHeight;
+                    }
+                } else if (bottomLine < 0) {
+                    if (-bottomLine <= topLine) {
+                        // scroll to the bottom edge
+                        targetTop = scrollTop + focusOffsetBottom + sliderBoundingClientRect.bottom - windowHeight;
+                    } else {
+                        // scroll to the top edge
+                        targetTop = scrollTop - focusOffsetTop + sliderBoundingClientRect.top;
+                    }
+                }
+
+                if (targetTop !== scrollTop) {
+                    return this._scrollTo(targetTop, Math.abs(scrollTop - targetTop));
+                }
             }
-        } else {
-            deferred.resolve();
         }
+
+        return true;
+    };
+
+    SmartSliderAbstract.prototype._scrollTo = function (targetTop, duration) {
+
+        var deferred = $.Deferred();
+        window.nextendScrollFocus = true;
+
+        $("html, body").animate({scrollTop: targetTop}, duration, $.proxy(function () {
+            deferred.resolve();
+            setTimeout(function () {
+                window.nextendScrollFocus = false;
+            }, 100);
+        }, this));
+
         return deferred;
+    };
+
+    /**
+     * Change is carousel if:
+     * - first slide -> -1 slide not exists
+     * - last slide -> +1 slide not exists
+     */
+    SmartSliderAbstract.prototype.isChangeCarousel = function (direction) {
+        if (direction === 'next') {
+            return this.currentSlide.index + 1 >= this.slides.length;
+        } else if (direction === 'previous') {
+            return this.currentSlide.index - 1 < 0;
+        }
+
+        return false;
     };
 
     SmartSliderAbstract.prototype.initNotCarousel = function () {
@@ -1347,6 +1416,8 @@ N2D('SmartSliderAbstract', function ($, undefined) {
 
     SmartSliderAbstract.prototype._changeCurrentSlide = function (index) {
         this.currentRealSlide = this.currentSlide = this.slides[index];
+
+        this.sliderElement.triggerHandler('sliderChangeCurrentSlide');
     };
 
     SmartSliderAbstract.prototype._changeTo = function (nextSlideIndex, reversed, isSystem, customAnimation) {
@@ -1405,25 +1476,26 @@ N2D('SmartSliderAbstract', function ($, undefined) {
 
         if (!this.parameters.admin) {
             if (this.hasTouch()) {
-                new N2Classes.SmartSliderControlTouch(this, this.parameters.controls.touch, {
-                    fallbackToMouseEvents: this.parameters.controls.drag
-                });
+                switch (this.parameters.controls.touch) {
+                    case 'vertical':
+                        new N2Classes.SmartSliderControlTouchVertical(this);
+                        break;
+                    case 'horizontal':
+                        new N2Classes.SmartSliderControlTouchHorizontal(this);
+                        break;
+                }
             }
 
             if (this.parameters.controls.keyboard) {
                 if (typeof this.controls.touch !== 'undefined') {
-                    new N2Classes.SmartSliderControlKeyboard(this, this.controls.touch._direction.axis);
+                    new N2Classes.SmartSliderControlKeyboard(this, this.controls.touch.axis);
                 } else {
                     new N2Classes.SmartSliderControlKeyboard(this, 'horizontal');
                 }
             }
 
-            if (this.parameters.controls.scroll) {
-                new N2Classes.SmartSliderControlScroll(this);
-            }
-
-            if (this.parameters.controls.tilt) {
-                new N2Classes.SmartSliderControlTilt(this);
+            if (this.parameters.controls.mousewheel) {
+                new N2Classes.SmartSliderControlMouseWheel(this);
             }
 
             this.controlAutoplay = new N2Classes.SmartSliderControlAutoplay(this, this.parameters.autoplay);
@@ -1915,33 +1987,26 @@ N2D('SmartSliderMainAnimationAbstract', function ($, undefined) {
     };
 
     SmartSliderMainAnimationAbstract.prototype.setTouchProgress = function (progress) {
-        if (this.isReverseEnabled) {
-            this._setTouchProgressWithReverse(progress);
-        } else {
-            this._setTouchProgress(progress);
-        }
-    };
 
-    SmartSliderMainAnimationAbstract.prototype._setTouchProgress = function (progress) {
-        if (this.state != 'ended') {
-            if (progress <= 0) {
-                this.timeline.progress(Math.max(progress, 0.000001), false);
-            } else if (progress >= 0 && progress <= 1) {
-                this.timeline.progress(progress);
+        if (this.state !== 'ended') {
+            if (this.isReverseEnabled) {
+                if (progress === 0) {
+                    this.reverseTimeline.progress(0);
+                    this.timeline.progress(progress, false);
+                } else if (progress >= 0 && progress <= 1) {
+                    this.reverseTimeline.progress(0);
+                    this.timeline.progress(progress);
+                } else if (progress < 0 && progress >= -1) {
+                    this.timeline.progress(0);
+                    this.reverseTimeline.progress(Math.abs(progress));
+                }
+            } else {
+                if (progress <= 0) {
+                    this.timeline.progress(Math.max(progress, 0.000001), false);
+                } else if (progress >= 0 && progress <= 1) {
+                    this.timeline.progress(progress);
+                }
             }
-        }
-    };
-
-    SmartSliderMainAnimationAbstract.prototype._setTouchProgressWithReverse = function (progress) {
-        if (progress == 0) {
-            this.reverseTimeline.progress(0);
-            this.timeline.progress(progress, false);
-        } else if (progress >= 0 && progress <= 1) {
-            this.reverseTimeline.progress(0);
-            this.timeline.progress(progress);
-        } else if (progress < 0 && progress >= -1) {
-            this.timeline.progress(0);
-            this.reverseTimeline.progress(Math.abs(progress));
         }
     };
 
@@ -2002,7 +2067,7 @@ N2D('SmartSliderMainAnimationAbstract', function ($, undefined) {
     SmartSliderMainAnimationAbstract.prototype.fixTouchDuration = function (timeline, progress, duration) {
         var totalDuration = timeline.totalDuration(),
             modifiedDuration = Math.max(totalDuration / 3, Math.min(totalDuration, duration / Math.abs(progress) / 1000));
-        if (modifiedDuration != totalDuration) {
+        if (modifiedDuration !== totalDuration) {
             timeline.totalDuration(modifiedDuration);
         }
     };
@@ -2245,17 +2310,25 @@ N2D('SmartSliderControlAutoplay', function ($, undefined) {
             }
         }
         if (this.parameters.pause.click && !this.parameters.resume.click) {
-            sliderElement.on('universalclick.autoplay', $.proxy(this.pauseAutoplayUniversal, this));
+            sliderElement.on('universalclick.autoplay', $.proxy(function (e) {
+                if (e.ss3HandledAutoplay === undefined) {
+                    this.pauseAutoplayUniversal(e);
+                }
+            }, this));
         } else if (!this.parameters.pause.click && this.parameters.resume.click) {
             sliderElement.on('universalclick.autoplay', $.proxy(function (e) {
-                this.pauseAutoplayExtraPlayingEnded(e, 'autoplayButton');
+                if (e.ss3HandledAutoplay === undefined) {
+                    this.pauseAutoplayExtraPlayingEnded(e, 'autoplayButton');
+                }
             }, this));
         } else if (this.parameters.pause.click && this.parameters.resume.click) {
             sliderElement.on('universalclick.autoplay', $.proxy(function (e) {
-                if (!this._paused) {
-                    this.pauseAutoplayUniversal(e);
-                } else {
-                    this.pauseAutoplayExtraPlayingEnded(e, 'autoplayButton');
+                if (e.ss3HandledAutoplay === undefined) {
+                    if (!this._paused) {
+                        this.pauseAutoplayUniversal(e);
+                    } else {
+                        this.pauseAutoplayExtraPlayingEnded(e, 'autoplayButton');
+                    }
                 }
             }, this));
         }
@@ -2747,7 +2820,7 @@ N2D('SmartSliderControlKeyboard', function ($, undefined) {
 
         this.parameters = $.extend({}, parameters);
 
-        if (direction == 'vertical') {
+        if (direction === 'vertical') {
             this.parseEvent = SmartSliderControlKeyboard.prototype.parseEventVertical;
         } else {
             this.parseEvent = SmartSliderControlKeyboard.prototype.parseEventHorizontal;
@@ -2797,11 +2870,24 @@ N2D('SmartSliderControlKeyboard', function ($, undefined) {
     SmartSliderControlKeyboard.prototype.parseEventVertical = function (e) {
         switch (e.keyCode) {
             case 40: // down arrow
-                this.slider.next();
-                return true;
+
+                if (!this.slider.isChangeCarousel('next') || !this.slider.parameters.controls.blockCarouselInteraction) {
+
+                    this.slider.next();
+
+                    return true;
+                }
+
+                return false;
             case 38: // up arrow
-                this.slider.previous();
-                return true;
+
+                if (!this.slider.isChangeCarousel('previous') || !this.slider.parameters.controls.blockCarouselInteraction) {
+                    this.slider.previous();
+
+                    return true;
+                }
+
+                return false;
             default:
                 return false;
         }
@@ -2809,7 +2895,7 @@ N2D('SmartSliderControlKeyboard', function ($, undefined) {
 
     return SmartSliderControlKeyboard;
 });
-N2D('SmartSliderControlScroll', function ($, undefined) {
+N2D('SmartSliderControlMouseWheel', function ($, undefined) {
     "use strict";
 
     /**
@@ -2818,37 +2904,39 @@ N2D('SmartSliderControlScroll', function ($, undefined) {
      * @param slider
      * @constructor
      */
-    function SmartSliderControlScroll(slider) {
+    function SmartSliderControlMouseWheel(slider) {
 
         this.preventScroll = false;
         this.preventScrollGlobal = false;
 
         this.slider = slider;
 
-        slider.sliderElement.on('DOMMouseScroll mousewheel', $.proxy(this.onMouseWheel, this));
+        slider.sliderElement.on('wheel', $.proxy(this.onMouseWheel, this));
 
-        slider.controls.scroll = this;
+        slider.controls.mouseWheel = this;
     }
 
-    SmartSliderControlScroll.prototype.onMouseWheel = function (e) {
+    SmartSliderControlMouseWheel.prototype.onMouseWheel = function (e) {
+
         if (this.preventScroll === false) {
 
-            var up = false;
-            if (e.originalEvent) {
-                if (e.originalEvent.wheelDelta) up = e.originalEvent.wheelDelta / -1 < 0;
-                if (e.originalEvent.deltaY) up = e.originalEvent.deltaY < 0;
-                if (e.originalEvent.detail) up = e.originalEvent.detail < 0;
-            }
+            var up = e.originalEvent.deltaY < 0;
 
             if (up) {
-                if (this.slider.previous()) {
+                if (!this.slider.isChangeCarousel('previous') || !this.slider.parameters.controls.blockCarouselInteraction) {
+
+                    this.slider.previous();
+
                     e.preventDefault();
 
                     this.preventRepeat();
                     this.preventGlobal();
                 }
             } else {
-                if (this.slider.next()) {
+                if (!this.slider.isChangeCarousel('next') || !this.slider.parameters.controls.blockCarouselInteraction) {
+
+                    this.slider.next();
+
                     e.preventDefault();
 
                     this.preventRepeat();
@@ -2862,7 +2950,7 @@ N2D('SmartSliderControlScroll', function ($, undefined) {
         }
     };
 
-    SmartSliderControlScroll.prototype.preventRepeat = function () {
+    SmartSliderControlMouseWheel.prototype.preventRepeat = function () {
         if (this.preventScroll !== false) {
             clearTimeout(this.preventScroll);
         }
@@ -2875,7 +2963,7 @@ N2D('SmartSliderControlScroll', function ($, undefined) {
         }, this), 200);
     };
 
-    SmartSliderControlScroll.prototype.preventGlobal = function () {
+    SmartSliderControlMouseWheel.prototype.preventGlobal = function () {
         if (this.preventScrollGlobal !== false) {
             clearTimeout(this.preventScrollGlobal);
         }
@@ -2887,360 +2975,552 @@ N2D('SmartSliderControlScroll', function ($, undefined) {
         }, this), 2000);
     };
 
-    return SmartSliderControlScroll;
-});
-N2D('SmartSliderControlTilt', function ($, undefined) {
-    "use strict";
-
-    /**
-     * @memberOf N2Classes
-     *
-     * @param slider
-     * @param parameters
-     * @returns {string}
-     * @constructor
-     */
-    function SmartSliderControlTilt(slider, parameters) {
-
-        if (window.DeviceOrientationEvent === undefined || window.orientation === undefined) {
-            return "Not supported";
-        }
-        this.timeout = null;
-
-        this.slider = slider;
-
-        this.parameters = $.extend({
-            duration: 2000
-        }, parameters);
-
-        this.orientationchange();
-
-        window.addEventListener('orientationchange', $.proxy(this.orientationchange, this));
-
-        window.addEventListener("deviceorientation", $.proxy(this.handleOrientation, this), true);
-
-        slider.controls.tilt = this;
-    }
-
-    SmartSliderControlTilt.prototype.orientationchange = function () {
-        switch (window.orientation) {
-            case -90:
-            case 90:
-                this.parseEvent = SmartSliderControlTilt.prototype.parseEventHorizontalLandscape;
-                break;
-            default:
-                this.parseEvent = SmartSliderControlTilt.prototype.parseEventHorizontal;
-                break;
-        }
-    };
-
-    SmartSliderControlTilt.prototype.clearTimeout = function () {
-        this.timeout = null;
-    };
-
-    SmartSliderControlTilt.prototype.handleOrientation = function (e) {
-        if (this.timeout == null && this.parseEvent.call(this, e)) {
-            this.timeout = setTimeout($.proxy(this.clearTimeout, this), this.parameters.duration);
-
-            e.preventDefault();
-        }
-    };
-
-    SmartSliderControlTilt.prototype.parseEventHorizontal = function (e) {
-        if (e.gamma > 10) { // right tilt
-            this.slider.next();
-            return true;
-        } else if (e.gamma < -10) { // left tilt
-            this.slider.previous();
-            return true;
-        }
-        return false;
-    };
-
-    SmartSliderControlTilt.prototype.parseEventHorizontalLandscape = function (e) {
-        if (e.beta < -10) { // right tilt
-            this.slider.next();
-            return true;
-        } else if (e.beta > 10) { // left tilt
-            this.slider.previous();
-            return true;
-        }
-        return false;
-    };
-
-    return SmartSliderControlTilt;
+    return SmartSliderControlMouseWheel;
 });
 N2D('SmartSliderControlTouch', function ($, undefined) {
     "use strict";
 
-    var pointer = window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
-        hadDirection = false,
-        preventMultipleTap = false;
-
     /**
      * @memberOf N2Classes
      *
      * @param slider
-     * @param _direction
-     * @param parameters
      * @constructor
+     * @abstract
      */
-    function SmartSliderControlTouch(slider, _direction, parameters) {
-        this.currentAnimation = null;
+    function SmartSliderControlTouch(slider) {
         this.slider = slider;
+
+        this.minDistance = 10;
+
+        /**
+         * true if the drag will update the progress of the animation during interaction
+         * false if the drag translated into swipe at the end of the interaction
+         * @type {boolean}
+         */
+        this.interactiveDrag = true;
+
+        this.preventMultipleTap = false;
 
         this._animation = slider.mainAnimation;
 
-        this.parameters = $.extend({
-            fallbackToMouseEvents: true
-        }, parameters);
-
         this.swipeElement = this.slider.sliderElement.find('> .n2-ss-swipe-element');
 
-        if (_direction == 'vertical') {
-            this.setVertical();
-        } else if (_direction == 'horizontal') {
-            this.setHorizontal();
-        }
-
-        var initTouch = $.proxy(function () {
-            var that = this;
-            if (this._animation.isNoAnimation) {
-                N2Classes.EventBurrito(this.swipeElement.get(0), {
-                    mouse: this.parameters.fallbackToMouseEvents,
-                    axis: _direction == 'horizontal' ? 'x' : 'y',
-                    start: function () {
-                        hadDirection = false;
-                    },
-                    move: function (event, start, diff, speed, isRealScrolling) {
-                        var direction = that._direction.measure(diff);
-                        if (!isRealScrolling && direction != 'unknown' && that.currentAnimation === null) {
-
-                            if (that._animation.state != 'ended') {
-                                // skip the event as the current animation is still playing
-                                return false;
-                            }
-                            that.distance = [0];
-                            that.swipeElement.addClass('n2-grabbing');
-
-                            that.currentAnimation = {
-                                direction: direction
-                            };
-                            var isChangePossible = that.slider.isChangePossible(that._direction[direction]);
-                            if (!isChangePossible) {
-                                that.currentAnimation = null;
-                                return false;
-                            }
-                        }
-
-                        if (that.currentAnimation) {
-                            var realDistance = that._direction.get(diff, that.currentAnimation.direction);
-                            that.logDistance(realDistance);
-                            if ((hadDirection || Math.abs(realDistance) > that._direction.minDistance) && event.cancelable) {
-                                hadDirection = true;
-                                return true;
-                            }
-                        }
-                        return false;
-                    },
-                    end: function (event, start, diff, speed, isRealScrolling) {
-                        if (that.currentAnimation !== null) {
-                            var targetDirection = isRealScrolling ? 0 : that.measureRealDirection();
-                            if (targetDirection) {
-                                that.slider[that._direction[that.currentAnimation.direction]]();
-                            }
-
-                            that.swipeElement.removeClass('n2-grabbing');
-                            that.currentAnimation = null;
-                        }
-
-                        if (Math.abs(diff.x) < 10 && Math.abs(diff.y) < 10) {
-                            that.onTap(event);
-                        } else {
-                            nextend.preventClick();
-                        }
-                    }
-                });
-            } else {
-                N2Classes.EventBurrito(this.swipeElement.get(0), {
-                    mouse: this.parameters.fallbackToMouseEvents,
-                    axis: _direction == 'horizontal' ? 'x' : 'y',
-                    start: function (event, start) {
-                        hadDirection = false;
-                    },
-                    move: function (event, start, diff, speed, isRealScrolling) {
-                        var direction = that._direction.measure(diff);
-                        if (!isRealScrolling && direction != 'unknown' && that.currentAnimation === null) {
-
-                            if (that._animation.state != 'ended') {
-                                // skip the event as the current animation is still playing
-                                return false;
-                            }
-                            that.distance = [0];
-                            that.swipeElement.addClass('n2-grabbing');
-
-                            // Force the main animation into touch mode horizontal/vertical
-                            that._animation.setTouch(that._direction.axis);
-
-                            that.currentAnimation = {
-                                direction: direction,
-                                percent: 0
-                            };
-                            var isChangePossible = that.slider[that._direction[direction]](false);
-                            if (!isChangePossible) {
-                                that._animation.setTouch(false);
-                                that.currentAnimation = null;
-                                return false;
-                            }
-                        }
-
-                        if (that.currentAnimation) {
-                            var realDistance = that._direction.get(diff, that.currentAnimation.direction);
-                            that.logDistance(realDistance);
-                            if (that.currentAnimation.percent < 1) {
-                                var percent = Math.max(-0.99999, Math.min(0.99999, realDistance / that.slider.dimensions.slider[that._property]));
-                                that.currentAnimation.percent = percent;
-                                that._animation.setTouchProgress(percent);
-                            }
-                            if ((hadDirection || Math.abs(realDistance) > that._direction.minDistance) && event.cancelable) {
-                                hadDirection = true;
-                                return true;
-                            }
-                        }
-                        return false;
-                    },
-                    end: function (event, start, diff, speed, isRealScrolling) {
-                        if (that.currentAnimation !== null) {
-                            var targetDirection = isRealScrolling ? 0 : that.measureRealDirection();
-                            var progress = that._animation.timeline.progress();
-                            if (progress != 1) {
-                                that._animation.setTouchEnd(targetDirection, that.currentAnimation.percent, diff.time);
-                            }
-                            that.swipeElement.removeClass('n2-grabbing');
-
-                            // Switch back the animation into the original mode when our touch is ended
-                            that._animation.setTouch(false);
-                            that.currentAnimation = null;
-                        }
-
-                        if (Math.abs(diff.x) < 10 && Math.abs(diff.y) < 10) {
-                            that.onTap(event);
-                        } else {
-                            nextend.preventClick();
-                        }
-                    }
-                });
-            }
-        }, this);
+        this.$window = $(window);
 
         if (navigator.userAgent.toLowerCase().indexOf("android") > -1) {
             var parent = this.swipeElement.parent();
-            if (parent.css('opacity') != 1) {
-                this.swipeElement.parent().one('transitionend', initTouch);
+            if (parent.css('opacity') !== "1") {
+                this.swipeElement.parent().one('transitionend', $.proxy(this.initTouch, this));
             } else {
-                initTouch();
+                this.initTouch();
             }
         } else {
-            initTouch();
+            this.initTouch();
         }
 
-        if (!this.parameters.fallbackToMouseEvents) {
-            this.swipeElement.on('click', $.proxy(this.onTap, this));
-        }
+        this.slider.sliderElement.on('sliderChangeCurrentSlide', $.proxy(this.updatePanDirections, this));
 
-        if (this.parameters.fallbackToMouseEvents) {
-            this.swipeElement.addClass('n2-grab');
-        }
+        this.swipeElement.addClass('n2-grab');
 
         slider.controls.touch = this;
+    }
+
+    SmartSliderControlTouch.prototype.initTouch = function () {
+        if (this._animation.isNoAnimation) {
+            this.interactiveDrag = false;
+        }
+
+        this.eventBurrito = N2Classes.EventBurrito(this.swipeElement.get(0), {
+            mouse: true,
+            axis: this.axis === 'horizontal' ? 'x' : 'y',
+            start: $.proxy(this._start, this),
+            move: $.proxy(this._move, this),
+            end: $.proxy(this._end, this)
+        });
+
+        this.updatePanDirections();
+
+        this.cancelKineticScroll = $.proxy(function () {
+            this.kineticScrollCancelled = true;
+        }, this);
     };
 
-    SmartSliderControlTouch.prototype.setHorizontal = function () {
+    SmartSliderControlTouch.prototype._start = function (event) {
 
-        this._property = 'width';
+        this.swipeElement.addClass('n2-grabbing');
 
-        this._direction = {
-            left: n2const.rtl.next,
-            right: n2const.rtl.previous,
-            up: null,
-            down: null,
-            axis: 'horizontal',
-            minDistance: 10,
-            measure: function (diff) {
-                if ((!hadDirection && Math.abs(diff.x) < 10) || diff.x == 0 || Math.abs(diff.x) < Math.abs(diff.y)) return 'unknown';
-                return diff.x < 0 ? 'left' : 'right';
-            },
-            get: function (diff, direction) {
-                if (direction == 'left') {
-                    return -diff.x;
-                }
-                return diff.x;
-            }
+        this.currentInteraction = {
+            type: event.type === 'pointerdown' ? 'pointer' : (event.type === 'touchstart' ? 'touch' : 'mouse'),
+            state: $.extend({}, this.state),
+            action: 'unknown',
+            distance: [],
+            distanceY: [],
+            percent: 0,
+            progress: 0,
+            scrollTop: this.$window.scrollTop(),
+            animationStartDirection: 'unknown',
+            hadDirection: false
         };
-
-        if (pointer) {
-            this.swipeElement.css('-ms-touch-action', 'pan-y');
-            this.swipeElement.css('touch-action', 'pan-y');
-        }
+        this.logDistance(0, 0);
     };
 
-    SmartSliderControlTouch.prototype.setVertical = function () {
+    SmartSliderControlTouch.prototype._move = function (event, start, diff, isRealScrolling) {
+        if (!isRealScrolling || this.currentInteraction.action !== 'unknown') {
 
-        this._property = 'height';
+            this.currentInteraction.diection = this.measure(diff);
 
-        this._direction = {
-            left: null,
-            right: null,
-            up: 'next',
-            down: 'previous',
-            axis: 'vertical',
-            minDistance: 1,
-            measure: function (diff) {
-                if ((!hadDirection && Math.abs(diff.y) < 1) || diff.y == 0 || Math.abs(diff.y) < Math.abs(diff.x)) return 'unknown';
-                return diff.y < 0 ? 'up' : 'down';
-            },
-            get: function (diff, direction) {
-                if (direction == 'up') {
-                    return -diff.y;
+            var distance = this.get(diff);
+
+            if (this.currentInteraction.hadDirection || Math.abs(distance) > this.minDistance || Math.abs(diff.y) > this.minDistance) {
+                this.logDistance(distance, diff.y);
+                if (this.currentInteraction.percent < 1) {
+                    this.setTouchProgress(distance, diff.y);
                 }
-                return diff.y;
-            }
-        };
 
-        if (pointer) {
-            this.swipeElement.css('-ms-touch-action', 'pan-x');
-            this.swipeElement.css('touch-action', 'pan-x');
+                if (this.currentInteraction.type === 'touch' && event.cancelable && this.currentInteraction.action === 'switch') {
+                    this.currentInteraction.hadDirection = true;
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    };
+
+    SmartSliderControlTouch.prototype._end = function (event, start, diff, isRealScrolling) {
+        if (this.currentInteraction.action === 'switch') {
+            var hasDirection = isRealScrolling ? 0 : this.measureRealDirection();
+
+            if (this.interactiveDrag) {
+                var progress = this._animation.timeline.progress();
+                if (progress < 1) {
+                    this._animation.setTouchEnd(hasDirection, this.currentInteraction.progress, diff.time);
+                }
+
+                // Switch back the animation into the original mode when our touch is ended
+                this._animation.setTouch(false);
+            } else {
+                if (hasDirection) {
+                    this.callAction(this.currentInteraction.animationStartDirection)
+                }
+            }
+        }
+
+        this.onEnd();
+
+        delete this.currentInteraction;
+
+        if (Math.abs(diff.x) < 10 && Math.abs(diff.y) < 10) {
+            this.onTap(event);
+        } else {
+            nextend.preventClick();
+        }
+
+        this.swipeElement.removeClass('n2-grabbing');
+    };
+
+    SmartSliderControlTouch.prototype.onEnd = function () {
+
+        if (this.currentInteraction.action === 'scroll' && this.currentInteraction.type === 'pointer') {
+            var firstDistance = this.currentInteraction.distanceY[0],
+                lastDistance = this.currentInteraction.distanceY[this.currentInteraction.distanceY.length - 1];
+
+            /**
+             * Simple kinetic scroll implementation
+             */
+            var amplitude = (firstDistance.d - lastDistance.d) / (lastDistance.t - firstDistance.t) * 10,
+                timestamp = Date.now(),
+                kineticScroll = $.proxy(function () {
+                    requestAnimationFrame($.proxy(function () {
+                        var elapsed, delta;
+                        if (!this.kineticScrollCancelled && amplitude) {
+                            elapsed = Date.now() - timestamp;
+                            delta = amplitude * Math.exp(-elapsed / 325);
+                            if (delta > 1 || delta < -1) {
+                                this.$window.scrollTop(this.$window.scrollTop() + delta);
+                                kineticScroll();
+
+                                return;
+                            }
+                        }
+
+                        delete this.kineticScrollCancelled;
+                        document.removeEventListener('pointerdown', this.cancelKineticScroll);
+                    }, this));
+                }, this);
+
+            this.kineticScrollCancelled = false;
+            kineticScroll();
+            document.addEventListener('pointerdown', this.cancelKineticScroll);
         }
     };
 
-    SmartSliderControlTouch.prototype.logDistance = function (realDistance) {
-        if (this.distance.length > 3) {
-            this.distance.shift();
+    SmartSliderControlTouch.prototype.setTouchProgress = function (distance, distanceY) {
+
+        this.recognizeSwitchInteraction();
+
+        var progress,
+            percent = this.getPercent(distance);
+        this.currentInteraction.percent = percent;
+
+        if (this.currentInteraction.action === 'switch') {
+            if (this.interactiveDrag) {
+                switch (this.currentInteraction.animationStartDirection) {
+                    case 'up':
+                        progress = percent * -1;
+                        break;
+                    case 'down':
+                        progress = percent;
+                        break;
+                    case 'left':
+                        progress = percent * -1;
+                        break;
+                    case 'right':
+                        progress = percent;
+                        break;
+                }
+
+                this.currentInteraction.progress = progress;
+
+                this._animation.setTouchProgress(progress);
+            }
+        } else {
+            this.startScrollInteraction(distanceY);
         }
-        this.distance.push(realDistance);
+    };
+
+    SmartSliderControlTouch.prototype.startScrollInteraction = function (distanceY) {
+
+        /**
+         * EDGE: pan-x and pan-y does not work with Precision Touchpad, so we must use touch-action:none
+         * With touch-action:none, user is not able to scroll over the slider, so we must simulate kinetic scroll
+         * @see https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/20733813/
+         */
+        if (this.axis === 'vertical' || n2const.isEdge) {
+
+            /**
+             * Scroll is not allowed in fullscreen mode
+             */
+            if (!this.slider.controlFullscreen.isFullScreen) {
+
+                this.currentInteraction.action = 'scroll';
+
+                if (this.currentInteraction.type === 'pointer') {
+                    /**
+                     * Pointer events do not scroll if the touch-action CSS property defined which
+                     * is required for Edge.
+                     * @see https://blogs.windows.com/msedgedev/2017/12/07/better-precision-touchpad-experience-ptp-pointer-events/
+                     */
+                    this.$window.scrollTop(Math.max(0, this.currentInteraction.scrollTop - distanceY));
+                }
+            }
+        }
+    };
+
+    SmartSliderControlTouch.prototype.recognizeSwitchInteraction = function () {
+        if (this._animation.state === 'ended' && this.currentInteraction.action === 'unknown') {
+            var direction = this.currentInteraction.diection;
+            if (direction !== 'unknown') {
+                /**
+                 * This direction is allowed to change slides
+                 */
+                if (this.currentInteraction.state[direction]) {
+
+                    this.currentInteraction.animationStartDirection = direction;
+
+                    if (this.interactiveDrag) {
+                        // Force the main animation into touch mode horizontal/vertical
+                        this._animation.setTouch(this.axis);
+
+                        var isChangePossible = this.callAction(direction, false);
+                        if (!isChangePossible) {
+                            // Prevent scroll enabled, but carousel not. Do not allow to scroll
+                        }
+                    }
+
+                    this.currentInteraction.action = 'switch';
+                }
+            }
+        }
+    };
+
+    SmartSliderControlTouch.prototype.logDistance = function (realDistance, realDistanceY) {
+        if (this.currentInteraction.distance.length > 3) {
+            this.currentInteraction.distance.shift();
+            this.currentInteraction.distanceY.shift();
+        }
+
+        this.currentInteraction.distance.push({
+            d: realDistance,
+            t: Date.now()
+        });
+
+        this.currentInteraction.distanceY.push({
+            d: realDistanceY,
+            t: Date.now()
+        });
     };
 
     SmartSliderControlTouch.prototype.measureRealDirection = function () {
-        var firstValue = this.distance[0],
-            lastValue = this.distance[this.distance.length - 1];
+        var firstDistance = this.currentInteraction.distance[0],
+            lastDistance = this.currentInteraction.distance[this.currentInteraction.distance.length - 1];
 
-        if ((lastValue >= 0 && firstValue > lastValue) || (lastValue < 0 && firstValue < lastValue)) {
+        if ((lastDistance.d >= 0 && firstDistance.d > lastDistance.d) || (lastDistance.d < 0 && firstDistance.d < lastDistance.d)) {
             return 0;
         }
         return 1;
     };
 
     SmartSliderControlTouch.prototype.onTap = function (e) {
-        if (!preventMultipleTap) {
+        if (!this.preventMultipleTap) {
             $(e.target).trigger('n2click');
-            preventMultipleTap = true;
-            setTimeout(function () {
-                preventMultipleTap = false;
-            }, 500);
+            this.preventMultipleTap = true;
+            setTimeout($.proxy(function () {
+                this.preventMultipleTap = false;
+            }, this), 500);
+        }
+    };
+
+    /**
+     * @abstract
+     */
+    SmartSliderControlTouch.prototype.updatePanDirections = function () {
+
+    };
+
+    SmartSliderControlTouch.prototype.setState = function (newStates, doAction) {
+        if (typeof arguments[0] !== 'object') {
+            newStates = {};
+            newStates[arguments[0]] = arguments[1];
+            doAction = arguments[2];
+        }
+
+        var isChanged = false;
+        for (var k in newStates) {
+            if (this.state[k] !== newStates[k]) {
+                this.state[k] = newStates[k];
+                isChanged = true;
+            }
+        }
+
+        if (isChanged && doAction && this.eventBurrito.supportsPointerEvents) {
+
+            this.syncTouchAction();
         }
     };
 
     return SmartSliderControlTouch;
+});
+N2D('SmartSliderControlTouchHorizontal', 'SmartSliderControlTouch', function ($, undefined) {
+    "use strict";
+
+    /**
+     * @memberOf N2Classes
+     *
+     * @constructor
+     * @augments N2Classes.SmartSliderControlTouch
+     */
+    function SmartSliderControlTouchHorizontal() {
+
+        this.state = {
+            left: false,
+            right: false
+        };
+
+        this.axis = 'horizontal';
+
+        N2Classes.SmartSliderControlTouch.prototype.constructor.apply(this, arguments);
+    }
+
+    SmartSliderControlTouchHorizontal.prototype = Object.create(N2Classes.SmartSliderControlTouch.prototype);
+    SmartSliderControlTouchHorizontal.prototype.constructor = SmartSliderControlTouchHorizontal;
+
+    SmartSliderControlTouchHorizontal.prototype.callAction = function (direction, isSystem) {
+        switch (direction) {
+            case 'left':
+                return this.slider[n2const.rtl.next].call(this.slider, isSystem);
+            case 'right':
+                return this.slider[n2const.rtl.previous].call(this.slider, isSystem);
+        }
+
+        return false;
+    };
+
+    SmartSliderControlTouchHorizontal.prototype.measure = function (diff) {
+        if ((!this.currentInteraction.hadDirection && Math.abs(diff.x) < 10) || diff.x === 0 || Math.abs(diff.x) < Math.abs(diff.y)) return 'unknown';
+        return diff.x < 0 ? 'left' : 'right';
+    };
+
+    SmartSliderControlTouchHorizontal.prototype.get = function (diff) {
+        return diff.x;
+    };
+
+    SmartSliderControlTouchHorizontal.prototype.getPercent = function (distance) {
+        return Math.max(-0.99999, Math.min(0.99999, distance / this.slider.dimensions.slider.width))
+    };
+
+    SmartSliderControlTouchHorizontal.prototype.updatePanDirections = function () {
+        var currentSlideIndex = this.slider.currentSlide.index,
+            nextSlideAllowed = currentSlideIndex + 1 < this.slider.slides.length,
+            previousSlideAllowed = currentSlideIndex - 1 >= 0;
+
+        if (this.slider.parameters.carousel) {
+            nextSlideAllowed = true;
+            previousSlideAllowed = true;
+        }
+
+        this.setState({
+            right: previousSlideAllowed,
+            left: nextSlideAllowed
+        }, true);
+    };
+
+    SmartSliderControlTouchHorizontal.prototype.syncTouchAction = function () {
+        var touchAction = {
+            'pan-y': false,
+            'none': false
+        };
+
+        /**
+         * EDGE: pan-y does not work with Precision Touchpad. Must use none
+         * @see https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/20733813/
+         */
+        if (n2const.isEdge) {
+            touchAction.none = true;
+        } else {
+            if (this.state.left) {
+                touchAction['pan-y'] = true;
+            }
+
+            if (this.state.right) {
+                touchAction['pan-y'] = true;
+            }
+        }
+
+        var touchActions = [];
+        for (var k in touchAction) {
+            if (touchAction[k]) {
+                touchActions.push(k);
+            }
+        }
+
+        this.swipeElement.css('touch-action', touchActions.join(' '));
+    };
+
+
+    return SmartSliderControlTouchHorizontal;
+});
+N2D('SmartSliderControlTouchVertical', 'SmartSliderControlTouch', function ($, undefined) {
+    "use strict";
+
+    /**
+     * @memberOf N2Classes
+     *
+     * @constructor
+     * @augments N2Classes.SmartSliderControlTouch
+     */
+    function SmartSliderControlTouchVertical() {
+
+        this.state = {
+            up: false,
+            down: false
+        };
+
+        this.action = {
+            up: 'next',
+            down: 'previous'
+        };
+
+        this.axis = 'vertical';
+
+        N2Classes.SmartSliderControlTouch.prototype.constructor.apply(this, arguments);
+    }
+
+    SmartSliderControlTouchVertical.prototype = Object.create(N2Classes.SmartSliderControlTouch.prototype);
+    SmartSliderControlTouchVertical.prototype.constructor = SmartSliderControlTouchVertical;
+
+    SmartSliderControlTouchVertical.prototype.callAction = function (direction, isSystem) {
+        switch (direction) {
+            case 'up':
+                return this.slider.next.call(this.slider, isSystem);
+            case 'down':
+                return this.slider.previous.call(this.slider, isSystem);
+        }
+
+        return false;
+    };
+
+    SmartSliderControlTouchVertical.prototype.measure = function (diff) {
+        if ((!this.currentInteraction.hadDirection && Math.abs(diff.y) < 1) || diff.y == 0 || Math.abs(diff.y) < Math.abs(diff.x)) return 'unknown';
+        return diff.y < 0 ? 'up' : 'down';
+    };
+
+    SmartSliderControlTouchVertical.prototype.get = function (diff) {
+        return diff.y;
+    };
+
+    SmartSliderControlTouchVertical.prototype.getPercent = function (distance) {
+        return Math.max(-0.99999, Math.min(0.99999, distance / this.slider.dimensions.slider.height))
+    };
+
+    SmartSliderControlTouchVertical.prototype.updatePanDirections = function () {
+
+        var isPreviousCarousel = this.slider.isChangeCarousel('previous');
+
+        this.setState({
+            down: !this.slider.isChangeCarousel('previous') || !this.slider.parameters.controls.blockCarouselInteraction,
+            up: !this.slider.isChangeCarousel('next') || !this.slider.parameters.controls.blockCarouselInteraction
+        }, true);
+    };
+
+    SmartSliderControlTouchVertical.prototype.syncTouchAction = function () {
+        var touchAction = {
+            'pan-x': false,
+            'none': false
+        };
+
+        /**
+         * EDGE: pan-x does not work with Precision Touchpad. Must use none
+         * @see https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/20733813/
+         */
+        if (n2const.isEdge) {
+            touchAction.none = true;
+        } else {
+            if (this.state.up) {
+                touchAction['pan-x'] = true;
+            }
+
+            if (this.state.down) {
+                touchAction['pan-x'] = true;
+            }
+        }
+
+        var touchActions = [];
+        for (var k in touchAction) {
+            if (touchAction[k]) {
+                touchActions.push(k);
+            }
+        }
+
+        this.swipeElement.css('touch-action', touchActions.join(' '));
+    };
+
+    SmartSliderControlTouchVertical.prototype._start = function (event) {
+
+        this.slider.blockCarousel = true;
+
+        N2Classes.SmartSliderControlTouch.prototype._start.apply(this, arguments);
+    };
+
+    SmartSliderControlTouchVertical.prototype.onEnd = function (event) {
+
+        N2Classes.SmartSliderControlTouch.prototype.onEnd.apply(this, arguments);
+
+        this.slider.blockCarousel = false;
+    };
+
+
+    return SmartSliderControlTouchVertical;
 });
 N2D('SmartSliderSlideBackgroundColor', function ($, undefined) {
 
@@ -3269,10 +3549,10 @@ N2D('SmartSliderSlideBackgroundImage', function ($, undefined) {
      * @param {N2Classes.FrontendSliderSlide} slide
      * @param {N2Classes.SmartSliderBackgrounds} manager
      * @param {N2Classes.SmartSliderSlideBackground} background
-     * @param $el
+     * @param $background
      * @constructor
      */
-    function SmartSliderSlideBackgroundImage(slide, manager, background, $el) {
+    function SmartSliderSlideBackgroundImage(slide, manager, background, $background) {
 
         this.loadStarted = false;
         this.loadAllowed = false;
@@ -3282,21 +3562,9 @@ N2D('SmartSliderSlideBackgroundImage', function ($, undefined) {
         this.background = background;
 
         this.deferred = $.Deferred();
+        this.$background = $background;
 
-        this.$el = $el;
-        this.opacity = $el.data('opacity');
-        this.blur = $el.data('blur');
-        this.x = $el.data('x');
-        this.y = $el.data('y');
-
-        $el.css('display', 'none');
-        this.$background = $('<div class="n2-ss-slide-background-image"/>')
-            .css({
-                backgroundPosition: this.x + '% ' + this.y + '%',
-                opacity: this.opacity / 100
-            })
-            .insertAfter($el);
-
+        this.blur = $background.data('blur');
 
         if (background.mode === 'blurfit') {
             if (window.n2FilterProperty) {
@@ -3327,22 +3595,22 @@ N2D('SmartSliderSlideBackgroundImage', function ($, undefined) {
         }
 
         if (n2const.isWaybackMachine()) {
-            this.mobileSrc = this.tabletSrc = this.desktopSrc = $el.attr('src');
+            this.mobileSrc = this.tabletSrc = this.desktopSrc = $background.data('desktop');
         } else {
-            this.desktopSrc = $el.data('desktop') || '';
-            this.tabletSrc = $el.data('tablet') || '';
-            this.mobileSrc = $el.data('mobile') || '';
+            this.desktopSrc = $background.data('desktop') || '';
+            this.tabletSrc = $background.data('tablet') || '';
+            this.mobileSrc = $background.data('mobile') || '';
 
             if (n2const.isRetina) {
-                var retina = $el.data('desktop-retina');
+                var retina = $background.data('desktop-retina');
                 if (retina) {
                     this.desktopSrc = retina;
                 }
-                retina = $el.data('tablet-retina');
+                retina = $background.data('tablet-retina');
                 if (retina) {
                     this.tabletSrc = retina;
                 }
-                retina = $el.data('mobile-retina');
+                retina = $background.data('mobile-retina');
                 if (retina) {
                     this.mobileSrc = retina;
                 }
@@ -3359,7 +3627,19 @@ N2D('SmartSliderSlideBackgroundImage', function ($, undefined) {
 
         this.manager.deviceDeferred.done($.proxy(function () {
             this.updateBackgroundToDevice(this.manager.device);
-            this.$background.n2imagesLoaded({background: true}, $.proxy(function (e) {
+
+            this.waitForImage();
+        }, this));
+    };
+
+    SmartSliderSlideBackgroundImage.prototype.waitForImage = function () {
+        this.$background.n2imagesLoaded({background: true}, $.proxy(function (e) {
+            /**
+             * The injected element must have a background image. If some other script changed it for lazy loading
+             * There will be no images, so we know that we have to try again to check for load later.
+             * Swift Performance does this with lazyload-background-images option.
+             */
+            if (e.images.length > 0) {
                 var img = e.images[0].img;
                 this.width = img.naturalWidth;
                 this.height = img.naturalHeight;
@@ -3374,7 +3654,9 @@ N2D('SmartSliderSlideBackgroundImage', function ($, undefined) {
                 }
 
                 this.deferred.resolve();
-            }, this));
+            } else {
+                setTimeout($.proxy(this.waitForImage, this), 100);
+            }
         }, this));
     };
 
@@ -3470,9 +3752,9 @@ N2D('SmartSliderSlideBackground', function ($, undefined) {
 
         this.opacity = element.data('opacity');
 
-        this.$image = this.element.find('img');
-        if (this.$image.length) {
-            this.elements.image = new N2Classes[this.types.image](slide, manager, this, this.$image);
+        var $image = this.element.find('.n2-ss-slide-background-image');
+        if ($image.length) {
+            this.elements.image = new N2Classes[this.types.image](slide, manager, this, $image);
         }
 
         var $color = this.element.find('.n2-ss-slide-background-color');
@@ -4424,7 +4706,7 @@ N2D('FrontendComponentContent', ['FrontendComponent'], function ($, undefined) {
      */
     function FrontendComponentContent(slide, parent, $el) {
 
-        this.$content = $el.find('> .n2-ss-section-main-content');
+        this.$content = $el.find('.n2-ss-section-main-content:first');
 
         N2Classes.FrontendComponent.prototype.constructor.call(this, slide, parent, $el, this.$content.find('> .n2-ss-layer'));
     }
@@ -4633,7 +4915,7 @@ N2D('FrontendComponentRow', ['FrontendComponent'], function ($, undefined) {
                     sumWidth += flexLine[j].getWidthPercentage();
                 }
                 for (j = 0; j < flexLine.length; j++) {
-                    flexLine[j].$layer.css('width', 'calc(' + (flexLine[j].getWidthPercentage() / sumWidth * 100) + '% - ' + (n2const.isIE ? gutterValue + 1 : gutterValue) + 'px)');
+                    flexLine[j].$layer.css('width', 'calc(' + (flexLine[j].getWidthPercentage() / sumWidth * 100) + '% - ' + (n2const.isIE || n2const.isEdge ? gutterValue + 1 : gutterValue) + 'px)');
                 }
             }
         } else {
@@ -4676,6 +4958,12 @@ N2D('SmartSliderResponsive', function ($, undefined) {
         this.lastClientHeightTime = 0;
         this.lastOrientation = 0;
 
+        this.pixelSnappingFraction = 0;
+
+        this.focusOffsetTop = 0;
+
+        this.focusOffsetBottom = 0;
+
         this.isFullScreen = false;
 
         this.invalidateResponsiveState = true;
@@ -4712,10 +5000,10 @@ N2D('SmartSliderResponsive', function ($, undefined) {
             forceFull: 0,
             forceFullOverflowX: 'body',
             forceFullHorizontalSelector: '',
-            verticalOffsetSelectors: '',
+            sliderHeightBasedOn: 'real',
             decreaseSliderHeight: 0,
 
-            focusUser: 0,
+            focusUser: 1,
             focusAutoplay: 0,
 
             deviceModes: {
@@ -4773,7 +5061,11 @@ N2D('SmartSliderResponsive', function ($, undefined) {
             tabletLandscapeScreenWidth: 1024,
             mobileLandscapeScreenWidth: 740,
             orientationMode: 'width_and_height',
-            overflowHiddenPage: 0
+            overflowHiddenPage: 0,
+            focus: {
+                offsetTop: '',
+                offsetBottom: ''
+            }
         }, parameters);
 
         if (slider.isAdmin) {
@@ -4861,6 +5153,7 @@ N2D('SmartSliderResponsive', function ($, undefined) {
 
 
         this.alignElement = this.slider.sliderElement.closest('.n2-ss-align');
+        this.$section = this.alignElement.parent();
 
         var ready = this.ready = $.Deferred();
 
@@ -4869,6 +5162,11 @@ N2D('SmartSliderResponsive', function ($, undefined) {
         this.sliderElement.one('SliderResize', function () {
             ready.resolve();
         });
+
+        if (this.parameters.type === 'fullpage' && this.parameters.sliderHeightBasedOn === '100vh') {
+            this.$viewportHeight = $('<div style="height:100vh;width:0;position:absolute;bottom:0;visibility:hidden;"></div>').appendTo('body');
+        }
+
 
         this.containerElementPadding = this.sliderElement.parent();
         this.containerElement = this.containerElementPadding.parent();
@@ -4894,8 +5192,6 @@ N2D('SmartSliderResponsive', function ($, undefined) {
                     isMobile = !!md.phone();
                 }
         }
-
-        this.verticalOffsetSelectors = $(this.parameters.verticalOffsetSelectors);
 
         n2c.log('Responsive: Store defaults');
         this.storeDefaults();
@@ -5202,7 +5498,47 @@ N2D('SmartSliderResponsive', function ($, undefined) {
         return targetMode;
     };
 
+    SmartSliderResponsive.prototype.updateOffsets = function () {
+        this.focusOffsetTop = 0;
+        if (this.parameters.focus.offsetTop !== '') {
+            var $offsetTopElements = $(this.parameters.focus.offsetTop);
+            for (var i = 0; i < $offsetTopElements.length; i++) {
+                this.focusOffsetTop += $offsetTopElements.eq(i).outerHeight();
+            }
+        }
+
+        this.focusOffsetBottom = 0;
+        if (this.parameters.focus.offsetBottom !== '') {
+            var $offsetBottomElements = $(this.parameters.focus.offsetBottom);
+            for (var i = 0; i < $offsetBottomElements.length; i++) {
+                this.focusOffsetBottom += $offsetBottomElements.eq(i).outerHeight();
+            }
+        }
+    };
+
+    /**
+     * Snapping the slider to rounded pixel to fix issues related to a Chrome rendering bug
+     * @see https://bugs.chromium.org/p/chromium/issues/detail?id=936006#c6
+     */
+    SmartSliderResponsive.prototype.doPixelSnapping = function () {
+        var left = this.containerElementPadding[0].getBoundingClientRect().left + this.pixelSnappingFraction,
+            fraction = left % 1;
+
+        if (fraction !== this.pixelSnappingFraction) {
+            this.containerElementPadding.css({
+                'marginLeft': (-fraction) + 'px',
+                'marginRight': (-fraction) + 'px'
+            });
+
+            this.pixelSnappingFraction = fraction;
+        }
+    };
+
     SmartSliderResponsive.prototype.doResize = function (e, timeline, nextSlide, duration) {
+
+        this.doPixelSnapping();
+
+        this.updateOffsets();
 
         if (!this.disableTransitions) {
             this.disableTransitions = true;
@@ -5321,54 +5657,58 @@ N2D('SmartSliderResponsive', function ($, undefined) {
         if (!this.slider.isAdmin) {
             if (this.parameters.type === 'fullpage') {
                 var clientHeight = 0;
-                if (window.matchMedia && (/Android|iPhone|iPad|iPod|BlackBerry/i).test(navigator.userAgent || navigator.vendor || window.opera)) {
-                    var innerHeight,
-                        isOrientationChanged = false;
-
-                    if (e && e.type === 'orientationchange') {
-                        isOrientationChanged = true;
-                    }
-
-                    if (n2const.isIOS) {
-                        innerHeight = document.documentElement.clientHeight;
-                    } else {
-                        innerHeight = window.innerHeight;
-                    }
-
-                    if (window.matchMedia("(orientation: landscape)").matches) {
-                        // landscape
-                        clientHeight = Math.min(screen.width, innerHeight);
-                        if (this.lastOrientation != 90) {
-                            isOrientationChanged = true;
-                            this.lastOrientation = 90;
-                        }
-                    } else {
-                        clientHeight = Math.min(screen.height, innerHeight);
-                        if (this.lastOrientation != 0) {
-                            isOrientationChanged = true;
-                            this.lastOrientation = 0;
-                        }
-                    }
-
-                    clientHeight = window.n2ClientHeight || clientHeight;
-
-                    var time = $.now();
-                    /**
-                     * If screen height change smaller than this value, then we will skip that resize.
-                     * @type {number}
-                     */
-                    var dismissDeltaChange = 100;
-                    if ((/SamsungBrowser/i).test(navigator.userAgent)) {
-                        dismissDeltaChange = 150;
-                    }
-                    if (!isOrientationChanged && Math.abs(clientHeight - this.lastClientHeight) < dismissDeltaChange && time - this.lastClientHeightTime > 400) {
-                        clientHeight = this.lastClientHeight;
-                    } else {
-                        this.lastClientHeight = clientHeight;
-                        this.lastClientHeightTime = time;
-                    }
+                if (this.parameters.sliderHeightBasedOn === '100vh') {
+                    clientHeight = this.$viewportHeight.height();
                 } else {
-                    clientHeight = window.n2ClientHeight || document.documentElement.clientHeight || document.body.clientHeight;
+                    if (window.matchMedia && (/Android|iPhone|iPad|iPod|BlackBerry/i).test(navigator.userAgent || navigator.vendor || window.opera)) {
+                        var innerHeight,
+                            isOrientationChanged = false;
+
+                        if (e && e.type === 'orientationchange') {
+                            isOrientationChanged = true;
+                        }
+
+                        if (n2const.isIOS) {
+                            innerHeight = document.documentElement.clientHeight;
+                        } else {
+                            innerHeight = window.innerHeight;
+                        }
+
+                        if (window.matchMedia("(orientation: landscape)").matches) {
+                            // landscape
+                            clientHeight = Math.min(screen.width, innerHeight);
+                            if (this.lastOrientation != 90) {
+                                isOrientationChanged = true;
+                                this.lastOrientation = 90;
+                            }
+                        } else {
+                            clientHeight = Math.min(screen.height, innerHeight);
+                            if (this.lastOrientation != 0) {
+                                isOrientationChanged = true;
+                                this.lastOrientation = 0;
+                            }
+                        }
+
+                        clientHeight = window.n2ClientHeight || clientHeight;
+
+                        var time = $.now();
+                        /**
+                         * If screen height change smaller than this value, then we will skip that resize.
+                         * @type {number}
+                         */
+                        var dismissDeltaChange = 100;
+                        if ((/SamsungBrowser/i).test(navigator.userAgent)) {
+                            dismissDeltaChange = 150;
+                        }
+                        if (!isOrientationChanged && Math.abs(clientHeight - this.lastClientHeight) < dismissDeltaChange && time - this.lastClientHeightTime > 400) {
+                            clientHeight = this.lastClientHeight;
+                        } else {
+                            this.lastClientHeight = clientHeight;
+                            this.lastClientHeightTime = time;
+                        }
+                    } else {
+                        clientHeight = window.n2ClientHeight || document.documentElement.clientHeight || document.body.clientHeight;
+                    }
                 }
 
                 if (n2const.isBot) {
@@ -5637,10 +5977,7 @@ N2D('SmartSliderResponsive', function ($, undefined) {
         if (this.isFullScreen) {
             return 0;
         }
-        var h = 0;
-        for (var i = 0; i < this.verticalOffsetSelectors.length; i++) {
-            h += this.verticalOffsetSelectors.eq(i).outerHeight();
-        }
+        var h = this.focusOffsetTop + this.focusOffsetBottom;
 
         if (this.slider.widgets.$vertical) {
             for (var i = 0; i < this.slider.widgets.$vertical.length; i++) {
@@ -6439,7 +6776,7 @@ N2D('FrontendItemYouTube', function ($, undefined) {
                             break;
                         case YT.PlayerState.ENDED:
                             if (this.parameters.loop == 1) {
-                                this.player.seekTo(0);
+                                this.player.seekTo(this.parameters.start);
                                 this.player.playVideo();
                             } else {
                                 if (!this.isStatic) {
@@ -6500,7 +6837,7 @@ N2D('FrontendItemYouTube', function ($, undefined) {
             if (parseInt(this.parameters.reset)) {
                 this.slider.sliderElement.on("mainAnimationComplete", $.proxy(function (e, mainAnimation, previousSlideIndex, currentSlideIndex) {
                     if ($.inArray(this.slide, this.slider.getVisibleSlides(this.slider.slides[currentSlideIndex])) == -1) {
-                        this.player.seekTo(0);
+                        this.player.seekTo(this.parameters.start);
                     }
                 }, this));
             }

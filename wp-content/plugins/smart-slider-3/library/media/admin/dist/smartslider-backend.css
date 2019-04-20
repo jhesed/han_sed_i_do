@@ -1089,7 +1089,8 @@ body[data-slides="0"] .n2-slider-name .n2-h1:HOVER:after {
 }
 
 .n2-ss-background-type-color .n2-ss-background-video-param,
-.n2-ss-background-type-color .n2-ss-slide-background-image-param {
+.n2-ss-background-type-color .n2-ss-slide-background-image-param,
+.n2-ss-background-type-color [data-field="slidebackgroundColorOverlay"] {
     display: none;
 }
 
@@ -3650,12 +3651,12 @@ div div#n2-ss-0 .n2-ss-static-slide div[data-sstype="content"] div.n2-ss-section
     padding: 0;
 }
 
-.n2-ss-scrollbar-wrapper .track {
+.n2-ss-scrollbar-wrapper .n2-scroll-track {
     position: relative;
     height: 8px;
 }
 
-.n2-ss-scrollbar-wrapper .thumb {
+.n2-ss-scrollbar-wrapper .n2-scroll-grip {
     position: absolute;
     top: 0;
     background-color: #49586a;
@@ -3671,7 +3672,7 @@ div div#n2-ss-0 .n2-ss-static-slide div[data-sstype="content"] div.n2-ss-section
     background-color: #b9c3c9;
 }
 
-.n2-ss-scrollbar-wrapper.n2-ss-scrollbar-light .thumb {
+.n2-ss-scrollbar-wrapper.n2-ss-scrollbar-light .n2-scroll-grip {
     background-color: #ffffff;
 }
 

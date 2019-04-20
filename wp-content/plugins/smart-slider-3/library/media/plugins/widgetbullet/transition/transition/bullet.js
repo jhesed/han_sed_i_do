@@ -28,7 +28,7 @@ N2D('SmartSliderWidgetBulletTransition', function ($, undefined) {
 
         this.event = 'universalclick';
         if (this.parameters.action === 'mouseenter') {
-            this.event = 'mouseenter';
+            this.event = 'universalenter';
         }
 
         this.slider.sliderElement.on({

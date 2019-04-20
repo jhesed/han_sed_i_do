@@ -10,7 +10,7 @@ class Essential_Content_Featured_Content {
     const OPTION_NAME            = 'featured_content';
     const OPTION_READING_SETTING = 'featured_content_posts_per_page';
 
-    public $version = '0.1';
+    public $version = ESSENTIAL_CONTENT_TYPES_VERSION;
 
     static function init() {
         static $instance = false;
@@ -119,6 +119,7 @@ class Essential_Content_Featured_Content {
             'supports' => array(
                 'title',
                 'editor',
+                'excerpt',
                 'thumbnail',
                 'author',
                 'comments',

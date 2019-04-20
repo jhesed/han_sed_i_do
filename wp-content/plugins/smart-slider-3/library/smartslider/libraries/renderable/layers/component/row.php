@@ -167,7 +167,6 @@ class N2SSSlideComponentRow extends N2SSSlideComponent {
         $this->createProperty('bgimage', '');
         $this->createProperty('bgimagex', 50);
         $this->createProperty('bgimagey', 50);
-        $this->createProperty('bgimageparallax', '0');
 
         $this->createColorProperty('bgcolor', '00000000');
         $this->createProperty('bgcolorgradient', 'off');

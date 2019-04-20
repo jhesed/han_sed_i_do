@@ -69,9 +69,9 @@ class N2SSSlideComponentCol extends N2SSSlideComponent {
             $this->addLocalStyle('normal', 'border', $this->getBorderCSS($borderWidth, $borderStyle, $borderColor));
         }
 
-        $borderWidthHover = $this->data->get('borderwidth');
-        $borderStyleHover = $this->data->get('borderstyle');
-        $borderColorHover = $this->data->get('bordercolor');
+        $borderWidthHover = $this->data->get('borderwidth-hover');
+        $borderStyleHover = $this->data->get('borderstyle-hover');
+        $borderColorHover = $this->data->get('bordercolor-hover');
         $isHoverDifferent = false;
         if (!empty($borderWidthHover) || $borderWidthHover != $borderWidth) {
             $isHoverDifferent = true;
@@ -239,9 +239,8 @@ class N2SSSlideComponentCol extends N2SSSlideComponent {
         $this->createProperty('verticalalign', 'flex-start');
 
         $this->createProperty('bgimage', '');
-        $this->createProperty('bgimagex', '50');
-        $this->createProperty('bgimagey', '50');
-        $this->createProperty('bgimageparallax', '0');
+        $this->createProperty('bgimagex', 50);
+        $this->createProperty('bgimagey', 50);
         $this->createColorProperty('bgcolor', '00000000');
         $this->createProperty('bgcolorgradient', 'off');
         $this->createColorProperty('bgcolorgradientend', '00000000');

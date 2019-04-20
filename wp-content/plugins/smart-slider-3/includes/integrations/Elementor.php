@@ -83,8 +83,10 @@ class Nextend_Widget_SmartSlider extends \Elementor\Widget_Base {
         }
     }
 
+    /**
+     * Must be declared as empty method to prevent issues with SEO plugins.
+     */
     public function render_plain_content() {
-        echo 'Smart Slider with ID: ' . $this->get_settings('smartsliderid');
     }
 
     protected function _content_template() {

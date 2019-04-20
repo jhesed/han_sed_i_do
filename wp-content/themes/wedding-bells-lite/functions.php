@@ -104,6 +104,15 @@ function wedding_bells_lite_scripts() {
 	wp_enqueue_style( 'wedding-bells-lite-responsive', get_template_directory_uri()."/css/responsive.css" );
 	wp_enqueue_script( 'jquery-nivo-slider', get_template_directory_uri() . '/js/jquery.nivo.slider.js', array('jquery') );
 	wp_enqueue_script( 'wedding-bells-lite-editable', get_template_directory_uri() . '/js/editable.js' );
+
+	// <---- Jhesed's own scripts ---------------------------
+	
+	wp_enqueue_style( 'han-sed-i-do', get_template_directory_uri()."/css/han-sed-i-do.css" );
+
+	wp_enqueue_style( 'custom-google-fonts', 'https://fonts.googleapis.com/css?family=Great+Vibes', false );
+
+	// ----------------------------------------------------->
+
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}

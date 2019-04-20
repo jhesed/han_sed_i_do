@@ -6,7 +6,7 @@ class N2SmartSliderSlide extends N2SmartSliderComponentOwnerAbstract {
      * @var N2SmartSliderAbstract
      */
     protected $sliderObject;
-    public    $id = 0, $slider = 0, $publish_up, $publish_down, $published = 1, $first = 0, $slide = '', $ordering = 0, $generator_id = 0;
+    public $id = 0, $slider = 0, $publish_up, $publish_down, $published = 1, $first = 0, $slide = '', $ordering = 0, $generator_id = 0;
 
     protected $title = '', $description = '', $thumbnail = '';
 
@@ -97,7 +97,7 @@ class N2SmartSliderSlide extends N2SmartSliderComponentOwnerAbstract {
     }
 
     protected function onCreate() {
-        N2Pluggable::doAction('ssSlide', array( $this ));
+        N2Pluggable::doAction('ssSlide', array($this));
     }
 
     public function initGenerator($extend = array()) {
@@ -145,7 +145,7 @@ class N2SmartSliderSlide extends N2SmartSliderComponentOwnerAbstract {
     }
 
     public function isCurrentlyEdited() {
-        return N2Request::getInt('slideid') == $this->id;
+        return $this->isAdmin() && N2Request::getInt('slideid') == $this->id;
     }
 
     public function setIndex($index) {
@@ -172,7 +172,7 @@ class N2SmartSliderSlide extends N2SmartSliderComponentOwnerAbstract {
 
         $this->addSlideLink();
 
-        $this->attributes['data-slide-duration'] = n2_floatval(max(0, $this->parameters->get('slide-duration', 0) ) / 1000);
+        $this->attributes['data-slide-duration'] = n2_floatval(max(0, $this->parameters->get('slide-duration', 0)) / 1000);
         $this->attributes['data-id']             = $this->id;
 
         $this->classes .= ' n2-ss-slide-' . $this->id;

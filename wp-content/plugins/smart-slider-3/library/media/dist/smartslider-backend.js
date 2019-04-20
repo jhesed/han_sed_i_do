@@ -3356,17 +3356,17 @@ N2D('SmartSliderSlideBackgroundAdmin', ['SmartSliderSlideBackground'], function 
             .appendTo(this.$wrapElement));
 
         if (needRefresh) {
-            this.elements.color.update(this.editor.settings.getBackgroundColor(), this.editor.settings.getBackgroundGradient(), this.editor.settings.getBackgroundColorEnd());
+            this.elements.color.update(this.editor.settings.getBackgroundColor(), this.editor.settings.getBackgroundGradient(), this.editor.settings.getBackgroundColorEnd(), this.editor.settings.getBackgroundColorOverlay());
         }
     };
 
-    SmartSliderSlideBackgroundAdmin.prototype.updateColor = function (color, gradient, colorEnd) {
+    SmartSliderSlideBackgroundAdmin.prototype.updateColor = function (color, gradient, colorEnd, isOverlay) {
         if (!this.elements.color) {
             this.createColorElement();
         }
 
 
-        this.elements.color.update(color, gradient, colorEnd);
+        this.elements.color.update(color, gradient, colorEnd, isOverlay);
     };
 
     SmartSliderSlideBackgroundAdmin.prototype.createImageElement = function () {
@@ -3374,14 +3374,15 @@ N2D('SmartSliderSlideBackgroundAdmin', ['SmartSliderSlideBackground'], function 
             image = settings.getBackgroundImage();
         if (image !== '') {
             var imageUrl = nextend.imageHelper.fixed(image),
-                $image = $('<img src="' + imageUrl + '" alt="" />')
+                $image = $('<div class="n2-ss-slide-background-image"/>')
+                    .css({
+                        opacity: settings.getBackgroundImageOpacity() / 100,
+                        backgroundPosition: settings.getBackgroundFocusX() + '% ' + settings.getBackgroundFocusY() + '%'
+                    })
                     .attr({
                         'data-hash': md5(image),
                         'data-desktop': imageUrl,
-                        'data-opacity': settings.getBackgroundImageOpacity(),
-                        'data-blur': settings.getBackgroundImageBlur(),
-                        'data-x': settings.getBackgroundFocusX(),
-                        'data-y': settings.getBackgroundFocusY()
+                        'data-blur': settings.getBackgroundImageBlur()
                     })
                     .appendTo(this.$wrapElement);
             this.elements.image = new N2Classes[this.types.image](this.slide, this.manager, this, $image);
@@ -3393,9 +3394,9 @@ N2D('SmartSliderSlideBackgroundAdmin', ['SmartSliderSlideBackground'], function 
         if (this.elements.image) {
             this.elements.image.setDesktopSrc(image);
         } else if (image !== '') {
-			if (image.toLowerCase().match(/\.(png|jpg|jpeg|gif|webp|svg)$/) === null) {
-				N2Classes.Notification.error('The background image format is not correct! The supported image formats are: png, jpg, jpeg, gif, webp, svg.');
-			} else if (this.editor.settings.getType() === 'image') {
+            if (image.toLowerCase().match(/\.(png|jpg|jpeg|gif|webp|svg)$/) === null) {
+                N2Classes.Notification.error('The background image format is not correct! The supported image formats are: png, jpg, jpeg, gif, webp, svg.');
+            } else if (this.editor.settings.getType() === 'image') {
                 this.createImageElement(image);
             }
         }
@@ -3555,19 +3556,12 @@ N2D('EditorSlide', ['EditorAbstract'], function ($, undefined) {
     EditorSlide.prototype.sliderStarted = function () {
 
         $('body').addClass('n2-ss-slider-visible');
-        var el = $("#n2-ss-slide-canvas-container"),
-            tinyScrollbar = el.tinyscrollbar({
-                axis: "x",
-                wheel: false,
-                wheelLock: false
-            }).data('plugin_tinyscrollbar');
-        if (typeof el.get(0).move === 'function') {
-            el.get(0).move = null;
-        }
 
-        this.frontend.sliderElement.on('SliderResize', function () {
-            tinyScrollbar.update("relative");
-        });
+        this.scrollbar = new N2Classes.HorizontalScrollBar($("#n2-ss-slide-canvas-container"));
+
+        this.frontend.sliderElement.on('SliderResize', $.proxy(function () {
+            this.scrollbar.update();
+        }, this));
 
 
         this.$editedElement = this.frontend.sliderElement.find('.n2-ss-currently-edited-slide');
@@ -3864,7 +3858,7 @@ N2D('EditorSlide', ['EditorAbstract'], function ($, undefined) {
                 }),
             cb3 = function (e) {
                 var color = $colorField.val();
-                if (color != $color.val()) {
+                if (color !== $color.val()) {
                     $color.n2spectrum("set", color);
                 }
             };
@@ -3874,7 +3868,7 @@ N2D('EditorSlide', ['EditorAbstract'], function ($, undefined) {
 
         var $gradientDir = $('#slidebackgroundGradient'),
             cb4 = function () {
-                if ($gradientDir.val() == 'off') {
+                if ($gradientDir.val() === 'off') {
                     $settings.removeClass('n2-ss-has-gradient');
                 } else {
                     $settings.addClass('n2-ss-has-gradient');
@@ -4558,7 +4552,8 @@ N2D('History', function ($, undefined) {
      */
     function History() {
         this.historyStates = 50;
-        this.enabled = this.historyStates != 0;
+        this.enabled = this.historyStates !== 0;
+        this.historyActionInProgress = false;
         this.historyAddAllowed = true;
         this.isBatched = false;
         this.currentBatch = this;
@@ -4602,7 +4597,7 @@ N2D('History', function ($, undefined) {
     };
 
     History.prototype.updateUI = function () {
-        if (this.index == 0 || this.tasks.length == 0) {
+        if (this.index === 0 || this.tasks.length === 0) {
             this.undoBTN.removeClass('n2-active');
         } else {
             this.undoBTN.addClass('n2-active');
@@ -4668,14 +4663,12 @@ N2D('History', function ($, undefined) {
      *
      * @param that
      * @param action
-     * @param undoValue
-     * @param redoValue
      * @param context
      * @returns {TaskValue}
      */
     History.prototype.addValue = function (that, action, context) {
         if (this.isEnabled()) {
-            if (this.isBatched || this.currentBatch != this) {
+            if (this.isBatched || this.currentBatch !== this) {
                 var currentBatch = this.getCurrentBatchStack();
                 for (var i = 0; i < currentBatch.length; i++) {
                     if (currentBatch[i].isEqual(that, action, context)) {
@@ -4690,7 +4683,7 @@ N2D('History', function ($, undefined) {
     };
 
     History.prototype.getCurrentBatchStack = function () {
-        if (this.currentBatch != this) {
+        if (this.currentBatch !== this) {
             return this.currentBatch.tasks;
         }
         return this.tasks[this.tasks.length - 1];
@@ -4742,6 +4735,8 @@ N2D('History', function ($, undefined) {
         if (this.throttleUndoRedo()) {
             return false;
         }
+
+        this.historyActionInProgress = true;
         this.off();
         if (this.index == -1) {
             this.index = this.tasks.length - 1;
@@ -4761,6 +4756,8 @@ N2D('History', function ($, undefined) {
             // No more undo
         }
         this.on();
+        this.historyActionInProgress = false;
+
         this.updateUI();
         return true;
     };
@@ -4772,6 +4769,8 @@ N2D('History', function ($, undefined) {
         if (this.throttleUndoRedo()) {
             return false;
         }
+
+        this.historyActionInProgress = true;
         this.off();
         if (this.index != -1) {
             if (this.index < this.tasks.length) {
@@ -4789,8 +4788,14 @@ N2D('History', function ($, undefined) {
             // No redo
         }
         this.on();
+        this.historyActionInProgress = false;
+
         this.updateUI();
         return true;
+    };
+
+    History.prototype.actionInProgress = function () {
+        return this.historyActionInProgress;
     };
 
     function Batch(parent) {
@@ -4801,18 +4806,6 @@ N2D('History', function ($, undefined) {
     Batch.prototype._add = function (task) {
         this.tasks.push(task);
         return task;
-    };
-
-    Batch.prototype.invertUndo = function () {
-        this.undo = function () {
-            for (var i = this.tasks.length - 1; i >= 0; i--) {
-                if (!this.tasks[i].undo()) {
-                    break;
-                }
-            }
-            return true;
-        };
-        return this;
     };
 
     Batch.prototype.undo = function () {
@@ -4909,7 +4902,7 @@ N2D('History', function ($, undefined) {
     };
 
     TaskValue.prototype.isEqual = function (that, action, context) {
-        if (that == this.that && action == this.undoAction) {
+        if (that === this.that && action == this.undoAction) {
             for (var i = 0; i < context.length; i++) {
                 if (context[i] != this.context[i]) {
                     return false;
@@ -5090,7 +5083,7 @@ N2D('SlideSettings', function ($, undefined) {
         return data;
     };
 
-    var backgroundFields = ['thumbnail', 'background-type', 'backgroundColor', 'backgroundGradient', 'backgroundColorEnd', 'backgroundImage', 'backgroundImageOpacity', 'backgroundImageBlur', 'backgroundFocusX', 'backgroundFocusY', 'backgroundMode'];
+    var backgroundFields = ['thumbnail', 'background-type', 'backgroundColor', 'backgroundGradient', 'backgroundColorEnd', 'backgroundColorOverlay', 'backgroundImage', 'backgroundImageOpacity', 'backgroundImageBlur', 'backgroundFocusX', 'backgroundFocusY', 'backgroundMode'];
 
     SlideSettings.prototype.getBackgroundData = function () {
 
@@ -5127,9 +5120,10 @@ N2D('SlideSettings', function ($, undefined) {
 
     SlideSettings.prototype.sync_backgroundColor =
         SlideSettings.prototype.sync_backgroundGradient =
-            SlideSettings.prototype.sync_backgroundColorEnd = function () {
-                this.updateBackgroundColor();
-            };
+            SlideSettings.prototype.sync_backgroundColorEnd =
+                SlideSettings.prototype.sync_backgroundColorOverlay = function () {
+                    this.updateBackgroundColor();
+                };
 
     SlideSettings.prototype.updateBackgroundColor = function () {
 
@@ -5139,7 +5133,7 @@ N2D('SlideSettings', function ($, undefined) {
         if (gradient !== 'off') {
             colorEnd = this.getBackgroundColorEnd();
         }
-        this.slideBackground.updateColor(color, gradient, colorEnd);
+        this.slideBackground.updateColor(color, gradient, colorEnd, this.getBackgroundColorOverlay());
     };
 
     SlideSettings.prototype.sync_backgroundImage = function () {
@@ -5186,6 +5180,10 @@ N2D('SlideSettings', function ($, undefined) {
 
     SlideSettings.prototype.getBackgroundColorEnd = function () {
         return this.editor.generator.fill(this.fields.backgroundColorEnd.val());
+    };
+
+    SlideSettings.prototype.getBackgroundColorOverlay = function () {
+        return !!+this.fields.backgroundColorOverlay.val();
     };
 
     SlideSettings.prototype.getBackgroundImage = function () {
@@ -5253,9 +5251,11 @@ N2D('SmartSliderAdminSlideBackgroundColor', ['SmartSliderSlideBackgroundColor'],
     SmartSliderAdminSlideBackgroundColor.prototype = Object.create(N2Classes.SmartSliderSlideBackgroundColor.prototype);
     SmartSliderAdminSlideBackgroundColor.prototype.constructor = SmartSliderAdminSlideBackgroundColor;
 
-    SmartSliderAdminSlideBackgroundColor.prototype.update = function (color, gradient, colorEnd) {
+    SmartSliderAdminSlideBackgroundColor.prototype.update = function (color, gradient, colorEnd, isOverlay) {
         color = this.fixColor(color);
         this.$el.css({background: ''});
+
+        this.$el.attr('data-overlay', isOverlay ? 1 : 0);
 
         if (gradient !== 'off') {
             this.updateGradient(color, gradient, colorEnd)
@@ -5313,13 +5313,13 @@ N2D('SmartSliderAdminSlideBackgroundImage', ['SmartSliderSlideBackgroundImage'],
      * @param {N2Classes.FrontendSliderSlide} slide
      * @param {N2Classes.SmartSliderBackgrounds} manager
      * @param {N2Classes.SmartSliderSlideBackground} background
-     * @param $el
+     * @param $background
      * @constructor
      * @augments N2Classes.SmartSliderSlideBackgroundColor
      */
-    function SmartSliderAdminSlideBackgroundImage(slide, manager, background, $el) {
+    function SmartSliderAdminSlideBackgroundImage(slide, manager, background, $background) {
 
-        this.hash = $el.data('hash');
+        this.hash = $background.data('hash');
 
         N2Classes.SmartSliderSlideBackgroundImage.prototype.constructor.apply(this, arguments);
         this.loadAllowed = true;
@@ -5452,7 +5452,6 @@ N2D('SmartSliderAdminSlideBackgroundImage', ['SmartSliderSlideBackgroundImage'],
 
     SmartSliderAdminSlideBackgroundImage.prototype.kill = function () {
         this.notListenImageManager();
-        this.$el.remove();
         this.$background.remove();
     };
 
@@ -7291,14 +7290,14 @@ N2D('CanvasUserInterface', function ($, undefined) {
             e.preventDefault();
         }, this);
 
-        this.paneLeft.on('mousewheel', cb);
+        this.paneLeft.on('wheel', cb);
         this.paneLeft.on('scroll', $.proxy(function (e) {
             var top = this.paneLeft.scrollTop();
             this.paneRight.scrollTop(top);
             e.preventDefault();
         }, this));
 
-        this.paneRight.on('mousewheel', cb);
+        this.paneRight.on('wheel', cb);
     };
 
     CanvasUserInterface.prototype.resizeStart = function (e) {
@@ -7570,13 +7569,8 @@ N2D('LayerWindow', function ($, undefined) {
         };
 
         for (var k in this.viewPanes) {
-            this.viewPanes[k].on('DOMMouseScroll mousewheel', function (e) {
-                var up = false;
-                if (e.originalEvent) {
-                    if (e.originalEvent.wheelDelta) up = e.originalEvent.wheelDelta / -1 < 0;
-                    if (e.originalEvent.deltaY) up = e.originalEvent.deltaY < 0;
-                    if (e.originalEvent.detail) up = e.originalEvent.detail < 0;
-                }
+            this.viewPanes[k].on('wheel', function (e) {
+                var up = e.originalEvent.deltaY < 0;
 
                 var prevent = function () {
                     e.stopPropagation();
@@ -10826,16 +10820,29 @@ N2D('PlacementAbsolute', ['PlacementAbstract'], function ($, undefined) {
             this.$layer.removeAttr('data-parentid');
             this.unSubscribeParent();
         } else {
-            //setTimeout($.proxy(function () {
-            if ($('#' + value).length == 0) {
-                this.layer.setProperty('parentid', '', 'layer');
+            if (!N2Classes.History.get().actionInProgress()) {
+                this._linkToParentID(value, false);
             } else {
-                this.$layer.attr('data-parentid', value).addClass('n2-ss-layer-has-parent');
-                this.subscribeParent();
+                setTimeout($.proxy(this._linkToParentID, this, value, true), 100);
+            }
+        }
+    };
+
+    PlacementAbsolute.prototype._linkToParentID = function (value, historyAction) {
+        if ($('#' + value).length === 0) {
+            this.layer.setProperty('parentid', '', 'layer');
+        } else {
+            this.$layer.attr('data-parentid', value).addClass('n2-ss-layer-has-parent');
+            this.subscribeParent();
+
+            if (!historyAction) {
                 var position = this.$layer.position();
                 this._setPosition(null, null, position.left, position.top, null, null, true);
+            } else {
+                N2Classes.History.get().off();
+                this._setPosition(null, null, null, null, null, null, true);
+                N2Classes.History.get().on();
             }
-            //}, this), 50);
         }
     };
 
@@ -14093,7 +14100,6 @@ N2D('ContentAbstract', ['LayerContainer', 'ComponentAbstract'], function ($, und
         this.createProperty('bgimage', '', $layer);
         this.createProperty('bgimagex', 50, $layer);
         this.createProperty('bgimagey', 50, $layer);
-        this.createProperty('bgimageparallax', 0, $layer);
 
         this.createAdvancedProperty(new N2Classes.LayerAdvancedProperty('bgcolor', '00000000', {
             "-hover": undefined
@@ -14297,15 +14303,14 @@ N2D('ContentAbstract', ['LayerContainer', 'ComponentAbstract'], function ($, und
     ContentAbstract.prototype._syncbgimage =
         ContentAbstract.prototype._syncbgimagex =
             ContentAbstract.prototype._syncbgimagey =
-                ContentAbstract.prototype._syncbgimageparallax =
-                    ContentAbstract.prototype._syncbgcolor =
-                        ContentAbstract.prototype._syncbgcolorgradient =
-                            ContentAbstract.prototype._syncbgcolorgradientend =
-                                ContentAbstract.prototype['_syncbgcolor-hover'] =
-                                    ContentAbstract.prototype['_syncbgcolorgradient-hover'] =
-                                        ContentAbstract.prototype['_syncbgcolorgradientend-hover'] = function () {
-                                            this._syncbgThrottled();
-                                        };
+                ContentAbstract.prototype._syncbgcolor =
+                    ContentAbstract.prototype._syncbgcolorgradient =
+                        ContentAbstract.prototype._syncbgcolorgradientend =
+                            ContentAbstract.prototype['_syncbgcolor-hover'] =
+                                ContentAbstract.prototype['_syncbgcolorgradient-hover'] =
+                                    ContentAbstract.prototype['_syncbgcolorgradientend-hover'] = function () {
+                                        this._syncbgThrottled();
+                                    };
 
 
     ContentAbstract.prototype._syncbgThrottled = function () {
@@ -14321,8 +14326,8 @@ N2D('ContentAbstract', ['LayerContainer', 'ComponentAbstract'], function ($, und
             if (!isFinite(y)) {
                 y = 50;
             }
-            background += 'URL("' + nextend.imageHelper.fixed(image) + '") ' + x + '% ' + y + '% / cover no-repeat' + (this.getProperty('bgimageparallax') == 1 ? ' fixed' : '');
-            gradientBackgroundProps = ' ' + x + '% ' + y + '% / cover no-repeat' + (this.getProperty('bgimageparallax') == 1 ? ' fixed' : '')
+            background += 'URL("' + nextend.imageHelper.fixed(image) + '") ' + x + '% ' + y + '% / cover no-repeat';
+            gradientBackgroundProps = ' ' + x + '% ' + y + '% / cover no-repeat'
         }
         var color = this.getProperty('bgcolor'),
             gradient = this.getProperty('bgcolorgradient'),
@@ -15317,7 +15322,6 @@ N2D('Row', ['LayerContainer', 'ComponentAbstract'], function ($, undefined) {
         this.createProperty('bgimage', '', $layer);
         this.createProperty('bgimagex', 50, $layer);
         this.createProperty('bgimagey', 50, $layer);
-        this.createProperty('bgimageparallax', 0, $layer);
 
         this.createAdvancedProperty(new N2Classes.LayerAdvancedProperty('bgcolor', '00000000', {
             "-hover": undefined
@@ -15867,7 +15871,7 @@ N2D('Row', ['LayerContainer', 'ComponentAbstract'], function ($, undefined) {
                         sumWidth += flexLine[j].getWidthPercentage();
                     }
                     for (j = 0; j < flexLine.length; j++) {
-                        flexLine[j].layer.css('width', 'calc(' + (flexLine[j].getWidthPercentage() / sumWidth * 100) + '% - ' + (n2const.isIE ? gutterValue + 1 : gutterValue) + 'px)');
+                        flexLine[j].layer.css('width', 'calc(' + (flexLine[j].getWidthPercentage() / sumWidth * 100) + '% - ' + (n2const.isIE || n2const.isEdge ? gutterValue + 1 : gutterValue) + 'px)');
                     }
                 }
             } else {
@@ -15954,15 +15958,14 @@ N2D('Row', ['LayerContainer', 'ComponentAbstract'], function ($, undefined) {
     Row.prototype._syncbgimage =
         Row.prototype._syncbgimagex =
             Row.prototype._syncbgimagey =
-                Row.prototype._syncbgimageparallax =
-                    Row.prototype._syncbgcolor =
-                        Row.prototype._syncbgcolorgradient =
-                            Row.prototype._syncbgcolorgradientend =
-                                Row.prototype['_syncbgcolor-hover'] =
-                                    Row.prototype['_syncbgcolorgradient-hover'] =
-                                        Row.prototype['_syncbgcolorgradientend-hover'] = function () {
-                                            this._syncbgThrottled();
-                                        };
+                Row.prototype._syncbgcolor =
+                    Row.prototype._syncbgcolorgradient =
+                        Row.prototype._syncbgcolorgradientend =
+                            Row.prototype['_syncbgcolor-hover'] =
+                                Row.prototype['_syncbgcolorgradient-hover'] =
+                                    Row.prototype['_syncbgcolorgradientend-hover'] = function () {
+                                        this._syncbgThrottled();
+                                    };
 
 
     Row.prototype._syncbgThrottled = function () {
@@ -15978,8 +15981,8 @@ N2D('Row', ['LayerContainer', 'ComponentAbstract'], function ($, undefined) {
             if (!isFinite(y)) {
                 y = 50;
             }
-            background += 'URL("' + nextend.imageHelper.fixed(image) + '") ' + x + '% ' + y + '% / cover no-repeat' + (this.getProperty('bgimageparallax') == 1 ? ' fixed' : '');
-            gradientBackgroundProps = ' ' + x + '% ' + y + '% / cover no-repeat' + (this.getProperty('bgimageparallax') == 1 ? ' fixed' : '');
+            background += 'URL("' + nextend.imageHelper.fixed(image) + '") ' + x + '% ' + y + '% / cover no-repeat';
+            gradientBackgroundProps = ' ' + x + '% ' + y + '% / cover no-repeat';
         }
         var color = this.getProperty('bgcolor'),
             gradient = this.getProperty('bgcolorgradient'),
@@ -16162,7 +16165,7 @@ N2D('Row', ['LayerContainer', 'ComponentAbstract'], function ($, undefined) {
                     sumWidth += flexLine[j]._tempWidth;
                 }
                 for (j = 0; j < flexLine.length; j++) {
-                    flexLine[j].layer.css('width', 'calc(' + (flexLine[j]._tempWidth / sumWidth * 100) + '% - ' + (n2const.isIE ? gutterValue + 1 : gutterValue) + 'px)');
+                    flexLine[j].layer.css('width', 'calc(' + (flexLine[j]._tempWidth / sumWidth * 100) + '% - ' + (n2const.isIE || n2const.isEdge ? gutterValue + 1 : gutterValue) + 'px)');
                 }
             }
         } else {
@@ -16398,7 +16401,6 @@ N2D('ComponentSettings', function ($, undefined) {
             bgimage: $('#layercontent-background-image'),
             bgimagex: $('#layercontent-background-focus-x'),
             bgimagey: $('#layercontent-background-focus-y'),
-            bgimageparallax: $('#layercontent-background-parallax'),
             bgcolorgradient: $('#layercontent-background-gradient'),
             bgcolorgradientend: $('#layercontent-background-color-end'),
             opened: $('#layercontent-opened')
@@ -16417,7 +16419,6 @@ N2D('ComponentSettings', function ($, undefined) {
             bgimage: $('#layerrow-background-image'),
             bgimagex: $('#layerrow-background-focus-x'),
             bgimagey: $('#layerrow-background-focus-y'),
-            bgimageparallax: $('#layerrow-background-parallax'),
             stylemode: $('#layerrow-style-mode').on('n2resetmode', $.proxy(this.resetStyleMode, this, 'stylemode')),
             bgcolor: $('#layerrow-background-color'),
             bgcolorgradient: $('#layerrow-background-gradient'),
@@ -16439,7 +16440,6 @@ N2D('ComponentSettings', function ($, undefined) {
             bgimage: $('#layercol-background-image'),
             bgimagex: $('#layercol-background-focus-x'),
             bgimagey: $('#layercol-background-focus-y'),
-            bgimageparallax: $('#layercol-background-parallax'),
             stylemode: $('#layercol-style-mode').on('n2resetmode', $.proxy(this.resetStyleMode, this, 'stylemode')),
             bgcolor: $('#layercol-background-color'),
             bgcolorgradient: $('#layercol-background-gradient'),
@@ -16993,7 +16993,7 @@ N2D('ItemImage', ['Item'], function ($, undefined) {
             data.image = nextend.imageHelper.fixed(data.image);
 
             if (this.layer.placement.getType() == 'absolute') {
-                this.resizeLayerToImage(data.image);
+                this.resizeLayerToImage(nextend.imageHelper.fixed(data.image));
             }
         } else {
             data.image = nextend.imageHelper.fixed(data.image);

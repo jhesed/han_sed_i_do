@@ -171,7 +171,7 @@ class N2GeneratorPostsCustomPosts extends N2GeneratorAbstract {
         ));
 
         $order2 = new N2ElementGroup($_order, 'meta_order', n2_('Order by custom field'), array(
-            'tip' => n2_('If its set, this will be used instead of the \'Field\' value.')
+            'tip' => n2_('If it\'s set, this will be used instead of the \'Field\' value.')
         ));
 
         new N2ElementWordPressCustomFields($order2, 'meta_order_key', n2_('Custom field name'), 0, array(

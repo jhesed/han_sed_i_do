@@ -74,7 +74,7 @@ N2D('SmartSliderWidgetThumbnailDefault', function ($, undefined) {
 
         var event = 'universalclick';
         if (parameters.action === 'mouseenter') {
-            event = 'mouseenter';
+            event = 'universalenter';
         } else if (this.slider.hasTouch()) {
             event = 'n2click';
         }

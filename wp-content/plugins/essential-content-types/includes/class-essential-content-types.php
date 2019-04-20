@@ -71,8 +71,6 @@ class Essential_Content_Types {
 		$this->plugin_name = 'essential-content-types';
 		if ( defined( 'ESSENTIAL_CONTENT_TYPES_VERSION' ) ) {
 			$this->version = ESSENTIAL_CONTENT_TYPES_VERSION;
-		} else {
-			$this->version = '1.5';
 		}
 
 		$this->load_dependencies();

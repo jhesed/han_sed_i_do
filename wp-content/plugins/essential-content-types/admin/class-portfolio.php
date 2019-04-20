@@ -10,7 +10,7 @@ class Essential_Content_Jetpack_Portfolio {
     const OPTION_NAME            = 'jetpack_portfolio';
     const OPTION_READING_SETTING = 'jetpack_portfolio_posts_per_page';
 
-    public $version = '0.1';
+    public $version = ESSENTIAL_CONTENT_TYPES_VERSION;
 
     static function init() {
         static $instance = false;
@@ -246,6 +246,7 @@ class Essential_Content_Jetpack_Portfolio {
             'supports' => array(
                 'title',
                 'editor',
+                'excerpt',
                 'thumbnail',
                 'author',
                 'comments',
