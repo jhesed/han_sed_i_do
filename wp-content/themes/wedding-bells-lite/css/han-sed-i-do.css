@@ -2,6 +2,10 @@
 Theme Name: han-sed-i-do
 Description: Jhesed's custom style
 */
+body{
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+}
 div.hsid{
  	font-family: 'Great Vibes', Helvetica, sans-serif;
   	font-size: 25px;
@@ -16,13 +20,13 @@ div.hsid{
 section{
 	padding-top:30px;
 }
-#love-story{
+#love-story, #love-story-timeline{
 	height:auto;
 	background-color:#f1f1f1; 
 	text-align:center; 
 	padding:0;
 }
-#love-story .container{
+#love-story .container, #love-story-timeline .container{
 	width:100%; 
 	box-sizing:border-box;
 }

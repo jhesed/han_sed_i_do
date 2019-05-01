@@ -105,11 +105,19 @@ function wedding_bells_lite_scripts() {
 	wp_enqueue_script( 'jquery-nivo-slider', get_template_directory_uri() . '/js/jquery.nivo.slider.js', array('jquery') );
 	wp_enqueue_script( 'wedding-bells-lite-editable', get_template_directory_uri() . '/js/editable.js' );
 
+
 	// <---- Jhesed's own scripts ---------------------------
 	
+	wp_enqueue_style( 'timeline-normalize-css', "https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" );
+	wp_enqueue_style( 'custom-google-fonts', 'https://fonts.googleapis.com/css?family=Great+Vibes', false );	
+	wp_enqueue_style( 'timeline-fonts', 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800', false );	
+	wp_enqueue_style( 'swiper-css', "https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css");
+	wp_enqueue_style( 'timeline-css', get_template_directory_uri()."/css/timeline.css" );
 	wp_enqueue_style( 'han-sed-i-do', get_template_directory_uri()."/css/han-sed-i-do.css" );
 
-	wp_enqueue_style( 'custom-google-fonts', 'https://fonts.googleapis.com/css?family=Great+Vibes', false );
+	wp_enqueue_script( 'facebook-sdk', "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2&appId=532451446826037&autoLogAppEvents=1" );
+	wp_enqueue_script( 'swiper-js', "https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.min.js" );
+	wp_enqueue_script( 'timeline-js', get_template_directory_uri() . '/js/timeline.js' );
 
 	// ----------------------------------------------------->
 

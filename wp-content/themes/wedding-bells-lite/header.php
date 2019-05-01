@@ -38,8 +38,6 @@ $inner_cls = 'siteinner';
 }
 ?>
 
-
-
      <div class="site-header <?php echo $inner_cls; ?>">  
        <div class="container">    
           <div class="logo">
@@ -170,15 +168,80 @@ if( $show_welcome_page != ''){ ?>
 
 <section id="love-story">
   <div class="container">     
-    <div class="welcome-content">          
+    <div class="page-wrapper">          
         <h3>Love Story</h3>
           <div id="fb-root"></div>
-          <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2&appId=532451446826037&autoLogAppEvents=1"></script>
-          <div class="fb-video" data-href="https://www.facebook.com/jhesed.tacadena/videos/pcb.2285914871420708/2285896198089242/?type=3&amp;theater" data-width="auto" data-show-text="false" data-allowfullscreen="true"><blockquote cite="https://developers.facebook.com/jhesed.tacadena/videos/2285896198089242/" class="fb-xfbml-parse-ignore"><a href="https://developers.facebook.com/jhesed.tacadena/videos/2285896198089242/"></a></blockquote></div>
+         
+         <div class="twocolumnbox">
+            <div class="fb-video" data-href="https://www.facebook.com/jhesed.tacadena/videos/pcb.2285914871420708/2285896198089242/?type=3&amp;theater" data-width="auto" data-show-text="false" data-allowfullscreen="true"><blockquote cite="https://developers.facebook.com/jhesed.tacadena/videos/2285896198089242/" class="fb-xfbml-parse-ignore"><a href="https://developers.facebook.com/jhesed.tacadena/videos/2285896198089242/"></a></blockquote></div>
+          </div>
+         
+          <div class="twocolumnbox last_column">   
+            <div class="fb-video" data-href="https://www.facebook.com/jhesed.tacadena/videos/2285894218089440/" data-width="auto" data-show-text="false"><blockquote cite="https://developers.facebook.com/jhesed.tacadena/videos/2285894218089440/" class="fb-xfbml-parse-ignore"><a href="https://developers.facebook.com/jhesed.tacadena/videos/2285894218089440/"></a></blockquote></div>
+          </div>
 
+        <?php wp_reset_postdata(); ?>
         <div class="clear"></div>  
       </div>
   </div>
+</section>
+
+<!-- SECTION :: LOVE STORY TIMELINE -->
+<section id="love-story-timeline">
+  <div class="container">
+      <!-- <div class="page-wrapper"> -->
+        <div class="timeline-container">
+          <div class="timeline">
+            <div class="swiper-container">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide" style="background-image: url(https://unsplash.it/1920/500?image=11;" data-year="2011">
+                  <div class="swiper-slide-content"><span class="timeline-year">2011</span>
+                    <h4 class="timeline-title">Our nice super title</h4>
+                    <p class="timeline-text">Lorem ipsum dolor site amet, consectetur adipscing elit, sed do eisumod tempor incididut ut labore et dolore magna aliqua. Ut enim ad mimim venjam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                  </div>
+                </div>
+                <div class="swiper-slide" style="background-image: url(https://unsplash.it/1920/500?image=12;" data-year="2012">
+                  <div class="swiper-slide-content"><span class="timeline-year">2012</span>
+                    <h4 class="timeline-title">Our nice super title</h4>
+                    <p class="timeline-text">Lorem ipsum dolor site amet, consectetur adipscing elit, sed do eisumod tempor incididut ut labore et dolore magna aliqua. Ut enim ad mimim venjam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                  </div>
+                </div>
+                <div class="swiper-slide" style="background-image: url(https://unsplash.it/1920/500?image=13;" data-year="2013">
+                  <div class="swiper-slide-content"><span class="timeline-year">2013</span>
+                    <h4 class="timeline-title">Our nice super title</h4>
+                    <p class="timeline-text">Lorem ipsum dolor site amet, consectetur adipscing elit, sed do eisumod tempor incididut ut labore et dolore magna aliqua. Ut enim ad mimim venjam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                  </div>
+                </div>
+                <div class="swiper-slide" style="background-image: url(https://unsplash.it/1920/500?image=14;" data-year="2014">
+                  <div class="swiper-slide-content"><span class="timeline-year">2014</span>
+                    <h4 class="timeline-title">Our nice super title</h4>
+                    <p class="timeline-text">Lorem ipsum dolor site amet, consectetur adipscing elit, sed do eisumod tempor incididut ut labore et dolore magna aliqua. Ut enim ad mimim venjam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                  </div>
+                </div>
+                <div class="swiper-slide" style="background-image: url(https://unsplash.it/1920/500?image=15;" data-year="2015">
+                  <div class="swiper-slide-content"><span class="timeline-year">2015</span>
+                    <h4 class="timeline-title">Our nice super title</h4>
+                    <p class="timeline-text">Lorem ipsum dolor site amet, consectetur adipscing elit, sed do eisumod tempor incididut ut labore et dolore magna aliqua. Ut enim ad mimim venjam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                  </div>
+                </div>
+                <div class="swiper-slide" style="background-image: url(https://unsplash.it/1920/500?image=16;" data-year="2016">
+                  <div class="swiper-slide-content"><span class="timeline-year">2016</span>
+                    <h4 class="timeline-title">Our nice super title</h4>
+                    <p class="timeline-text">Lorem ipsum dolor site amet, consectetur adipscing elit, sed do eisumod tempor incididut ut labore et dolore magna aliqua. Ut enim ad mimim venjam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-button-next"></div>
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+        <!-- </div> -->
+
+        <div class="clear"></div>  
+    </div>
+  </div>
 </section>   
+<!-- SECTION END:: LOVE STORY TIMELINE -->
 
 <?php } ?>
