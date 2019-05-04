@@ -143,7 +143,7 @@ if( $show_welcome_page != ''){ ?>
 
 <section id="bridegroom-section">
   <div class="container">
-    <div class="page-wrapper">
+    <div class="welcome-wrap">
         <div class="hearticon"></div>                        
         <?php for($n=4; $n<=5; $n++) { ?>    
         <?php if( get_theme_mod('services-pagebox'.$n,false)) { ?>          
@@ -162,14 +162,14 @@ if( $show_welcome_page != ''){ ?>
                        wp_reset_postdata(); ?>                                    
               <?php } } ?>                                 
         <div class="clear"></div>  
-    </div><!-- .page-wrapper--> 
+    </div><!-- .welcome-wrap--> 
   </div><!-- .container -->                  
 </section><!-- .bridegroom-section-->   
 
 <section id="love-story">
   <div class="container">     
-    <div class="page-wrapper">          
-        <h3>Love Story</h3>
+    <div class="welcome-wrap">          
+        <a><h3>Love Story</h3></a>
           <div id="fb-root"></div>
          
          <div class="twocolumnbox">
@@ -189,7 +189,7 @@ if( $show_welcome_page != ''){ ?>
 <!-- SECTION :: LOVE STORY TIMELINE -->
 <section id="love-story-timeline">
   <div class="container">
-      <!-- <div class="page-wrapper"> -->
+      <div class="welcome-wrap">
         <div class="timeline-container">
           <div class="timeline">
             <div class="swiper-container">
@@ -236,12 +236,58 @@ if( $show_welcome_page != ''){ ?>
               <div class="swiper-pagination"></div>
             </div>
           </div>
-        <!-- </div> -->
+        </div>
 
         <div class="clear"></div>  
     </div>
   </div>
 </section>   
 <!-- SECTION END:: LOVE STORY TIMELINE -->
+
+<!-- SECTION :: RVSP -->
+<section id="rvsp">
+  <div class="container">
+      <div class="top"></div>
+      <div class="form">
+        <div class ="info">
+        <h1>RSVP</h1>
+        <h2>for the wedding of</h2>
+        <h1><span>Jhesed & Hannah</span></h1>
+          <p class= "line">________________________________________</p>
+          <h2>The Details</h2>
+          <p>Tuesday, February 25, 2020, 3:00 PM</p>
+          <br>
+          <h2>Ceremony & Reception</h2>
+          <p>The Mango Farm, Antipolo</p>
+          <p class= "line">________________________________________</p>
+        <input type="text" placeholder="Name">
+        <input type="number" placeholder="# of Guests">
+        </div>
+        <button class ="accept">Accept</button>
+        <button class ="regret">Regret</button>
+      </div>
+
+      <div class="clear"></div>  
+  </div>
+</section>
+<!-- SECTION END :: RVSP -->
+
+
+<!-- SECTION :: Gallery -->
+<!-- SECTION END :: Gallery -->
+
+<!-- SECTION :: Directions -->
+<section id="waze">
+  <div class="container">
+    <h2>Directions</h2>
+      <div class="welcome-wrap">
+        <iframe src="https://embed.waze.com/iframe?zoom=16&lat=14.612021&lon=121.125493&ct=livemap" width="100%" height="600" allowfullscreen></iframe>
+
+      <div class="clear"></div> 
+      </div>
+  </div>
+</section>
+<!-- SECTION END :: Directions -->
+
 
 <?php } ?>

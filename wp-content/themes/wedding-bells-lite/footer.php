@@ -11,10 +11,7 @@
 <div class="footer-copyright">
         	<div class="container">
             	<div class="copyright-txt">
-					<?php bloginfo('name'); ?>. <?php esc_html_e('All Rights Reserved', 'wedding-bells-lite');?>           
-                </div>
-                <div class="design-by">
-				  <a href="<?php echo esc_url( __( 'https://gracethemes.com/themes/wedding-bells-lite/', 'wedding-bells-lite' ) ); ?>"><?php printf( __( 'Theme by %s', 'wedding-bells-lite' ), 'Grace Themes' ); ?></a>
+					All Rights Reserved | HanSedIDo           
                 </div>
                  <div class="clear"></div>
             </div>           
