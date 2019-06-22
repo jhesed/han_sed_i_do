@@ -26,7 +26,8 @@ section{
 	text-align:center; 
 	padding:0;
 }
-#love-story .container, #love-story-timeline .container, #rvsp .container, #waze .container{
+#love-story .container, #love-story-timeline .container, 
+#rvsp .container, #waze .container{
 	width:100%; 
 	box-sizing:border-box;
 }
@@ -95,29 +96,29 @@ input:focus {
   display: inline-block;
   width: 400px;
 }
-button {
-  color: #666;
+input.accept {
+  color: white;
   background-color: #890125;
   border: none;
   font-family: 'Raleway';
   font-size: 18px;
   font-weight: 600;
   padding: 15px 32px;
-  width: 200px;
+  width: 400px;
   margin: 20px auto 0px auto; 
   float:left;
 }
 
-button:hover {
+input.accept:hover {
   background-color: #cc919a;
   transition: .5s;
 }
-button.accept {
+input.accept {
   border-radius: 0px 0px 0px 10px;
   border-right: solid 1px #890125;
 }
 
-button.regret {
+input.regret {
   border-radius: 0px 0px 10px 0px;
 }
 button:focus {

@@ -1,0 +1,1 @@
+jQuery("#bridegroom-section").fadeIn(500);

@@ -118,6 +118,8 @@ function wedding_bells_lite_scripts() {
 	wp_enqueue_script( 'facebook-sdk', "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2&appId=532451446826037&autoLogAppEvents=1" );
 	wp_enqueue_script( 'swiper-js', "https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.min.js" );
 	wp_enqueue_script( 'timeline-js', get_template_directory_uri() . '/js/timeline.js' );
+	wp_enqueue_script( 'han-sed-i-do-js', get_template_directory_uri() . '/js/han-sed-i-do.js' );
+	wp_enqueue_script( 'rvsp-form', get_template_directory_uri() . '/js/rvsp-form.js' );
 
 	// ----------------------------------------------------->
 
@@ -191,3 +193,43 @@ require get_template_directory() . '/inc/customizer.php';
  * Load Jetpack compatibility file.
  */
 require get_template_directory() . '/inc/jetpack.php';
+
+// <---- Jhesed's own scripts ---------------------------
+
+add_action( 'wp_ajax_rvsp_submission', 'rvsp_submission' );
+add_action( 'wp_ajax_nopriv_rvsp_submission', 'rvsp_submission' );
+function rvsp_submission() {
+
+	// Initialization
+  	global $wpdb;
+    $response = array(
+    	'error' => false,
+    );
+
+	// Retrieve parameters 
+ 	$response['first_name'] = trim($wpdb->escape($_POST['first-name']));
+ 	$response['last_name'] = trim($wpdb->escape($_POST['last-name']));
+ 	$response['attendance'] = trim($wpdb->escape($_POST['attendance']));
+
+ 	// Basic validation
+ 	if (
+ 		$response['first_name'] == '' 
+ 		|| $response['last_name'] == '' 
+ 		|| $response['attendance'] == '' 
+ 	) 
+ 	{
+ 		$response['error'] = true;
+ 		exit(wp_send_json($response));
+ 	}    
+
+ 	$result = $wpdb->get_results( "SELECT * FROM jh_guests WHERE first_name = 1 or last_name = 2", $response["first_name"], $response["last_name"] );
+
+ 	$response["res"] = $result;
+ 	echo $result;
+    // ... Do some code here, like storing inputs to the database, but don't forget to properly sanitize input data!
+ 	
+    // Don't forget to exit at the end of processing
+    exit(wp_send_json($response));
+}
+
+// ---- Jhesed own scripts end ------------------------>

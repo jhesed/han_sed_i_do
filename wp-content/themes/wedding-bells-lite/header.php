@@ -247,29 +247,36 @@ if( $show_welcome_page != ''){ ?>
 <!-- SECTION :: RVSP -->
 <section id="rvsp">
   <div class="container">
+    <div class="welcome-wrap">
       <div class="top"></div>
-      <div class="form">
-        <div class ="info">
-        <h1>RSVP</h1>
-        <h2>for the wedding of</h2>
-        <h1><span>Jhesed & Hannah</span></h1>
-          <p class= "line">________________________________________</p>
-          <h2>The Details</h2>
-          <p>Tuesday, February 25, 2020, 3:00 PM</p>
-          <br>
-          <h2>Ceremony & Reception</h2>
-          <p>The Mango Farm, Antipolo</p>
-          <p class= "line">________________________________________</p>
-        <input type="text" placeholder="Name">
-        <input type="number" placeholder="# of Guests">
-        </div>
-        <button class ="accept">Accept</button>
-        <button class ="regret">Regret</button>
-      </div>
 
+      <form class="rvsp-form" method="post" action="<?php echo admin_url('admin-ajax.php'); ?>">
+        <div class="form">
+          <div class ="info">
+          <h1>RSVP</h1>
+          <h2>for the wedding of</h2>
+          <h1><span>Jhesed & Hannah</span></h1>
+            <p class= "line">________________________________________</p>
+            <h2>The Details</h2>
+            <p>Tuesday, February 25, 2020, 3:00 PM</p>
+            <br>
+            <h2>Ceremony & Reception</h2  >
+            <p>The Mango Farm, Antipolo</p>
+            <p class= "line">________________________________________</p>
+          <input type="text" placeholder="First Name" name="first-name">
+          <input type="text" placeholder="Last Name" name="last-name"> 
+          <input type="radio" id="confirm" name="attendance" value="1" checked>Confirm
+          <input type="radio" id="regret" name="attendance" value="0">Regret
+          </div>
+          <input type="hidden" name="action" value="rvsp_submission">
+          <input type="submit" class="accept">Submit
+        </div>
+      </form>
       <div class="clear"></div>  
+      </div>
   </div>
 </section>
+
 <!-- SECTION END :: RVSP -->
 
 
@@ -277,16 +284,17 @@ if( $show_welcome_page != ''){ ?>
 <!-- SECTION END :: Gallery -->
 
 <!-- SECTION :: Directions -->
-<section id="waze">
+<!-- <section id="waze">
   <div class="container">
-    <h2>Directions</h2>
       <div class="welcome-wrap">
+
+        <h2>Directions</h2>
         <iframe src="https://embed.waze.com/iframe?zoom=16&lat=14.612021&lon=121.125493&ct=livemap" width="100%" height="600" allowfullscreen></iframe>
 
-      <div class="clear"></div> 
+        <div class="clear"></div> 
       </div>
   </div>
-</section>
+</section> -->
 <!-- SECTION END :: Directions -->
 
 
