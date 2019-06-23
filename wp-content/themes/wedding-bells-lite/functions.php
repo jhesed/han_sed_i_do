@@ -199,37 +199,47 @@ require get_template_directory() . '/inc/jetpack.php';
 add_action( 'wp_ajax_rvsp_submission', 'rvsp_submission' );
 add_action( 'wp_ajax_nopriv_rvsp_submission', 'rvsp_submission' );
 function rvsp_submission() {
+	/* Handles RVSP reservation logic */
 
 	// Initialization
   	global $wpdb;
+  	$table_name = "jh_guests";
     $response = array(
     	'error' => false,
     );
+    $data = array();
 
 	// Retrieve parameters 
- 	$response['first_name'] = trim($wpdb->escape($_POST['first-name']));
- 	$response['last_name'] = trim($wpdb->escape($_POST['last-name']));
- 	$response['attendance'] = trim($wpdb->escape($_POST['attendance']));
+ 	$data['first_name'] = trim($wpdb->escape($_POST['first-name']));
+ 	$data['last_name'] = trim($wpdb->escape($_POST['last-name']));
+ 	$data['attendance'] = trim($wpdb->escape($_POST['attendance']));
 
  	// Basic validation
  	if (
- 		$response['first_name'] == '' 
- 		|| $response['last_name'] == '' 
- 		|| $response['attendance'] == '' 
+ 		$data['first_name'] == '' 
+ 		|| $data['last_name'] == '' 
+ 		|| $data['attendance'] == '' 
  	) 
  	{
- 		$response['error'] = true;
- 		exit(wp_send_json($response));
+ 		$data['error'] = true;
+ 		exit(wp_send_json($data));
  	}    
 
- 	$result = $wpdb->get_results( "SELECT * FROM jh_guests WHERE first_name = 1 or last_name = 2", $response["first_name"], $response["last_name"] );
+ 	// Data validation
+ 	$query = "SELECT id FROM $table_name WHERE first_name = '".$data["first_name"]."' or last_name = '".$data["last_name"]."'";
+ 	$result = $wpdb ->get_row($query);
 
- 	$response["res"] = $result;
- 	echo $result;
-    // ... Do some code here, like storing inputs to the database, but don't forget to properly sanitize input data!
- 	
-    // Don't forget to exit at the end of processing
-    exit(wp_send_json($response));
+ 	if ($result == null){
+ 		$response['error'] = true;
+ 		$response['ecode'] = 'NOT_FOUND';
+    	exit(wp_send_json($response));
+ 	}
+
+ 	// Update attendance value
+ 	$update_query = "UPDATE $table_name SET attendance = ".$data["attendance"]." WHERE id = %d";
+ 	$wpdb->query($wpdb->prepare($update_query, $data["attendance"]));
+ 	exit(wp_send_json($response));
+
 }
 
 // ---- Jhesed own scripts end ------------------------>
