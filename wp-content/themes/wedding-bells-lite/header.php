@@ -152,11 +152,11 @@ if( $show_welcome_page != ''){ ?>
         </span>
         <div id="rvsp-msg-error" class="isa_info" style="display:none">
             <i class="fa fa-info-circle"></i>
-            Please check your spelling or directly contact us
+            <div id="rvsp-error"></div>
         </div>
         <div id="rvsp-msg-success" class="isa_success" style="display:none">
              <i class="fa fa-check"></i>
-             Thanks! See you on our wedding!
+             <div id="rvsp-success"></div>
         </div>
 
         <label class="label-input100" for="first-name">Name *</label>

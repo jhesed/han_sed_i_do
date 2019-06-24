@@ -237,6 +237,7 @@ function rvsp_submission() {
  	$data['first_name'] = trim($wpdb->escape($_POST['first-name']));
  	$data['last_name'] = trim($wpdb->escape($_POST['last-name']));
  	$data['attendance'] = intval($wpdb->escape($_POST["attendance"]));
+ 	$response['attendance'] = $data['attendance'];
 
 	// Basic validation
  	if (

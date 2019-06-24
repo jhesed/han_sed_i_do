@@ -59,15 +59,31 @@ jQuery(document).ready(function($) {
 	              success: function(response) {
 	           		console.log(response)
 
+	           		var success1 = "Thanks! See you on our wedding!"
+	              	var success2 = "We regret that you won't be able to attend."
+	              	var error = "Please check your spelling or directly contact us."
+	              	
 	              	if (response.error == false){
+	              	
 	              		$($form)[0].reset();	              		
-	              		$("#rvsp-msg-error").hide();
-	              		$("#rvsp-msg-success").fadeIn("fast");
+		         		console.log(response.attendance)
+
+	              		if (response.attendance == 1){        		
+	              			$("#rvsp-success").html(success1);
+		              		$("#rvsp-msg-error").hide();
+		              		$("#rvsp-msg-success").fadeIn("fast");
+	              		}
+	              		else {	              				              					
+	              			$("#rvsp-error").html(success2);
+	              			$("#rvsp-msg-success").hide()
+		              		$("#rvsp-msg-error").fadeIn("slow");	
+	              		}
 	              	}
-	              	else{	              		         		
-	              		$("#rvsp-msg-success").hide()
-	              		$("#rvsp-msg-error").fadeIn("slow");	
-	              	}
+	              	else{	              		 	              				
+	              			$("#rvsp-error").html(error);
+	              			$("#rvsp-msg-success").hide()
+		              		$("#rvsp-msg-error").fadeIn("slow");	
+		              }
 	              }
 	          });
 	      }
