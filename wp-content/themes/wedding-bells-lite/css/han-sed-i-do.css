@@ -8,8 +8,8 @@ body{
 }
 div.hsid{
  	font-family: 'Great Vibes', Helvetica, sans-serif;
-  	font-size: 25px;
-  	text-shadow: 1px 1px 1px rgba(0,0,0,0.1); 
+  font-size: 25px;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.1); 
 }
 .hsid-break-line{
 	overflow-wrap: break-word;
@@ -20,7 +20,7 @@ div.hsid{
 section{
 	padding-top:30px;
 }
-#love-story, #love-story-timeline, #rvsp, #waze{
+#love-story, #love-story-timeline, #waze{
 	height:auto;
 	background-color:#f1f1f1; 
 	text-align:center; 
@@ -33,6 +33,12 @@ section{
 }
 
 /* --------------------------- RVSP :: START ------------------------------*/
+
+button#rvsp-regret{
+  background:#890125;
+}
+
+/*
 #rvsp .container {
 height: 100%;
 width: 100%;
@@ -124,3 +130,4 @@ input.regret {
 button:focus {
   outline: 0;
 }
+*/

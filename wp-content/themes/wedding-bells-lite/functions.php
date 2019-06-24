@@ -108,18 +108,46 @@ function wedding_bells_lite_scripts() {
 
 	// <---- Jhesed's own scripts ---------------------------
 	
+	// ---------------------------------- Styles --------------------------------------------
+
 	wp_enqueue_style( 'timeline-normalize-css', "https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" );
 	wp_enqueue_style( 'custom-google-fonts', 'https://fonts.googleapis.com/css?family=Great+Vibes', false );	
 	wp_enqueue_style( 'timeline-fonts', 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800', false );	
 	wp_enqueue_style( 'swiper-css', "https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css");
 	wp_enqueue_style( 'timeline-css', get_template_directory_uri()."/css/timeline.css" );
-	wp_enqueue_style( 'han-sed-i-do', get_template_directory_uri()."/css/han-sed-i-do.css" );
 
+	// Contact Form
+	wp_enqueue_style( 'font-awesome', get_template_directory_uri()."/fonts/font-awesome-4.7.0/css/font-awesome.min.css" );
+	wp_enqueue_style( 'font-linear', get_template_directory_uri()."/fonts/Linearicons-Free-v1.0.0/icon-font.min.css" );
+	wp_enqueue_style( 'css-animate', get_template_directory_uri()."/vendor/animate/animate.css" );
+	wp_enqueue_style( 'css-hamburgers', get_template_directory_uri()."/vendor/css-hamburgers/hamburgers.min.css" );
+	wp_enqueue_style( 'css-animsition', get_template_directory_uri()."/vendor/animsition/css/animsition.min.css" );
+	wp_enqueue_style( 'css-select', get_template_directory_uri()."/vendor/select2/select2.min.css" );
+	wp_enqueue_style( 'css-contact-form-util', get_template_directory_uri()."/css/contact-form-utils.css" );
+	wp_enqueue_style( 'css-contact-form', get_template_directory_uri()."/css/contact-form.css" );
+
+
+	// Jhesed style
+	wp_enqueue_style( 'han-sed-i-do-css', get_template_directory_uri()."/css/han-sed-i-do.css" );
+
+
+	// ------------------------------------ JS ---------------------------------------------
+
+	// Contact us
+	wp_enqueue_script( 'timeline-js', get_template_directory_uri() . '/vendor/animsition/js/animsition.min.js' );
+	wp_enqueue_script( 'timeline-js', get_template_directory_uri() . '/vendor/bootstrap/js/popper.js' );
+	wp_enqueue_script( 'timeline-js', get_template_directory_uri() . '/vendor/bootstrap/js/bootstrap.min.js' );
+	wp_enqueue_script( 'timeline-js', get_template_directory_uri() . '/js/contact-form.js' );		
+
+
+	// facebook
 	wp_enqueue_script( 'facebook-sdk', "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2&appId=532451446826037&autoLogAppEvents=1" );
 	wp_enqueue_script( 'swiper-js', "https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.min.js" );
 	wp_enqueue_script( 'timeline-js', get_template_directory_uri() . '/js/timeline.js' );
 	wp_enqueue_script( 'han-sed-i-do-js', get_template_directory_uri() . '/js/han-sed-i-do.js' );
+
 	wp_enqueue_script( 'rvsp-form', get_template_directory_uri() . '/js/rvsp-form.js' );
+	wp_localize_script( 'rvsp-form', 'admin_url', array('ajax_url' => admin_url( 'admin-ajax.php' ) ) );	
 
 	// ----------------------------------------------------->
 
@@ -212,13 +240,12 @@ function rvsp_submission() {
 	// Retrieve parameters 
  	$data['first_name'] = trim($wpdb->escape($_POST['first-name']));
  	$data['last_name'] = trim($wpdb->escape($_POST['last-name']));
- 	$data['attendance'] = trim($wpdb->escape($_POST['attendance']));
+ 	$data['attendance'] = intval($wpdb->escape($_POST["attendance"]));
 
- 	// Basic validation
+	// Basic validation
  	if (
  		$data['first_name'] == '' 
- 		|| $data['last_name'] == '' 
- 		|| $data['attendance'] == '' 
+ 		|| $data['last_name'] == ''  
  	) 
  	{
  		$data['error'] = true;
@@ -237,7 +264,7 @@ function rvsp_submission() {
 
  	// Update attendance value
  	$update_query = "UPDATE $table_name SET attendance = ".$data["attendance"]." WHERE id = %d";
- 	$wpdb->query($wpdb->prepare($update_query, $data["attendance"]));
+ 	$wpdb->query($wpdb->prepare($update_query, $result->id));
  	exit(wp_send_json($response));
 
 }
