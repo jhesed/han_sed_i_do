@@ -15,9 +15,6 @@ jQuery(document).ready(function($) {
 	            }
 	        }
 
-	        return check;
-
-
 		    $('.validate-form .input100').each(function(){
 		        $(this).focus(function(){
 		           hideValidate(this);
@@ -51,21 +48,29 @@ jQuery(document).ready(function($) {
 		    
           // Form Submisstion ------------------------------------
 
-          $form = "#hs-rvsp-form"
-          var _data = $($form).serialize()+'&attendance=' + $(this).val();
-         
-          $.ajax({
-              type: 'POST',
-              url: admin_url.ajax_url,
-              data: _data,
-              success: function(response) {
-           		console.log(response)
+          if (check == true){
+	          $form = "#hs-rvsp-form"
+	          var _data = $($form).serialize()+'&attendance=' + $(this).val();
+	         
+	          $.ajax({
+	              type: 'POST',
+	              url: admin_url.ajax_url,
+	              data: _data,
+	              success: function(response) {
+	           		console.log(response)
 
-              	if (response.error == false){
-              		$($form)[0].reset();
-              	}
-              }
-          });
+	              	if (response.error == false){
+	              		$($form)[0].reset();	              		
+	              		$("#rvsp-msg-error").hide();
+	              		$("#rvsp-msg-success").fadeIn("fast");
+	              	}
+	              	else{	              		         		
+	              		$("#rvsp-msg-success").hide()
+	              		$("#rvsp-msg-error").fadeIn("slow");	
+	              	}
+	              }
+	          });
+	      }
           return false;
       });
   });

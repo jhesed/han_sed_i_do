@@ -145,17 +145,26 @@ if( $show_welcome_page != ''){ ?>
 <section id="rvsp" class="animsition">
   <div class="container-contact100">
     <div class="wrap-contact100">
+
       <form id="hs-rvsp-form" class="contact100-form validate-form rvsp-form" method="post">
         <span class="contact100-form-title">
           RVSP
         </span>
+        <div id="rvsp-msg-error" class="isa_info" style="display:none">
+            <i class="fa fa-info-circle"></i>
+            Please check your spelling or directly contact us
+        </div>
+        <div id="rvsp-msg-success" class="isa_success" style="display:none">
+             <i class="fa fa-check"></i>
+             Thanks! See you on our wedding!
+        </div>
 
         <label class="label-input100" for="first-name">Name *</label>
-        <div class="wrap-input100 rs1-wrap-input100 validate-input" data-validate="Type first name">
+        <div class="wrap-input100 rs1-wrap-input100 validate-input" data-validate="Required">
           <input id="first-name" class="input100" type="text" name="first-name" placeholder="First name">
           <span class="focus-input100"></span>
         </div>
-        <div class="wrap-input100 rs2-wrap-input100 validate-input" data-validate="Type last name">
+        <div class="wrap-input100 rs2-wrap-input100 validate-input" data-validate="Required">
           <input class="input100" type="text" name="last-name" placeholder="Last name">
           <span class="focus-input100"></span>
         </div>
