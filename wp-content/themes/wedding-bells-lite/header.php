@@ -142,7 +142,7 @@ if( $show_welcome_page != ''){ ?>
 
 
 <!-- SECTION :: RVSP -->
-<section id="rvsp">
+<section id="rvsp" class="animsition">
   <div class="container-contact100">
     <div class="wrap-contact100">
       <form id="hs-rvsp-form" class="contact100-form validate-form rvsp-form" method="post">

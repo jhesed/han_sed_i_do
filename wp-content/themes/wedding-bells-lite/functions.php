@@ -121,7 +121,6 @@ function wedding_bells_lite_scripts() {
 	wp_enqueue_style( 'font-linear', get_template_directory_uri()."/fonts/Linearicons-Free-v1.0.0/icon-font.min.css" );
 	wp_enqueue_style( 'css-animate', get_template_directory_uri()."/vendor/animate/animate.css" );
 	wp_enqueue_style( 'css-hamburgers', get_template_directory_uri()."/vendor/css-hamburgers/hamburgers.min.css" );
-	wp_enqueue_style( 'css-animsition', get_template_directory_uri()."/vendor/animsition/css/animsition.min.css" );
 	wp_enqueue_style( 'css-select', get_template_directory_uri()."/vendor/select2/select2.min.css" );
 	wp_enqueue_style( 'css-contact-form-util', get_template_directory_uri()."/css/contact-form-utils.css" );
 	wp_enqueue_style( 'css-contact-form', get_template_directory_uri()."/css/contact-form.css" );
@@ -134,11 +133,8 @@ function wedding_bells_lite_scripts() {
 	// ------------------------------------ JS ---------------------------------------------
 
 	// Contact us
-	wp_enqueue_script( 'timeline-js', get_template_directory_uri() . '/vendor/animsition/js/animsition.min.js' );
-	wp_enqueue_script( 'timeline-js', get_template_directory_uri() . '/vendor/bootstrap/js/popper.js' );
-	wp_enqueue_script( 'timeline-js', get_template_directory_uri() . '/vendor/bootstrap/js/bootstrap.min.js' );
-	wp_enqueue_script( 'timeline-js', get_template_directory_uri() . '/js/contact-form.js' );		
-
+	wp_enqueue_script( 'popper-js', get_template_directory_uri() . '/vendor/bootstrap/js/popper.js' );
+	wp_enqueue_script( 'bootstrap-js', get_template_directory_uri() . '/vendor/bootstrap/js/bootstrap.min.js' );
 
 	// facebook
 	wp_enqueue_script( 'facebook-sdk', "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2&appId=532451446826037&autoLogAppEvents=1" );
