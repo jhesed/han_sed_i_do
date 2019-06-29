@@ -111,34 +111,30 @@ wp_reset_postdata(); ?>
 <div class="clear"></div>        
 <?php } ?>
 <?php } } ?>
-       
-        
-<?php if ( is_front_page() && ! is_home() ) {
-if( $show_welcome_page != ''){ ?>  
-    <section id="welcome-section">
-              <div class="container">
-                    <div class="welcome-wrap">                            
-                        <?php if( get_theme_mod('welcome_page',false)) { ?>          
-                            <?php $queryvar = new WP_Query('page_id='.absint(get_theme_mod('welcome_page',true)) ); ?>        
-                                    <?php while( $queryvar->have_posts() ) : $queryvar->the_post(); ?>                                      
-                                     <div class="welcome-content">
-                                       <a href="<?php the_permalink(); ?>"><h3><?php the_title(); ?></h3></a>
+  
 
-                                        <div class="hsid-break-line">❤️❤️❤️</div>
-                                        <div class="hsid">I can't wait to see you walking in the aisle...</div>
-                                        <div class="hsid hsid-padding hsid-break">And hold my hand to be my forever</div>
-                                        <div class="wedding-date">2020-02-25</div>
-                                        <div class="clear"></div>
-
-                                    </div>                                      
-                                    <?php endwhile;
-                                       wp_reset_postdata(); ?>                                    
-                              <?php } ?>                                 
-                    <div class="clear"></div>  
-                </div><!-- fashioner-wrap-->            
-            </div><!-- container -->
-       </section><!-- #welcome-section -->
-<?php } ?>
+<!-- SECTION :: Countdown Timer -->
+<section id="countdown">
+<div class="main-area-wrapper">
+    <div class="main-area center-text" >
+      
+      <div class="display-table">
+        <div class="display-table-cell">
+          
+          <h1 class="countdown-timer"><b>Road to Forever</b></h1>
+          <p class="desc font-white">I can't wait to see you walking in the aisle...</p>
+          <p class="desc font-white">And hold my hand to be my forever</p>
+          
+          <div id="normal-countdown" data-date="2020/02/25"></div>
+          
+          <a class="notify-btn" href="#rvsp"><b>RVSP</b></a>
+          
+        </div><!-- display-table -->
+      </div><!-- display-table-cell -->
+    </div><!-- main-area -->
+  </div><!-- main-area-wrapper -->
+</section>
+<!-- SECTION END :: Countdown Timer -->
 
 
 <!-- SECTION :: RVSP -->
@@ -255,6 +251,3 @@ if( $show_welcome_page != ''){ ?>
   </div>
 </section> -->
 <!-- SECTION END :: Directions -->
-
-
-<?php } ?>

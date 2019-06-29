@@ -116,6 +116,11 @@ function wedding_bells_lite_scripts() {
 	wp_enqueue_style( 'swiper-css', "https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css");
 	wp_enqueue_style( 'timeline-css', get_template_directory_uri()."/css/timeline.css" );
 
+	// Countdown Timer
+	wp_enqueue_style( 'css-ionicons', get_template_directory_uri()."/css/ionicons.css" );
+	wp_enqueue_style( 'css-classy-countdown-timer', get_template_directory_uri()."/css/jquery.classycountdown.css" );
+	wp_enqueue_style( 'css-countdown-timer', get_template_directory_uri()."/css/countdown.css" );
+
 	// Contact Form
 	wp_enqueue_style( 'font-awesome', get_template_directory_uri()."/fonts/font-awesome-4.7.0/css/font-awesome.min.css" );
 	wp_enqueue_style( 'font-linear', get_template_directory_uri()."/fonts/Linearicons-Free-v1.0.0/icon-font.min.css" );
@@ -132,9 +137,13 @@ function wedding_bells_lite_scripts() {
 
 	// ------------------------------------ JS ---------------------------------------------
 
-	// Contact us
+	// Common - Contact us
 	wp_enqueue_script( 'popper-js', get_template_directory_uri() . '/vendor/bootstrap/js/popper.js' );
 	wp_enqueue_script( 'bootstrap-js', get_template_directory_uri() . '/vendor/bootstrap/js/bootstrap.min.js' );
+
+	// Countdown Timer
+	wp_enqueue_script( 'jquery-countdown-js', get_template_directory_uri() . '/js/jquery.countdown.min.js' );
+	wp_enqueue_script( 'countdown-js', get_template_directory_uri() . '/js/countdown-timer.js' );
 
 	// facebook
 	wp_enqueue_script( 'facebook-sdk', "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2&appId=532451446826037&autoLogAppEvents=1" );
@@ -234,8 +243,9 @@ function rvsp_submission() {
     $data = array();
 
 	// Retrieve parameters 
- 	$data['first_name'] = trim($wpdb->escape($_POST['first-name']));
- 	$data['last_name'] = trim($wpdb->escape($_POST['last-name']));
+ 	$data['first_name'] = strtolower(trim($wpdb->escape($_POST['first-name'])));
+ 	$data['last_name'] = strtolower(trim($wpdb->escape($_POST['last-name'])));
+ 	$data['message'] = trim($wpdb->escape($_POST['message']));
  	$data['attendance'] = intval($wpdb->escape($_POST["attendance"]));
  	$response['attendance'] = $data['attendance'];
 
@@ -250,7 +260,7 @@ function rvsp_submission() {
  	}    
 
  	// Data validation
- 	$query = "SELECT id FROM $table_name WHERE first_name = '".$data["first_name"]."' or last_name = '".$data["last_name"]."'";
+ 	$query = "SELECT id FROM $table_name WHERE first_name = '".$data["first_name"]."' and last_name = '".$data["last_name"]."'";
  	$result = $wpdb ->get_row($query);
 
  	if ($result == null){
@@ -260,10 +270,14 @@ function rvsp_submission() {
  	}
 
  	// Update attendance value
- 	$update_query = "UPDATE $table_name SET attendance = ".$data["attendance"]." WHERE id = %d";
+ 	$update_query = "UPDATE $table_name SET attendance = ".$data["attendance"].", message = ".$data["message"]." WHERE id = %d";
  	$wpdb->query($wpdb->prepare($update_query, $result->id));
- 	exit(wp_send_json($response));
 
+ 	// Send confirmation email
+	$message = file_get_contents( get_template_directory() . '/emails/rvsp/confirmation.html');
+	mail($result->email, "[han-sed-i-do] Attendance Confirmation", $message); 
+
+ 	exit(wp_send_json($response));
 }
 
 // ---- Jhesed own scripts end ------------------------>
