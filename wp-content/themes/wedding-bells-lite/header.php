@@ -97,12 +97,14 @@ while( $slidequery->have_posts() ) : $slidequery->the_post(); ?>
     <div id="slidecaption<?php echo $j; ?>" class="nivo-html-caption">
         <div class="slide_info">
             <h2><?php the_title(); ?></h2>
-            <p><?php echo esc_html( wp_trim_words( get_the_content(), 20, '' ) );  ?></p> 
+            <p class="input100 white"><?php echo esc_html( wp_trim_words( get_the_content(), 500, '' ) );  ?></p>
+           
             <?php
      $slider_readmore = get_theme_mod('slider_readmore');
      if( !empty($slider_readmore) ){ ?>
           <a class="slide_more" href="<?php the_permalink(); ?>"><?php echo esc_html($slider_readmore); ?></a>
-       <?php } ?>                            
+       <?php } ?> 
+                                       
         </div>
     </div>      
 <?php $j++; 
@@ -111,7 +113,58 @@ wp_reset_postdata(); ?>
 <div class="clear"></div>        
 <?php } ?>
 <?php } } ?>
-  
+
+
+
+<!-- SECTION :: Couple -->
+<section id="welcome-section">
+    <div class="container">
+          <div class="welcome-wrap">                            
+              <?php if( get_theme_mod('welcome_page',false)) { ?>          
+                  <?php $queryvar = new WP_Query('page_id='.absint(get_theme_mod('welcome_page',true)) ); ?>        
+                          <?php while( $queryvar->have_posts() ) : $queryvar->the_post(); ?>                                      
+                           <div class="welcome-content">
+                             <a href="<?php the_permalink(); ?>"><h3>The Wedding Couple</h3></a>
+
+                              <div class="hsid-break-line">❤️❤️❤️</div>
+                              <div class="hsid">I can't wait to see you walking in the aisle...</div>
+                              <div class="hsid hsid-padding hsid-break">And hold my hand to be my forever</div>
+                              <div class="clear"></div>
+
+                          </div>                                      
+                          <?php endwhile;
+                             wp_reset_postdata(); ?>                                    
+                    <?php } ?>                                 
+          <div class="clear"></div>  
+      </div><!-- fashioner-wrap-->            
+  </div><!-- container -->
+</section><!-- #welcome-section -->
+
+<section id="bridegroom-section">
+  <div class="container">
+    <div class="welcome-wrap">
+        <div class="hearticon"></div>                        
+        <?php for($n=4; $n<=5; $n++) { ?>    
+        <?php if( get_theme_mod('services-pagebox'.$n,false)) { ?>          
+            <?php $queryvar = new WP_Query('page_id='.absint(get_theme_mod('services-pagebox'.$n,true)) ); ?>       
+                    <?php while( $queryvar->have_posts() ) : $queryvar->the_post(); ?> 
+                    <div class="twocolumnbox <?php if($n % 2 == 1) { echo "last_column"; } ?>">                                    
+                      <?php if(has_post_thumbnail() ) { ?>
+                        <div class="thumbbx"><a href="<?php the_permalink(); ?>"><?php the_post_thumbnail();?></a></div>
+                      <?php } ?>
+                     <div class="pagecontent">
+                     <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>                                     
+                     <p><?php echo get_the_content();  ?></p>                                     
+                     </div>                                   
+                    </div>
+                    <?php endwhile;
+                       wp_reset_postdata(); ?>                                    
+              <?php } } ?>                             
+                        
+        <div class="clear"></div>  
+    </div><!-- .welcome-wrap--> 
+  </div><!-- .container -->                  
+</section><!-- .bridegroom-section-->   
 
 <!-- SECTION :: Countdown Timer -->
 <section id="countdown">
@@ -122,8 +175,8 @@ wp_reset_postdata(); ?>
         <div class="display-table-cell">
           
           <h1 class="countdown-timer"><b>Road to Forever</b></h1>
-          <p class="desc font-white">I can't wait to see you walking in the aisle...</p>
-          <p class="desc font-white">And hold my hand to be my forever</p>
+          <p class="desc font-white">“In the end, it's not the years in your life that count. It's the life in your years.”</p>
+          <p class="desc font-white"><i>– Abraham Lincoln</i></p>
           
           <div id="normal-countdown" data-date="2020/02/25"></div>
           
@@ -135,7 +188,6 @@ wp_reset_postdata(); ?>
   </div><!-- main-area-wrapper -->
 </section>
 <!-- SECTION END :: Countdown Timer -->
-
 
 <!-- SECTION :: RVSP -->
 <section id="rvsp" class="animsition">

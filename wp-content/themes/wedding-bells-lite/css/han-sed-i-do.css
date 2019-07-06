@@ -8,7 +8,7 @@ body{
 }
 div.hsid{
  	font-family: 'Great Vibes', Helvetica, sans-serif;
-  font-size: 25px;
+  font-size: 40px;
   text-shadow: 1px 1px 1px rgba(0,0,0,0.1); 
 }
 .hsid-break-line{
@@ -16,9 +16,6 @@ div.hsid{
 }
 .hsid-padding{
 	/*padding-bottom: 20px;*/
-}
-section{
-	/*padding-top:30px;*/
 }
 #love-story, #love-story-timeline, #waze{
 	padding:20px;
@@ -33,7 +30,12 @@ section{
 	width:100%; 
 	box-sizing:border-box;
 }
-
+.white{
+  color: white  ;
+}
+section#bridegroom-section{
+  padding: 30px;
+}
 /* --------------------------- Message box :: START ------------------------------*/
 
 .isa_info, .isa_success, .isa_warning, .isa_error {

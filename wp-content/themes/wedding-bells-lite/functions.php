@@ -110,11 +110,11 @@ function wedding_bells_lite_scripts() {
 	
 	// ---------------------------------- Styles --------------------------------------------
 
-	wp_enqueue_style( 'timeline-normalize-css', "https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" );
+	// wp_enqueue_style( 'timeline-normalize-css', "https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" );
 	wp_enqueue_style( 'custom-google-fonts', 'https://fonts.googleapis.com/css?family=Great+Vibes', false );	
-	wp_enqueue_style( 'timeline-fonts', 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800', false );	
-	wp_enqueue_style( 'swiper-css', "https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css");
-	wp_enqueue_style( 'timeline-css', get_template_directory_uri()."/css/timeline.css" );
+	// wp_enqueue_style( 'timeline-fonts', 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800', false );	
+	// wp_enqueue_style( 'swiper-css', "https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css");
+	// wp_enqueue_style( 'timeline-css', get_template_directory_uri()."/css/timeline.css" );
 
 	// Countdown Timer
 	wp_enqueue_style( 'css-ionicons', get_template_directory_uri()."/css/ionicons.css" );
