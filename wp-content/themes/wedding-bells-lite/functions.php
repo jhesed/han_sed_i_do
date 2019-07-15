@@ -110,16 +110,15 @@ function wedding_bells_lite_scripts() {
 	
 	// ---------------------------------- Styles --------------------------------------------
 
-	// wp_enqueue_style( 'timeline-normalize-css', "https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" );
 	wp_enqueue_style( 'custom-google-fonts', 'https://fonts.googleapis.com/css?family=Great+Vibes', false );	
-	// wp_enqueue_style( 'timeline-fonts', 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800', false );	
-	// wp_enqueue_style( 'swiper-css', "https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css");
-	// wp_enqueue_style( 'timeline-css', get_template_directory_uri()."/css/timeline.css" );
 
 	// Countdown Timer
 	wp_enqueue_style( 'css-ionicons', get_template_directory_uri()."/css/ionicons.css" );
 	wp_enqueue_style( 'css-classy-countdown-timer', get_template_directory_uri()."/css/jquery.classycountdown.css" );
 	wp_enqueue_style( 'css-countdown-timer', get_template_directory_uri()."/css/countdown.css" );
+
+ 	// timeline
+	wp_enqueue_style( 'css-timeline', get_template_directory_uri()."/css/timeline.css" );
 
 	// Contact Form
 	wp_enqueue_style( 'font-awesome', get_template_directory_uri()."/fonts/font-awesome-4.7.0/css/font-awesome.min.css" );
@@ -128,8 +127,8 @@ function wedding_bells_lite_scripts() {
 	wp_enqueue_style( 'css-hamburgers', get_template_directory_uri()."/vendor/css-hamburgers/hamburgers.min.css" );
 	wp_enqueue_style( 'css-select', get_template_directory_uri()."/vendor/select2/select2.min.css" );
 	wp_enqueue_style( 'css-contact-form-util', get_template_directory_uri()."/css/contact-form-utils.css" );
-	wp_enqueue_style( 'css-contact-form', get_template_directory_uri()."/css/contact-form.css" );
 
+	wp_enqueue_style( 'css-contact-form', get_template_directory_uri()."/css/contact-form.css" );
 
 	// Jhesed style
 	wp_enqueue_style( 'han-sed-i-do-css', get_template_directory_uri()."/css/han-sed-i-do.css" );
@@ -146,13 +145,21 @@ function wedding_bells_lite_scripts() {
 	wp_enqueue_script( 'countdown-js', get_template_directory_uri() . '/js/countdown-timer.js' );
 
 	// facebook
-	wp_enqueue_script( 'facebook-sdk', "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2&appId=532451446826037&autoLogAppEvents=1" );
-	wp_enqueue_script( 'swiper-js', "https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.min.js" );
-	wp_enqueue_script( 'timeline-js', get_template_directory_uri() . '/js/timeline.js' );
-	wp_enqueue_script( 'han-sed-i-do-js', get_template_directory_uri() . '/js/han-sed-i-do.js' );
+	// wp_enqueue_script( 'facebook-sdk', "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2&appId=532451446826037&autoLogAppEvents=1" );
 
+
+	// timeline
+	wp_enqueue_script( 'timeline-js', get_template_directory_uri() . '/js/timeline.js' );	
+	wp_enqueue_script( 'timeline-js-script', get_template_directory_uri() . '/js/timeline-script.js' );
+
+
+	// RVSP
 	wp_enqueue_script( 'rvsp-form', get_template_directory_uri() . '/js/rvsp-form.js' );
 	wp_localize_script( 'rvsp-form', 'admin_url', array('ajax_url' => admin_url( 'admin-ajax.php' ) ) );	
+
+	// Jhesed style
+	wp_enqueue_script( 'han-sed-i-do-js', get_template_directory_uri() . '/js/han-sed-i-do.js' );
+
 
 	// ----------------------------------------------------->
 

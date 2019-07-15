@@ -189,6 +189,236 @@ wp_reset_postdata(); ?>
 </section>
 <!-- SECTION END :: Countdown Timer -->
 
+
+<!-- SECTION :: Timeline  -->
+<section id="timeline-section">
+    <div class="timeLine">
+      <div class="row">
+          <div class="lineHeader hidden-sm hidden-xs"></div>
+          <div class="lineFooter hidden-sm hidden-xs"></div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
+            <div class="caption">
+              <div class="star center-block">
+                <span class="h4">2007</span>
+              </div>
+              <div class="image">
+                <img src="<?php echo esc_url( get_template_directory_uri() ) ; ?>/images/timeline/2007.jpeg">
+                <div class="title">
+                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                </div>
+              </div>
+              <div class="textContent">
+                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
+            <div class="caption">
+              <div class="star center-block">
+                <span class="h4">2008</span>
+              </div>
+              <div class="image">
+                <img src="https://picsum.photos/600/400/?random">
+                <div class="title">
+                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                </div>
+              </div>
+              <div class="textContent">
+                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
+            <div class="caption">
+              <div class="star center-block">
+                <span class="h4">2009</span>
+              </div>
+              <div class="image">
+                <img src="https://picsum.photos/600/400/?random">
+                <div class="title">
+                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                </div>
+              </div>
+              <div class="textContent">
+                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
+            <div class="caption">
+              <div class="star center-block">
+                <span class="h4">2010</span>
+              </div>
+              <div class="image">
+                <img src="https://picsum.photos/600/400/?random">
+                <div class="title">
+                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                </div>
+              </div>
+              <div class="textContent">
+                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
+            <div class="caption">
+              <div class="star center-block">
+                <span class="h4">2011</span>
+              </div>
+              <div class="image">
+                <img src="https://picsum.photos/600/400/?random">
+                <div class="title">
+                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                </div>
+              </div>
+              <div class="textContent">
+                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
+            <div class="caption">
+              <div class="star center-block">
+                <span class="h4">2012</span>
+              </div>
+              <div class="image">
+                <img src="https://picsum.photos/600/400/?random">
+                <div class="title">
+                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                </div>
+              </div>
+              <div class="textContent">
+                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
+            <div class="caption">
+              <div class="star center-block">
+                <span class="h4">2013</span>
+              </div>
+              <div class="image">
+                <img src="https://picsum.photos/600/400/?random">
+                <div class="title">
+                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                </div>
+              </div>
+              <div class="textContent">
+                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
+            <div class="caption">
+              <div class="star center-block">
+                <span class="h4">2014</span>
+              </div>
+              <div class="image">
+                <img src="https://picsum.photos/600/400/?random">
+                <div class="title">
+                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                </div>
+              </div>
+              <div class="textContent">
+                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
+            <div class="caption">
+              <div class="star center-block">
+                <span class="h4">2015</span>
+              </div>
+              <div class="image">
+                <img src="https://picsum.photos/600/400/?random">
+                <div class="title">
+                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                </div>
+              </div>
+              <div class="textContent">
+                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
+            <div class="caption">
+              <div class="star center-block">
+                <span class="h4">2016</span>
+              </div>
+              <div class="image">
+                <img src="https://picsum.photos/600/400/?random">
+                <div class="title">
+                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                </div>
+              </div>
+              <div class="textContent">
+                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
+            <div class="caption">
+              <div class="star center-block">
+                <span class="h4">2017</span>
+              </div>
+              <div class="image">
+                <img src="https://picsum.photos/600/400/?random">
+                <div class="title">
+                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                </div>
+              </div>
+              <div class="textContent">
+                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item">
+            <div class="caption">
+              <div class="star center-block">
+                <span class="h4">19</span>
+                <span>Jan</span>
+                <span>2019</span>
+              </div>
+              <div class="image">
+                <video src="<?php echo esc_url( get_template_directory_uri() ) ; ?>/videos/proposal-love-story.mp4"></video>
+                <div class="title">
+                  <h2>Hope <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h2>
+                </div>
+              </div>
+              <div class="textContent">
+                <p class="lead">Dreams are always growing up by hope. This is the last thing that i can not get rid of it just because i believe in myself and my abilities.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
+            <div class="caption">
+              <div class="star center-block">
+                <span class="h4">2019</span>
+              </div>
+              <div class="image">
+                <img src="https://picsum.photos/600/400/?random">
+                <div class="title">
+                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                </div>
+              </div>
+              <div class="textContent">
+                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
+              </div>
+            </div>
+          </div>
+          
+      </div>
+    </div>
+</section>
+
+
+<!-- SECTION END :: Timeline  -->
+
 <!-- SECTION :: RVSP -->
 <section id="rvsp" class="animsition">
   <div class="container-contact100">
