@@ -110,8 +110,11 @@ function wedding_bells_lite_scripts() {
 	
 	// ---------------------------------- Styles --------------------------------------------
 
+	// Fonts
 	wp_enqueue_style( 'custom-google-fonts', 'https://fonts.googleapis.com/css?family=Great+Vibes', false );	
-
+	wp_enqueue_style( 'sticky-note-fonts', 'http://fonts.googleapis.com/css?family=Reenie+Beanie:regular
+', false );	
+	
 	// Countdown Timer
 	wp_enqueue_style( 'css-ionicons', get_template_directory_uri()."/css/ionicons.css" );
 	wp_enqueue_style( 'css-classy-countdown-timer', get_template_directory_uri()."/css/jquery.classycountdown.css" );
@@ -129,6 +132,10 @@ function wedding_bells_lite_scripts() {
 	wp_enqueue_style( 'css-contact-form-util', get_template_directory_uri()."/css/contact-form-utils.css" );
 
 	wp_enqueue_style( 'css-contact-form', get_template_directory_uri()."/css/contact-form.css" );
+
+	// Sticky notes (FAQ)
+	wp_enqueue_style( 'sticky-notes-css', get_template_directory_uri()."/css/sticky-notes.css" );
+
 
 	// Jhesed style
 	wp_enqueue_style( 'han-sed-i-do-css', get_template_directory_uri()."/css/han-sed-i-do.css" );
@@ -267,7 +274,7 @@ function rvsp_submission() {
  	}    
 
  	// Data validation
- 	$query = "SELECT id FROM $table_name WHERE first_name = '".$data["first_name"]."' and last_name = '".$data["last_name"]."'";
+ 	$query = "SELECT * FROM $table_name WHERE first_name = '".$data["first_name"]."' and last_name = '".$data["last_name"]."'";
  	$result = $wpdb ->get_row($query);
 
  	if ($result == null){
@@ -277,11 +284,12 @@ function rvsp_submission() {
  	}
 
  	// Update attendance value
- 	$update_query = "UPDATE $table_name SET attendance = ".$data["attendance"].", message = ".$data["message"]." WHERE id = %d";
+ 	$update_query = "UPDATE $table_name SET attendance = ".$data["attendance"].", message = '".$data["message"]."' WHERE id = %d";
  	$wpdb->query($wpdb->prepare($update_query, $result->id));
 
  	// Send confirmation email
 	$message = file_get_contents( get_template_directory() . '/emails/rvsp/confirmation.html');
+
 	mail($result->email, "[han-sed-i-do] Attendance Confirmation", $message); 
 
  	exit(wp_send_json($response));

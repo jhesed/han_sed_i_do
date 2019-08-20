@@ -40,6 +40,13 @@ section#timeline-section{
   width:70%;
   margin: auto;
 }
+div.waze-qr{
+  height:100px;
+  width:100px;
+}
+.faq-section{
+  width:100%;
+}
 /* --------------------------- Message box :: START ------------------------------*/
 
 .isa_info, .isa_success, .isa_warning, .isa_error {

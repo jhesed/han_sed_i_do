@@ -18,6 +18,7 @@
 <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
+
 <?php
 $show_slider        = get_theme_mod('show_slider', false);
 $show_servicesbox       = get_theme_mod('show_servicesbox', false);
@@ -200,218 +201,157 @@ wp_reset_postdata(); ?>
           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
             <div class="caption">
               <div class="star center-block">
-                <span class="h4">2007</span>
-              </div>
-              <div class="image">
-                <img src="<?php echo esc_url( get_template_directory_uri() ) ; ?>/images/timeline/2007.jpeg">
-                <div class="title">
-                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
-                </div>
-              </div>
-              <div class="textContent">
-                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
-            <div class="caption">
-              <div class="star center-block">
                 <span class="h4">2008</span>
               </div>
               <div class="image">
-                <img src="https://picsum.photos/600/400/?random">
+                <img src="<?php echo esc_url( get_template_directory_uri() ) ; ?>/images/timeline/2008.png">
                 <div class="title">
-                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                  <h3>3rd Year Prom
                 </div>
               </div>
-              <div class="textContent">
-                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
               </div>
-            </div>
           </div>
+
           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
             <div class="caption">
               <div class="star center-block">
                 <span class="h4">2009</span>
               </div>
               <div class="image">
-                <img src="https://picsum.photos/600/400/?random">
+                <img src="<?php echo esc_url( get_template_directory_uri() ) ; ?>/images/timeline/2009.png">
                 <div class="title">
-                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                  <h3>4th year Prom
                 </div>
               </div>
-              <div class="textContent">
-                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
               </div>
-            </div>
           </div>
+
           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
             <div class="caption">
               <div class="star center-block">
                 <span class="h4">2010</span>
               </div>
               <div class="image">
-                <img src="https://picsum.photos/600/400/?random">
+                <img src="<?php echo esc_url( get_template_directory_uri() ) ; ?>/images/timeline/2010.png">
                 <div class="title">
-                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                  <h3>YP Overnight
                 </div>
               </div>
-              <div class="textContent">
-                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
               </div>
-            </div>
           </div>
+
           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
             <div class="caption">
               <div class="star center-block">
                 <span class="h4">2011</span>
               </div>
               <div class="image">
-                <img src="https://picsum.photos/600/400/?random">
+                <img src="<?php echo esc_url( get_template_directory_uri() ) ; ?>/images/timeline/2011.png">
                 <div class="title">
-                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                  <h3>Hannah's Debut
                 </div>
               </div>
-              <div class="textContent">
-                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
               </div>
-            </div>
           </div>
+          
           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
             <div class="caption">
               <div class="star center-block">
                 <span class="h4">2012</span>
               </div>
               <div class="image">
-                <img src="https://picsum.photos/600/400/?random">
+                <img src="<?php echo esc_url( get_template_directory_uri() ) ; ?>/images/timeline/2012.png">
                 <div class="title">
-                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                  <h3>Big Rock
                 </div>
               </div>
-              <div class="textContent">
-                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
               </div>
-            </div>
           </div>
+
           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
             <div class="caption">
               <div class="star center-block">
                 <span class="h4">2013</span>
               </div>
               <div class="image">
-                <img src="https://picsum.photos/600/400/?random">
+                <img src="<?php echo esc_url( get_template_directory_uri() ) ; ?>/images/timeline/2013.png">
                 <div class="title">
-                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                  <h3>Enchanted Kingdom
                 </div>
               </div>
-              <div class="textContent">
-                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
               </div>
-            </div>
           </div>
+
           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
             <div class="caption">
               <div class="star center-block">
                 <span class="h4">2014</span>
               </div>
               <div class="image">
-                <img src="https://picsum.photos/600/400/?random">
+                <img src="<?php echo esc_url( get_template_directory_uri() ) ; ?>/images/timeline/2014.png">
                 <div class="title">
-                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                  <h3>Sagad
                 </div>
               </div>
-              <div class="textContent">
-                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
               </div>
-            </div>
           </div>
+
           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
             <div class="caption">
               <div class="star center-block">
                 <span class="h4">2015</span>
               </div>
               <div class="image">
-                <img src="https://picsum.photos/600/400/?random">
+                <img src="<?php echo esc_url( get_template_directory_uri() ) ; ?>/images/timeline/2015.png">
                 <div class="title">
-                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                  <h3>Ilocos
                 </div>
               </div>
-              <div class="textContent">
-                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
               </div>
-            </div>
           </div>
+
           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
             <div class="caption">
               <div class="star center-block">
                 <span class="h4">2016</span>
               </div>
               <div class="image">
-                <img src="https://picsum.photos/600/400/?random">
+                <img src="<?php echo esc_url( get_template_directory_uri() ) ; ?>/images/timeline/2016.png">
                 <div class="title">
-                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                  <h3>Puerto Princesa
                 </div>
               </div>
-              <div class="textContent">
-                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
               </div>
-            </div>
           </div>
+
           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
             <div class="caption">
               <div class="star center-block">
                 <span class="h4">2017</span>
               </div>
               <div class="image">
-                <img src="https://picsum.photos/600/400/?random">
+                <img src="<?php echo esc_url( get_template_directory_uri() ) ; ?>/images/timeline/2017.png">
                 <div class="title">
-                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                  <h3>Caramoan
                 </div>
               </div>
-              <div class="textContent">
-                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
               </div>
-            </div>
-          </div>
-
-          
-          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item">
-            <div class="caption">
-              <div class="star center-block">
-                <span class="h4">19</span>
-                <span>Jan</span>
-                <span>2019</span>
-              </div>
-              <div class="image">
-                <video src="<?php echo esc_url( get_template_directory_uri() ) ; ?>/videos/proposal-love-story.mp4"></video>
-                <div class="title">
-                  <h2>Hope <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h2>
-                </div>
-              </div>
-              <div class="textContent">
-                <p class="lead">Dreams are always growing up by hope. This is the last thing that i can not get rid of it just because i believe in myself and my abilities.</p>
-              </div>
-            </div>
           </div>
 
           <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 item" >
             <div class="caption">
               <div class="star center-block">
-                <span class="h4">2019</span>
+                <span class="h4">2018</span>
               </div>
               <div class="image">
-                <img src="https://picsum.photos/600/400/?random">
+                <img src="<?php echo esc_url( get_template_directory_uri() ) ; ?>/images/timeline/2018.png">
                 <div class="title">
-                  <h3>Started to Breath <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></h3>
+                  <h3>Baguio
                 </div>
               </div>
-              <div class="textContent">
-                <p class="lead">Hi, this is my very short history, lets start from my berthday that was in 27 of January 1990. I thing my feet was bigger than this because now i just can buy shoes with size 45 LOL.</p>
               </div>
-            </div>
           </div>
-          
+
       </div>
     </div>
 </section>
@@ -516,6 +456,96 @@ wp_reset_postdata(); ?>
 
 <!-- SECTION END :: RVSP -->
 
+<!-- SECTION START :: FAQ -->
+
+<section id="faq">
+  <div class="container">
+
+  <!-- <div class="main-area-wrapper"> -->
+      <div class="main-area center-text faq-section">
+         <h1 class="countdown-timer"><b>Frequently Asked Questions (FAQ)</b></h1>
+         <ul>
+
+            <li>
+              <a href="#">
+                <h2>What time will the ceremony start?</h2>
+                <p>Wedding cerermony march will start at exactly 3:00 PM.  Baguhin natin ang Filipino time culture :)</p>
+              </a>
+            </li>
+
+            <li>
+              <a href="#">
+                <h2>What can I wear? Any dress code?</h2>
+                <p>Our color motif is burgundy.  Please wear formal attire. Coat or longsleeves for men and dress for women</p>
+              </a>
+            </li>
+
+            <li>
+              <a href="#">
+                <h2>What if I said "yes" to the RVSP pero hindi na ko makakapunta?</h2>
+                <p>#paasa :D Joke! Please inform us ASAP so we can give your alloted seat to someone else.</p>
+              </a>
+            </li>
+
+            <li>
+              <a href="#">
+                <h2>Can I bring someone else with me? Can I bring my kids?</h2>
+                <p>We request that only those who are invited will come. Please check the invitation for alloted seats. As much as we'd like to invite everyone, we can only invite a number of guests due to limited seats.</p>
+              </a>
+            </li>
+
+            <li>
+              <a href="#">
+                <h2>Am I allowed to take photos and videos during the wedding ceremony?</h2>
+                <p>We are respectfully asking you to refrain from using gadgets during the ceremony proper. We have official P/V to capture the moments. Bawi ka na lang sa cocktails and reception. #hansedido :)</p>
+              </a>
+            </li>
+
+            <li>
+              <a href="#">
+                <h2>Where can we park our car / motorcycle?</h2>
+                <p>There's an alloted parking space for you. Basta ikaw may space lagi sa puso namin :)</p>
+              </a>
+            </li>
+
+            <li>
+              <a href="#">
+                <h2>Can I proceed directly to reception?</h2>
+                <p>Yes you may but it would surely warm our hearts to see you when we exchange our vows. Malay mo biglang magbago yung reception venue. Mag-isa ka na lang bigla. hahahah.</p>
+              </a>
+            </li>
+
+            <li>
+              <a href="#">
+                <h2>What time will the reception end?</h2>
+                <p>We aim to end the program at 8:00 PM. Wag pong eat and run. Ang tunay na kaibigan 'di nang-iiwan. hahahaha</p>
+              </a>
+            </li>
+
+            <li>
+              <a href="#">
+                <h2>Do you have any gift preference ?</h2>
+                <p>Anything from you will be a blessing. But for your convenience, monetary gift would be preferred and much appreciated. Pero kung gusto mong magregalo ng 50 inch smart TV or lazy boy ay malugod naman naming tatanggapin :<DATA></DATA></p>
+              </a>
+            </li>
+
+          </ul>
+        </div>
+      <!-- </div> -->
+  </div>
+</section>
+
+<!-- SECTION END :: FAQ -->
+
+<!-- <section id="directions">
+
+  <div class="container-contact100">
+    <div class="wrap-contact100">
+          <iframe src="https://embed.waze.com/iframe?zoom=16&lat=14.612021&lon=121.125493&ct=livemap" width="80%" height="200&pin=1&desc=mangofarm" allowfullscreen></iframe>
+    </div>
+  </div>
+
+</section> -->
 
 <!-- SECTION :: Gallery -->
 <!-- SECTION END :: Gallery -->
