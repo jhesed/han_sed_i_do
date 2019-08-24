@@ -3,7 +3,7 @@
  * Register the customizer settings.
  *
  * @package   olympus-google-fonts
- * @copyright Copyright (c) 2019, Danny Cooper
+ * @copyright Copyright (c) 2019, Fonts Plugin
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU Public License
  */
 
@@ -13,11 +13,13 @@
  * @param object $wp_customize Access to the $wp_customize object.
  */
 function ogf_customize_register( $wp_customize ) {
+	require OGF_DIR_PATH . 'includes/customizer/controls/class-ogf-customize-multiple-fonts-control.php';
 	require OGF_DIR_PATH . 'includes/customizer/controls/class-ogf-customize-typography-control.php';
 	require OGF_DIR_PATH . 'includes/customizer/controls/class-ogf-customize-repeater-control.php';
 	require OGF_DIR_PATH . 'includes/customizer/controls/class-ogf-customize-upsell-control.php';
 	require OGF_DIR_PATH . 'includes/customizer/controls/class-ogf-customize-multiple-checkbox-control.php';
 
+	$wp_customize->register_control_type( 'OGF_Customize_Multiple_Fonts_Control' );
 	$wp_customize->register_control_type( 'OGF_Customize_Multiple_Checkbox_Control' );
 	$wp_customize->register_control_type( 'OGF_Customize_Typography_Control' );
 
@@ -28,16 +30,35 @@ function ogf_customize_register( $wp_customize ) {
 		)
 	);
 
-		$wp_customize->add_control(
-			new OGF_Customize_Repeater_Control(
-				$wp_customize,
-				'ogf_custom_selectors',
-				array(
-					'label'   => esc_html__( 'Custom Elements', 'customizer-repeater' ),
-					'section' => 'ogf_custom',
-				)
+	$wp_customize->add_control(
+		new OGF_Customize_Repeater_Control(
+			$wp_customize,
+			'ogf_custom_selectors',
+			array(
+				'label'   => esc_html__( 'Custom Elements', 'olympus-google-fonts' ),
+				'section' => 'ogf_custom',
 			)
-		);
+		)
+	);
+
+	$wp_customize->add_setting(
+		'ogf_load_fonts',
+		array(
+			'transport' => 'postMessage',
+		)
+	);
+
+	$wp_customize->add_control(
+		new OGF_Customize_Multiple_Fonts_Control(
+			$wp_customize,
+			'ogf_load_fonts',
+			array(
+				'label'       => esc_html__( 'Load Fonts Only', 'olympus-google-fonts' ),
+				'description' => esc_html__( 'Load fonts but don\'t automatically assign them to an element.', 'olympus-google-fonts' ),
+				'section'     => 'ogf_advanced__css',
+			)
+		)
+	);
 
 	/**
 	 * Build customizer controls.
@@ -147,6 +168,10 @@ function ogf_customize_register( $wp_customize ) {
 	// Build the selective font loading controls.
 	foreach ( $choices as $font_id ) {
 
+		if ( ogf_is_system_font( $font_id ) ) {
+			return;
+		}
+
 		$weights = $fonts->get_font_weights( $font_id );
 		$name    = $fonts->get_font_name( $font_id );
 		unset( $weights[0] );
@@ -206,7 +231,8 @@ function ogf_customize_register( $wp_customize ) {
 				$wp_customize,
 				'ogf_upsell_' . $loc,
 				array(
-					'section' => $loc,
+					'section'  => $loc,
+					'priority' => 120,
 				)
 			)
 		);

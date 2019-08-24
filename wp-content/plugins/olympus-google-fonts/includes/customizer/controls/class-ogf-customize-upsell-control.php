@@ -3,7 +3,7 @@
  * Upsell Custom Control
  *
  * @package   olympus-google-fonts
- * @copyright Copyright (c) 2019, Danny Cooper
+ * @copyright Copyright (c) 2019, Fonts Plugin
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU Public License
  */
 
@@ -34,13 +34,12 @@ class OGF_Customize_Upsell_Control extends WP_Customize_Control {
 			<div class="ogf-upsell">
 				<h2 class="upsell__title">Upgrade to Google Fonts Pro</h2>
 				<ul>
-					<li>✅ Unlock Font Size</li>
-					<li>✅ Unlock Font Color</li>
-					<li>✅ Unlock Line Height</li>
+					<li>✅ Unlock Font Size & Color</li>
+					<li>📦 Host Fonts Locally</li>
 					<li>⚡️ Optimized Font Loading</li>
 					<li>🧙‍ Custom Elements</li>
 				</ul>
-				<a class="upsell__button button button-primary" href="https://fontsplugin.com/upgrade/?utm_source=customizer&utm_campaign=<?php echo esc_attr( $this->section ); ?>" target="_blank">Learn More</a>
+				<a class="upsell__button button button-primary" href="https://fontsplugin.com/pro-upgrade/?utm_source=customizer&utm_campaign=<?php echo esc_attr( $this->section ); ?>" target="_blank">Learn More</a>
 			</div>
 		<?php
 	}

@@ -1,17 +1,20 @@
 <?php
 if (!defined('ABSPATH'))
     exit; // Exit if accessed directly
-$notifier_file_url = NOTIFIER_XML_FILE_WPDB; 
+$notifier_file_url = NOTIFIER_XML_FILE_WPDB;
 $changelogMsg='';
+$notifier_data = array();
 
-@$changeMessage="<strong><a href='http://www.wpseeds.com/product/wp-all-backup/' target='_blank'>WP All Backup Plugin.</a></strong> will backup and restore your entire site at will,
+@$changeMessage="<strong><a href='https://www.wpseeds.com/product/wp-all-backup/' target='_blank'>WP All Backup Plugin.</a></strong> will backup and restore your entire site at will,
                         complete with FTP & S3 integration";
-$coupon="Use Coupon code <strong>'WPDB30'</strong> and Get Flat 30% off on <strong><a href='https://wpallbackup.com//' target='_blank'>WP All Backup Plugin.</a></strong>";
+$coupon="Use Coupon code <strong>'WPDBSPECIAL40'</strong> and Get Flat 40% off on <strong><a href='https://www.wpseeds.com/product/wp-all-backup/' target='_blank'>WP All Backup Plugin.</a></strong>";
 
 $url = $notifier_file_url;
 $request = new WP_Http;
 $result = $request->request( $url );
-$notifier_data = $result['body'];
+if(isset($result['body']) && !empty($result['body'])){
+  $notifier_data = $result['body'];
+}
 
 if (strpos((string) $notifier_data, '<notifier>') === false) {
     $notifier_data = '<?xml version="1.0" encoding="UTF-8"?><notifier><latest>1.0</latest><changelog></changelog>';
@@ -22,12 +25,12 @@ if (strpos((string) $notifier_data, '<notifier>') === false) {
 if (!empty($xml)) {
      @$changelogMsg ='';
     if(!empty($xml->message)){
-    
-    @$changeMessage = $xml->message; 
+
+    @$changeMessage = $xml->message;
     }
     if(!empty($xml->coupon)){
         $coupon=$xml->coupon;
-        
+
     }
     if(!empty($xml->newrele)){
         $
@@ -36,65 +39,68 @@ if (!empty($xml)) {
     if (WPDB_VERSION == $xml->latest) {
         $alert = '<strong>No Alert</strong><br/>';
         $changelog = '';
-        
+
     } else {
-        @$alert = '<strong><a href="https://wpallbackup.com//" title="Change Log" target="_blank">Plugin Updates</a></strong><br/>             
+        @$alert = '<strong><a href="https://www.wpseeds.com/blog/category/update/" title="Change Log" target="_blank">Plugin Updates</a></strong><br/>
                 <strong>There is a new version of the <br/>WP Database Backup plugin available.</strong>
                  You have version ' . WPDB_VERSION . ' Update to version ' . $xml->latest . '.';
         @$changelog = $xml->changelog;
         @$changelogMsg .= '<li class="list-group-item" ><strong>New Version Availabel</strong></li>';
-        
-           
-        echo '<style>.glyphicon.glyphicon-bell {   
+
+
+        echo '<style>.glyphicon.glyphicon-bell {
                     color: red !important;
                 }</style>';
     }
 } else {
     $alert = '<strong>No Alert</strong><br/>';
     $changelog = '';
-    
-        
+
+
 }
         $changelogMsg.="<li class='list-group-item'>".$changeMessage."<li>";
         $changelogMsg.="<li class='list-group-item'>".$coupon."<li>";
 ?>
         <?php if (isset($_GET['notification'])) { ?>
     <div class="row">
-        <div class="col-md-offset-4 col-xs-8 col-sm-8 col-md-8">
+        <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="alert alert-success alert-dismissible fade in" role="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-            <?php if ($_GET['notification'] == 'create') { 
-             _e('Database Backup Created Successfully', 'wpdbbkp'); 
-              } 
-              else if ($_GET['notification'] == 'restore') { 
-                _e('Database Backup Restore Successfully', 'wpdbbkp'); 
-                 } 
-              else if ($_GET['notification'] == 'delete') { 
-                _e('Database Backup deleted Successfully', 'wpdbbkp'); 
-                 } 
+            <?php if ($_GET['notification'] == 'create') {
+             _e('Database Backup Created Successfully', 'wpdbbkp');
+              }
+              else if ($_GET['notification'] == 'restore') {
+                _e('Database Backup Restore Successfully', 'wpdbbkp');
+                 }
+              else if ($_GET['notification'] == 'delete') {
+                _e('Database Backup deleted Successfully', 'wpdbbkp');
+                 }
                  else if ($_GET['notification'] == 'clear_temp_db_backup_file') {
-                  _e('Clear all old/temp database backup files Successfully', 'wpdbbkp'); 
-             } 
+                  _e('Clear all old/temp database backup files Successfully', 'wpdbbkp');
+             }
              else if ($_GET['notification'] == 'Invalid') {
-                  _e('Invalid Access!!!!', 'wpdbbkp'); 
+                  _e('Invalid Access!!!!', 'wpdbbkp');
              } else if ($_GET['notification'] == 'deleteauth') {
                  _e('Dropbox account unlink Successfully', 'wpdbbkp');
              }
             ?>
-        </div>        
+        </div>
     </div>
  </div>
 <?php } ?>
 <div class="row">
-    <div class="col-md-offset-8 col-xs-4 col-sm-4 col-md-4">
+  <div class="col-xs-8 col-sm-8 col-md-8">
+    <img id="backup_process" style="display:none" width="50" height="50" src="<?php echo WPALLBK_PLUGIN_URL ?>/assets/images/icon_loading.gif">
+  </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 text-right">
 
         <!-- Single button -->
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu">
-                <?php _e($changelogMsg, 'wpdbbkp'); ?>   
+            <ul class="dropdown-menu pull-right">
+                <?php _e($changelogMsg, 'wpdbbkp'); ?>
             </ul>
         </div>
         <!-- Single button -->
@@ -102,8 +108,8 @@ if (!empty($xml)) {
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="glyphicon glyphicon-bell" aria-hidden="true"></span> <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu list-group">    
-                <li  class="list-group-item "><?php _e($alert, 'wpdbbkp'); ?></li>  
+            <ul class="dropdown-menu pull-right list-group">
+                <li  class="list-group-item "><?php _e($alert, 'wpdbbkp'); ?></li>
                 <?php if (!empty($changelog)) { ?>
                     <li  class="list-group-item "><?php _e($changelog, 'wpdbbkp'); ?></li>
 <?php } ?>
@@ -115,8 +121,8 @@ if (!empty($xml)) {
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu">
-               
+            <ul class="dropdown-menu pull-right">
+
                 <li role="separator" class="divider"></li>
                 <li>
                     <a href="#" >
@@ -156,7 +162,7 @@ if (!empty($xml)) {
                                 ?></p>
                         </a>
                     </a>
-                </li>    
+                </li>
                 <li role="separator" class="divider"></li>
                 <li>
                     <a href="#" >
@@ -182,7 +188,7 @@ if (!empty($xml)) {
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu pull-right">
                 <li>
                     <a href="http://walkeprashant.in" target="_blank" >
                         <h5 ><?php _e('Plugin Author', 'wpdbbkp'); ?></h5>
@@ -202,7 +208,7 @@ if (!empty($xml)) {
                     </a>
                 </li>
                 <li >
-                    <a href="https://wpallbackup.com//" target="_blank" >
+                    <a href="https://www.wpseeds.com/documentation/docs/wp-database-backup/" target="_blank" >
                         <h5 ><?php _e('Documentation', 'wpdbbkp'); ?></h5>
                     </a>
                 </li>

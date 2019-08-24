@@ -1,13 +1,13 @@
-=== Google Fonts for WordPress ===
+=== Google Fonts Typography ===
 Contributors: DannyCooper, googlefonts
-Tags: google, fonts, google fonts, google fonts for wordpress, gutenberg
+Tags: google, fonts, google fonts, typography, elementor, beaver builder
 Donate link: https://fontsplugin.com/#pricing
 Requires at least: 4.0
-Tested up to: 5.1
+Tested up to: 5.2
 License: GPLv2 or later
-Stable tag: 1.6.2
+Stable tag: 1.9.6
 
-The easiest to use Google Fonts Plugin. No coding required. 870+ font choices.
+The easiest to use Google Fonts Typography Plugin. No coding required. 900+ font choices.
 
 == Description ==
 The [Google Fonts](https://fontsplugin.com/?utm_source=wporg&utm_campaign=intro) library currently contains 877 unique fonts. This plugin allows you to easily use any of them on your WordPress website.
@@ -23,7 +23,7 @@ The full Google Fonts library can be found here - [Google Fonts](https://fonts.g
 = Plugin Features =
 
 * **Live Customizer Preview:** Choose and preview fonts in real time using the WordPress Customizer.
-* **Over 870+ Google Fonts** to choose from.
+* **Over 900+ Google Fonts** to choose from.
 * Works with any WordPress Theme. No coding required.
 * Easy One-Click Updates.
 * Translation Ready.
@@ -33,8 +33,10 @@ The full Google Fonts library can be found here - [Google Fonts](https://fonts.g
 * Tested with **PHP7**
 * Selective Font Loading
 * Preconnect Resource Hints
+* Host Google Fonts Locally
+* Font Size, Weight, Color and Line Height Typography Settings
 
-> Note: some features are Premium. Which means you need to upgrade to unlock those features. You can upgrade here: [Google Fonts Pro](https://fontsplugin.com/upgrade/?utm_source=wporg&utm_campaign=upgrade)
+> Note: some features are Premium. Which means you need to upgrade to unlock those features. You can upgrade here: [Google Fonts Pro](https://fontsplugin.com/pro-upgrade/?utm_source=wporg&utm_campaign=upgrade)
 
 = Plugin Compatibility =
 
@@ -45,14 +47,19 @@ The Google Fonts for WordPress plugin will work with all WordPress themes and ha
 * TwentyFifteen
 * TwentySixteen
 * TwentySeventeen
+* ThemeGrill
+* ThemeIsle
 
 ### Further Reading
 
 For more info on Google Fonts for Wordpress, check out the following:
 
-* [Documentation](https://fontsplugin.com/docs/)
-* [Font Combinations](https://fontsplugin.com/font-combinations/)
-* [How to Use Google Fonts in WordPress](https://fontsplugin.com/wordpress-google-fonts/)
+* [Documentation](https://fontsplugin.com/docs/?utm_source=wporg)
+* [Font Combinations](https://fontsplugin.com/font-combinations/?utm_source=wporg)
+* [How to Use Google Fonts in WordPress](https://fontsplugin.com/wordpress-google-fonts/?utm_source=wporg)
+* [Google Fonts in Beaver Builder](https://docs.fontsplugin.com/integrations/beaver-builder)
+* [Google Fonts in Elementor](https://docs.fontsplugin.com/integrations/elementor)
+* [Google Fonts in WPBakery](https://docs.fontsplugin.com/integrations/wpbakery)
 
 = Bugs =
 If you find an issue with Google Fonts for WordPress, let us know [here](https://wordpress.org/support/plugin/olympus-google-fonts#new-post)!
@@ -60,7 +67,7 @@ If you find an issue with Google Fonts for WordPress, let us know [here](https:/
 = Google Fonts Gutenberg Block =
 Add some flair to your content with our new Gutenberg block.
 
-* All 870+ fonts available in the editor
+* All 900+ fonts available in the editor
 * Font size, variant and line-height settings
 * Text-align: left, right or center.
 
@@ -88,8 +95,8 @@ We are 99.99% certain it will, if it doesn't then please create a [support ticke
 
 1. Instant Live Preview - Google Fonts for WordPress
 2. Customizer Settings Search - Google Fonts for WordPress
-3. Customizer Settings Font Weight and Style - Google Fonts for WordPress
+3. Customizer Settings Font Weight and Style Typography Settings
 
 == Changelog ==
 
-See changelog.txt
+[See changelog.txt for the complete changelog.](https://raw.githubusercontent.com/dannycooper/olympus-google-fonts/master/changelog.txt)

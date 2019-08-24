@@ -3,7 +3,7 @@
  * Output the Google Fonts CSS.
  *
  * @package   olympus-google-fonts
- * @copyright Copyright (c) 2019, Danny Cooper
+ * @copyright Copyright (c) 2019, Fonts Plugin
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU Public License
  */
 
@@ -31,7 +31,7 @@ function ogf_output_css() {
 }
 
 // Output custom CSS to live site.
-add_action( 'wp_head', 'ogf_output_css' );
+add_action( 'wp_head', 'ogf_output_css', 1000 );
 
 /**
  * Helper function to build the CSS styles.
@@ -76,7 +76,7 @@ function ogf_generate_css( $selector, $option_name ) {
 		if ( $font_size ) {
 			$return .= sprintf(
 				'font-size: %s;' . PHP_EOL,
-				absint( $font_size ) . 'px' . ogf_is_forced()
+				floatval( $font_size ) . 'px' . ogf_is_forced()
 			);
 		}
 
@@ -84,7 +84,7 @@ function ogf_generate_css( $selector, $option_name ) {
 		if ( $line_height && '0' !== $line_height ) {
 			$return .= sprintf(
 				'line-height: %s;' . PHP_EOL,
-				absint( $line_height ) . ogf_is_forced()
+				floatval( $line_height ) . ogf_is_forced()
 			);
 		}
 
@@ -135,6 +135,16 @@ function ogf_build_font_stack( $font_id ) {
 		$stack = '"' . $google_fonts[ $font_id ]['family'] . '"';
 
 		return $stack;
+
+	}
+
+	$system_fonts = ogf_system_fonts();
+
+	$font_id = str_replace( 'sf-', '', $font_id );
+
+	if ( array_key_exists( $font_id, $system_fonts ) ) {
+
+		return $system_fonts[ $font_id ]['stack'];
 
 	}
 

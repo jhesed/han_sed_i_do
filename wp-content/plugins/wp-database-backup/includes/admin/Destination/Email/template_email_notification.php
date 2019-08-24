@@ -96,7 +96,7 @@ $message = '<div bgcolor="#e3e3e3" style="font-family:Arial;color:#707070;font-s
             </tr>
         </tbody></table>
 
-        <div style="font-family:Arial;margin:0px;padding:0px">Get Flat 25% off on <a target="_blank" href="http://www.wpseeds.com/product/wp-all-backup/">Pro Version.</a> Use Coupon code <strong> WPSEEDS25</strong>
+        <div style="font-family:Arial;margin:0px;padding:0px">Get Flat 40% off on <a target="_blank" href="http://www.wpseeds.com/product/wp-all-backup/">Pro Version.</a> Use Coupon code <strong> WPDBSPECIAL40</strong>
         </div>
     </div>
 

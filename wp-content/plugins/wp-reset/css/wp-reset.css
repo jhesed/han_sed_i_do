@@ -86,6 +86,7 @@
 
 .tools_page_wp-reset p {
   line-height: 1.7;
+  font-size: 14px;
 }
 
 .tools_page_wp-reset .button-delete:hover {
@@ -98,20 +99,28 @@
   animation: spin 1.5s linear infinite;
 }
 
+.tools_page_wp-reset .card.notice-wrapper {
+  max-width: 600px;
+}
+
 .tools_page_wp-reset .notice-error {
-  border-color: #dd3036;
+  border-top-color: #dd3036;
+}
+
+.tools_page_wp-reset .notice-info {
+  border-top-color: #0085ba;
 }
 
 .tools_page_wp-reset .toggle-card {
   position: absolute;
-  right: 2em;
+  right: 1em;
   top: 2.2em;
   text-decoration: none;
 }
 
 .tools_page_wp-reset .card {
-  padding: 1em 2em 1em 2em;
-  width: 520px;
+  padding: 1em 1em 1em 1em;
+  max-width: 560px;
 }
 
 .tools_page_wp-reset .card.collapsed p,
@@ -166,6 +175,10 @@
 
 .tools_page_wp-reset table .delete-snapshot {
   margin: 0;
+}
+
+.tools_page_wp-reset table .delete-snapshot:hover {
+  color: rgb(221, 48, 54);
 }
 
 .tools_page_wp-reset .no-padding-bottom {
@@ -377,6 +390,12 @@
   min-width: 100px;
   border-top: 3px solid transparent;
   border-bottom: 1px solid #e5e5e5;
+}
+
+@media screen and (max-width: 782px) {
+  .tools_page_wp-reset .ui-tabs ul.ui-tabs-nav li {
+    min-width: inherit;
+  }
 }
 
 .tools_page_wp-reset .ui-tabs ul.ui-tabs-nav li .label {
@@ -647,4 +666,8 @@
 
 .webhooks-dialog .plain-list li {
   text-indent: -21px;
+}
+
+#wpfooter {
+  background-color: #ffffff;
 }

@@ -5,16 +5,12 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: Database backup,db backup, backup,database, WordPress Database Backup, WP db backup,wp database backup,wp backup,wordpress backup, mysql backup,automatically database backup,website backup,website database backup,restore database backup,Store database backup on dropbox,backup on google drive,backup on amazon s3,ftp,email notification.
 Requires at least: 3.1+
-Tested up to: 5.0.3
+Tested up to: 5.1.1
 Stable tag: trunk
 
 Create & Restore Database Backup easily on single click. Manual or automated backups (backup to Dropbox,Google drive,Amazon s3,FTP,Email).
 
 == Description ==
-
-= Pro Version =
-* <a target="_blank" href="https://wpallbackup.com">https://wpallbackup.com</a>
-* <a target="_blank" href="https://www.wpseeds.com/product/wp-all-backup/">www.wpseeds.com</a>
 
 WP Database Backup plugin helps you to create Database Backup and Restore Database Backup easily on single click.Manual or Automated Database Backups And also store database backup on safe place- Dropbox,FTP,Email,Google drive, Amazon S3
 
@@ -59,7 +55,6 @@ WP Database Backup plugin helps you to Restore Database Backup easily on single 
 </ul>
 
 = Get Pro 'WP All Backup' Plugin =
-* https://wpallbackup.com
 * <a target="_blank" href="https://www.wpseeds.com/product/wp-all-backup/">www.wpseeds.com</a>
 
 <p>WP All Backup will backup and restore your entire site at will, complete with FTP &amp; S3 integration</p>
@@ -106,11 +101,10 @@ WP Database Backup plugin helps you to Restore Database Backup easily on single 
 </ul>
 
 = Pro Version =
-* <a target="_blank" href="https://wpallbackup.com">https://wpallbackup.com</a>
 * <a target="_blank" href="https://www.wpseeds.com/product/wp-all-backup/">www.wpseeds.com</a>
 
 = Documentation =
-* <a target="_blank" href="https://wpallbackup.com/documentation">https://wpallbackup.com/documentation</a>
+* <a target="_blank" href="https://www.wpseeds.com/documentation/docs/wp-database-backup/">https://www.wpseeds.com/documentation/docs/wp-database-backup/</a>
 
 = Support =
 * <a target="_blank" href="https://wpallbackup.com/support">https://wpallbackup.com/support/</a>
@@ -134,6 +128,18 @@ WP Database Backup plugin helps you to Restore Database Backup easily on single 
 4. screenshot-4.png
 
 == Changelog ==
+
+= 5.3 =
+* 04-05-2019
+* Added loading icon on create backup action for show inprogress backup action.
+
+= 5.2 =
+* 30-04-2019
+* Security Changes - Fixed Vulnerability
+
+= 5.1.2 =
+* 22-04-2019
+* Fixed Vulnerability - XSS issue
 
 = 5.1.1 =
 * 23-02-2019
@@ -414,7 +420,7 @@ Also Please make sure that you have write permission to Backup folder and also c
 * https://wpallbackup.com/documentation
 
 == Upgrade Notice ==
-* Fixed Vulnerability
+* Added loading icon on create backup action for show inprogress backup action.
 
 == Official Site ==
 * https://www.wpseeds.com/documentation/docs/wp-database-backup

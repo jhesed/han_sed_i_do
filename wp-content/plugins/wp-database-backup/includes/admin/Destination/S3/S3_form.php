@@ -11,14 +11,14 @@ if (isset($_POST['wpdb_amazon_s3']) && $_POST['wpdb_amazon_s3'] == 'Y') {
         die("<br><br>Invalid form data. form request came from the somewhere else not current site! ");
 
     // Save the posted value in the database
-    update_option('wpdb_dest_amazon_s3_bucket', sanitize_text_field($_POST['wpdb_dest_amazon_s3_bucket']));
-    update_option('wpdb_dest_amazon_s3_bucket_key', sanitize_text_field($_POST['wpdb_dest_amazon_s3_bucket_key']));
-    update_option('wpdb_dest_amazon_s3_bucket_secret', sanitize_text_field($_POST['wpdb_dest_amazon_s3_bucket_secret']));
+    update_option('wpdb_dest_amazon_s3_bucket', esc_attr(sanitize_text_field($_POST['wpdb_dest_amazon_s3_bucket'])));
+    update_option('wpdb_dest_amazon_s3_bucket_key', esc_attr(sanitize_text_field($_POST['wpdb_dest_amazon_s3_bucket_key'])));
+    update_option('wpdb_dest_amazon_s3_bucket_secret', esc_attr(sanitize_text_field($_POST['wpdb_dest_amazon_s3_bucket_secret'])));
     if(isset($_POST['wp_db_backup_destination_s3'])){
      update_option('wp_db_backup_destination_s3',1);
    }else{
      update_option('wp_db_backup_destination_s3',0);
-   }  
+   }
     // Put a "settings updated" message on the screen
     $updateMsg = '<div class="updated"><p><strong>Your amazon s3 setting has been saved.</strong></p></div>';
 }
@@ -106,10 +106,10 @@ if (isset($_POST['wpdb_amazon_s3']) && $_POST['wpdb_amazon_s3'] == 'Y') {
                     </div>
                 </div>
 
-                <p><input type="submit" name="Submit" class="btn btn-primary" value="<?php esc_attr_e('Save') ?>" />&nbsp;       
+                <p><input type="submit" name="Submit" class="btn btn-primary" value="<?php esc_attr_e('Save') ?>" />&nbsp;
                 </p>
             </form>
 
-        </div>		
+        </div>
     </div>
 </div>

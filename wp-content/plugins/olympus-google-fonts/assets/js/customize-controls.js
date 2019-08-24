@@ -1,6 +1,8 @@
-/* global ogf_font_array */
+'use strict';
+
+/* global ogf_font_array, ajaxurl, fontsReset, location */
 ( function( api ) {
-	api.controlConstructor.typography = api.Control.extend(
+	api.controlConstructor[ 'typography' ] = api.Control.extend(
 		{
 			ready: function() {
 				const control = this;
@@ -19,6 +21,13 @@
 					wp.customize.previewer.send( 'olympusFontURL', '<link href=\'https://fonts.googleapis.com/css?family=' + fontURL + '\' rel=\'stylesheet\' type=\'text/css\'>' );
 				}
 
+				function isSystemFont( fontID ) {
+					if ( fontID.indexOf( 'sf-' ) !== -1 ) {
+						return true;
+					}
+					return false;
+				}
+
 				// Load the font-weights for the newly selected font.
 				control.container.on(
 					'change',
@@ -26,7 +35,7 @@
 					function() {
 						const value = jQuery( this ).val();
 						control.settings.family.set( value );
-						if ( value !== 'default' ) {
+						if ( value !== 'default' && ! isSystemFont( value ) ) {
 							addGoogleFont( value );
 
 							const font = ogf_font_array[ value ];
@@ -76,11 +85,7 @@
 				);
 
 				// Initialize chosen.js
-				jQuery( '.ogf-select' ).chosen( { width: '85%' } );
-
-				/**
-				 * Slider Custom Control
-				 */
+				jQuery( '.ogf-select', control.container ).chosen( { width: '85%' } );
 
 				// Set our slider defaults and initialise the slider
 				jQuery( '.slider-custom-control' ).each( function() {
@@ -132,8 +137,69 @@
 					jQuery( this ).parent().find( '.slider' ).slider( 'value', resetValue );
 				} );
 			},
+			/**
+			 * Embed the control in the document.
+			 *
+			 * Override the embed() method to do nothing,
+			 * so that the control isn't embedded on load,
+			 * unless the containing section is already expanded.
+			 *
+			 */
+			embed: function() {
+				const control = this;
+				const sectionId = control.section();
+				if ( ! sectionId ) {
+					return;
+				}
+				wp.customize.section( sectionId, function( section ) {
+					section.expanded.bind( function( expanded ) {
+						if ( expanded ) {
+							control.actuallyEmbed();
+						}
+					} );
+				} );
+			},
+			/**
+			 * Deferred embedding of control when actually
+			 *
+			 * This function is called in Section.onChangeExpanded() so the control
+			 * will only get embedded when the Section is first expanded.
+			 */
+			actuallyEmbed: function() {
+				const control = this;
+				if ( 'resolved' === control.deferred.embedded.state() ) {
+					return;
+				}
+				control.renderContent();
+				control.deferred.embedded.resolve(); // This triggers control.ready().
+			},
 		}
 	);
+
+	wp.customize.control( 'ogf_reset_fonts', function( control ) {
+		control.container.find( '.button' ).on( 'click', function( event ) {
+			event.preventDefault();
+
+			const data = {
+				wp_customize: 'on',
+				action: 'customizer_reset',
+				security: fontsReset.nonce,
+			};
+
+			const confirmReset = confirm( fontsReset.confirm );
+
+			if ( ! confirmReset ) {
+				return;
+			}
+
+			jQuery( this ).attr( 'disabled', 'disabled' );
+
+			jQuery.post( ajaxurl, data, function( result ) {
+				wp.customize.state( 'saved' ).set( true );
+				location.reload();
+			} );
+		} );
+	} );
 }( wp.customize ) );
 
 /* === Checkbox Multiple Control === */
@@ -150,3 +216,21 @@ jQuery( document ).ready( function() {
 		}
 	);
 } );
+
+/* === Multiple Fonts Control === */
+( function( api ) {
+	api.controlConstructor[ 'typography-multiselect' ] = api.Control.extend( {
+		ready: function() {
+			const control = this;
+			// Initialize chosen.js
+			jQuery( '.ogf-select', control.container ).chosen( { width: '85%' } );
+			jQuery( 'select', control.container ).change(
+				function() {
+					let selectValue = jQuery( this ).val();
+					selectValue = ( null === selectValue ) ? [] : selectValue;
+					control.setting.set( selectValue );
+				}
+			);
+		},
+	} );
+}( wp.customize ) );

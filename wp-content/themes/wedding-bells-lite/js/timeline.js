@@ -24,8 +24,8 @@
                                         offset: '400',
                                         itemAnimateDuration: 2,
                                         lineColor: '#DDDDDD',
-                                        LeftAnimation: 'rotateInUpRight',                                        
-                                        RightAnimation: 'rotateInUpLeft',                                       
+                                        LeftAnimation: 'fadeInLeft',                                        
+                                        RightAnimation: 'fadeInRight',                                       
                                     }, prop);
 
 

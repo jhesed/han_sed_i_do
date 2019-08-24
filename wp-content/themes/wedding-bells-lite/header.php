@@ -119,7 +119,7 @@ wp_reset_postdata(); ?>
 
 <!-- SECTION :: Couple -->
 <section id="welcome-section">
-    <div class="container">
+    <div class="container wow bounceInUp">
           <div class="welcome-wrap">                            
               <?php if( get_theme_mod('welcome_page',false)) { ?>          
                   <?php $queryvar = new WP_Query('page_id='.absint(get_theme_mod('welcome_page',true)) ); ?>        
@@ -142,7 +142,7 @@ wp_reset_postdata(); ?>
 </section><!-- #welcome-section -->
 
 <section id="bridegroom-section">
-  <div class="container">
+  <div class="container wow bounceInRight">
     <div class="welcome-wrap">
         <div class="hearticon"></div>                        
         <?php for($n=4; $n<=5; $n++) { ?>    
@@ -172,7 +172,7 @@ wp_reset_postdata(); ?>
 <div class="main-area-wrapper">
     <div class="main-area center-text" >
       
-      <div class="display-table">
+      <div class="display-table wow zoomInUp">
         <div class="display-table-cell">
           
           <h1 class="countdown-timer"><b>Road to Forever</b></h1>
@@ -361,7 +361,7 @@ wp_reset_postdata(); ?>
 
 <!-- SECTION :: RVSP -->
 <section id="rvsp" class="animsition">
-  <div class="container-contact100">
+  <div class="container-contact100 wow lightSpeedIn">
     <div class="wrap-contact100">
 
       <form id="hs-rvsp-form" class="contact100-form validate-form rvsp-form" method="post">
@@ -459,7 +459,7 @@ wp_reset_postdata(); ?>
 <!-- SECTION START :: FAQ -->
 
 <section id="faq">
-  <div class="container">
+  <div class="container wow fadeInUp">
 
   <!-- <div class="main-area-wrapper"> -->
       <div class="main-area center-text faq-section">
