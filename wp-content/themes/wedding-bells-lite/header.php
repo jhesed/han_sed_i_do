@@ -290,7 +290,7 @@ wp_reset_postdata(); ?>
               <div class="image">
                 <img src="<?php echo esc_url( get_template_directory_uri() ) ; ?>/images/timeline/2014.png">
                 <div class="title">
-                  <h3>Sagad
+                  <h3>Sagada
                 </div>
               </div>
               </div>
@@ -370,11 +370,11 @@ wp_reset_postdata(); ?>
         </span>
         <div id="rvsp-msg-error" class="isa_info" style="display:none">
             <i class="fa fa-info-circle"></i>
-            <div id="rvsp-error"></div>
+            <span id="rvsp-error"></span>
         </div>
         <div id="rvsp-msg-success" class="isa_success" style="display:none">
              <i class="fa fa-check"></i>
-             <div id="rvsp-success"></div>
+             <span id="rvsp-success"></span>
         </div>
 
         <label class="label-input100" for="first-name">Name *</label>
