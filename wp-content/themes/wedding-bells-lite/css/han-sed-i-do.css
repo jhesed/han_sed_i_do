@@ -1,0 +1,211 @@
+/*
+Theme Name: han-sed-i-do
+Description: Jhesed's custom style
+*/
+html{
+  scroll-behavior: smooth;
+}
+body{
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+}
+div.hsid{
+ 	font-family: 'Great Vibes', Helvetica, sans-serif;
+  font-size: 40px;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.1); 
+}
+.hsid-break-line{
+	overflow-wrap: break-word;
+}
+.hsid-padding{
+	/*padding-bottom: 20px;*/
+}
+#love-story, #love-story-timeline, #waze{
+	padding:50px;
+  height:auto;
+	background-color:#f1f1f1; 
+  /*background-color:#501B1D;*/
+	text-align:center; 
+	padding:0;
+}
+#proposal{
+  padding: 0 200px;
+  height:auto;
+  width: 100%;
+  background-color:black; 
+}
+#love-story .container, #love-story-timeline .container, 
+#rvsp .container, #waze .container{
+	width:100%; 
+	box-sizing:border-box;
+}
+.white{
+  color: white  ;
+}
+section#bridegroom-section{
+  padding: 30px;
+}
+section#timeline-section{
+  width:70%;
+  margin: auto;
+}
+div.waze-qr{
+  height:100px;
+  width:100px;
+}
+.faq-section{
+  width:100%;
+}
+/* --------------------------- Message box :: START ------------------------------*/
+
+.isa_info, .isa_success, .isa_warning, .isa_error {
+margin: 10px 0px;
+padding:12px;
+width: 100%;
+ 
+}
+.isa_info {
+    color: #00529B;
+    background-color: #BDE5F8;
+}
+.isa_success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+.isa_warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+.isa_error {
+    color: #D8000C;
+    background-color: #FFD2D2;
+}
+.isa_info i, .isa_success i, .isa_warning i, .isa_error i {
+    margin:10px 22px;
+    font-size:2em;
+    vertical-align:middle;
+}
+
+/* --------------------------- Message box :: END ------------------------------*/
+
+/* --------------------------- RVSP :: START ------------------------------*/
+
+button#rvsp-regret{
+  background:#890125;
+}
+
+/* --------------------------- COUNTDOWN :: START ------------------------------*/
+
+h1, h2, h3, h4, h5, h6, p, a, ul, span, li, img, inpot, button{ margin: 0; padding: 0;}
+
+h1,h2,h3,h4,h5,h6{ line-height: 1.5; font-weight: inherit; }
+h1{
+  color:white; 
+}
+
+h1.countdown-timer,h2,h3{ font-family: 'Poppins', sans-serif; }
+
+p{ line-height: 1.6; font-size: 1.05em; font-weight: 400; color: #555; }
+
+h1.countdown-timer{ font-size: 3.5em; line-height: 1; }
+h2{ font-size: 3em; line-height: 1.1; }
+h3{ font-size: 2.5em; }
+h4{ font-size: 1.5em; }
+h5{ font-size: 1.2em; }
+h6{ font-size: .9em; letter-spacing: 1px; }
+
+/* --------------------------- COUNTDOWN :: END ------------------------------*/
+
+/*
+#rvsp .container {
+height: 100%;
+width: 100%;
+margin: 0;
+background-color: #BDC3C7;
+font-family: 'Raleway';
+}
+.top {
+  background-color: #890125;
+  height: 200px;
+  margin:0;
+  padding:0;
+  box-shadow: 2px 2px 4px rgb(0, 0, 0, .25);
+}
+
+.form {
+  height: 590px;
+  width: 400px;
+  background-color: #fff;
+  margin: -110px auto;
+  border-radius: 10px;
+  color: #666;
+  padding: 0px 0px;
+  box-shadow: 2px 2px 4px rgb(0, 0, 0, .25);
+}
+
+.info {
+  padding: 10px;
+}
+
+h1, h2, p {
+  text-align: center;
+  padding: 0px;
+  margin: 5px 5px;
+}
+
+h2 {
+  font-family: 'Great Vibes', cursive;
+  font-weight: 100;
+}
+
+p.line {
+  margin: 0px auto 20px auto;
+  color: #999;
+}
+
+.form input {
+  font-size: 15px;
+  color: #666;
+  padding: 6px;
+  margin: 25px auto 20px;
+  display: block;
+  width: 75%;  
+}
+
+input:focus {
+  outline: 0;
+}
+
+.button button {
+  display: inline-block;
+  width: 400px;
+}
+input.accept {
+  color: white;
+  background-color: #890125;
+  border: none;
+  font-family: 'Raleway';
+  font-size: 18px;
+  font-weight: 600;
+  padding: 15px 32px;
+  width: 400px;
+  margin: 20px auto 0px auto; 
+  float:left;
+}
+
+input.accept:hover {
+  background-color: #cc919a;
+  transition: .5s;
+}
+input.accept {
+  border-radius: 0px 0px 0px 10px;
+  border-right: solid 1px #890125;
+}
+
+input.regret {
+  border-radius: 0px 0px 10px 0px;
+}
+button:focus {
+  outline: 0;
+}
+*/
