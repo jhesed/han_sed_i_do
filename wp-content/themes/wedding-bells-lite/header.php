@@ -38,7 +38,7 @@ else {
 $inner_cls = 'siteinner';
 }
 ?>
-
+<div class='menu-wrap'>
      <div class="site-header <?php echo $inner_cls; ?>">  
        <div class="container">    
           <div class="logo">
@@ -61,7 +61,7 @@ $inner_cls = 'siteinner';
      
      </div><!-- container -->   
 </div><!--.site-header --> 
-
+</div>
 <?php 
   for($i=1; $i<=3; $i++) {
     if( get_theme_mod('sliderpage'.$i,false)) {
@@ -106,7 +106,7 @@ while( $slidequery->have_posts() ) : $slidequery->the_post(); ?>
 <?php $j++; 
 endwhile;
 wp_reset_postdata(); ?>  
-<div class="clear"></div>      \
+<div class="clear"></div> 
 <?php } } ?>
 
 

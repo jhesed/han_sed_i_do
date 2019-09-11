@@ -21,7 +21,6 @@ div.hsid{
 	/*padding-bottom: 20px;*/
 }
 #love-story, #love-story-timeline, #waze{
-<<<<<<< HEAD
 	padding:50px;
   height:auto;
 	background-color:#f1f1f1; 
@@ -56,6 +55,17 @@ div.waze-qr{
 }
 .faq-section{
   width:100%;
+}
+.site-header{
+  background:rgba(0,0,0,0.85);
+}
+.menu-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999999;
 }
 /* --------------------------- Message box :: START ------------------------------*/
 
