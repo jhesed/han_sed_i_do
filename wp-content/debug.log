@@ -1,3 +1,20 @@
-[11-Sep-2019 04:34:57 UTC] PHP Deprecated:  define(): Declaration of case-insensitive constants is deprecated in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 203
-[11-Sep-2019 04:34:57 UTC] PHP Deprecated:  define(): Declaration of case-insensitive constants is deprecated in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 204
-[11-Sep-2019 04:34:57 UTC] PHP Deprecated:  define(): Declaration of case-insensitive constants is deprecated in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 205
+[11-Sep-2019 04:59:09 UTC] PHP Parse error:  syntax error, unexpected '<<' (T_SL) in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 105
+[11-Sep-2019 05:01:10 UTC] PHP Parse error:  syntax error, unexpected '<<' (T_SL) in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 105
+[11-Sep-2019 05:02:25 UTC] PHP Parse error:  syntax error, unexpected '<<' (T_SL) in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 105
+[11-Sep-2019 05:02:27 UTC] PHP Parse error:  syntax error, unexpected '<<' (T_SL) in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 105
+[11-Sep-2019 05:03:11 UTC] PHP Parse error:  syntax error, unexpected '<<' (T_SL) in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 105
+[11-Sep-2019 05:05:12 UTC] PHP Deprecated:  define(): Declaration of case-insensitive constants is deprecated in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 203
+[11-Sep-2019 05:05:12 UTC] PHP Deprecated:  define(): Declaration of case-insensitive constants is deprecated in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 204
+[11-Sep-2019 05:05:12 UTC] PHP Deprecated:  define(): Declaration of case-insensitive constants is deprecated in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 205
+[11-Sep-2019 05:06:02 UTC] PHP Deprecated:  define(): Declaration of case-insensitive constants is deprecated in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 203
+[11-Sep-2019 05:06:02 UTC] PHP Deprecated:  define(): Declaration of case-insensitive constants is deprecated in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 204
+[11-Sep-2019 05:06:02 UTC] PHP Deprecated:  define(): Declaration of case-insensitive constants is deprecated in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 205
+[11-Sep-2019 05:06:18 UTC] PHP Deprecated:  define(): Declaration of case-insensitive constants is deprecated in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 203
+[11-Sep-2019 05:06:18 UTC] PHP Deprecated:  define(): Declaration of case-insensitive constants is deprecated in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 204
+[11-Sep-2019 05:06:18 UTC] PHP Deprecated:  define(): Declaration of case-insensitive constants is deprecated in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 205
+[11-Sep-2019 05:07:13 UTC] PHP Deprecated:  define(): Declaration of case-insensitive constants is deprecated in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 203
+[11-Sep-2019 05:07:13 UTC] PHP Deprecated:  define(): Declaration of case-insensitive constants is deprecated in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 204
+[11-Sep-2019 05:07:13 UTC] PHP Deprecated:  define(): Declaration of case-insensitive constants is deprecated in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 205
+[11-Sep-2019 05:09:14 UTC] PHP Deprecated:  define(): Declaration of case-insensitive constants is deprecated in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 203
+[11-Sep-2019 05:09:14 UTC] PHP Deprecated:  define(): Declaration of case-insensitive constants is deprecated in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 204
+[11-Sep-2019 05:09:14 UTC] PHP Deprecated:  define(): Declaration of case-insensitive constants is deprecated in C:\xampp\htdocs\jhesedhannah\wp-content\themes\wedding-bells-lite\functions.php on line 205

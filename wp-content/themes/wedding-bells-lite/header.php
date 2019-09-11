@@ -231,7 +231,6 @@ wp_reset_postdata(); ?>
 
 <!-- SECTION END :: RVSP -->
 
-
 <!-- SECTION :: Couple -->
 <section id="welcome-section">
     <div class="container wow bounceInUp">
@@ -282,7 +281,6 @@ wp_reset_postdata(); ?>
   </div><!-- .container -->                  
 </section><!-- .bridegroom-section-->   
 
-
 <!-- SECTION :: Gallery -->
 
 <section id="proposal">
@@ -294,7 +292,6 @@ wp_reset_postdata(); ?>
 </section>
 
 <!-- SECTION END :: Gallery -->
-
 
 <!-- SECTION :: Timeline  -->
 <section id="timeline-section">
@@ -572,4 +569,3 @@ wp_reset_postdata(); ?>
   </div>
 </section>
 <!-- SECTION END :: Directions -->
-
