@@ -5,32 +5,35 @@
 }
 */
 section#faq{
-  font-family:arial,san	s-serif;
-  font-size:100%;
+  /*font-family:arial,san	s-serif;*/
+  /*font-size:100%;*/
   /*margin:3em;*/
   /*background:#666;*/
   color:#fff;
-  width: 100%;
+  margin:0;
+  padding:0;
 }
 section#faq h2,section#faq p{
-  font-size:100%;
-  font-weight:normal;
+  /*font-size:100%;*/
+  /*font-weight:normal;*/
 }
 section#faq ul,section#faq li{
   list-style:none;
 }
 section#faq ul{
   overflow:hidden;
-  padding:3em;
+  /*padding:3em;*/
+    width: 98%;
+    margin: auto;
 }
 section#faq ul li a{
   text-decoration:none;
   color:#000;
   background:#ffc;
   display:block;
-  height:29em;
-  width:22em;
-  padding:2em;
+  height:12em;
+  width:12em;
+  padding:0.5em;
   -moz-box-shadow:5px 5px 7px rgba(33,33,33,1);
   -webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
   box-shadow: 5px 5px 7px rgba(33,33,33,.7);
@@ -43,13 +46,13 @@ section#faq ul li{
   float:left;
 }
 section#faq ul li h2{
-  font-size:140%;
-  font-weight:bold;
+  /*font-size:140%;*/
+  /*font-weight:bold;*/
   padding-bottom:10px;
 }
 section#faq ul li p{
-  font-family:"Reenie Beanie",arial,sans-serif;
-  font-size:180%;
+  /*font-family:"Reenie Beanie",arial,sans-serif;*/
+  /*font-size:180%;*/
 }
 section#faq ul li a{
   -webkit-transform: rotate(-6deg);
@@ -90,5 +93,5 @@ section#faq ul li a:hover,ul li a:focus{
   z-index:5;
 }
 section#faq ol{text-align:center;}
-section#faq ol li{display:inline;padding-right:1em;}
+section#faq ol li{display:inline;}
 section#faq ol li a{color:#fff;}

@@ -4,14 +4,22 @@ Description: Jhesed's custom style
 */
 html{
   scroll-behavior: smooth;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    /*height: 100%;*/
+    /*overflow: hidden;*/
 }
-body{
-  font-family: 'Open Sans', sans-serif;
-  font-size: 14px;
+
+body, p, span, .hsid{
+  /*font-family: 'Open Sans', sans-serif;*/
+  /*font-size: 14px;*/
+  font: 14px "Roboto Light", sans-serif;  
 }
 div.hsid{
- 	font-family: 'Great Vibes', Helvetica, sans-serif;
-  font-size: 40px;
+/* 	font-family: 'Great Vibes', Helvetica, sans-serif;
+  font-size: 40px;*/
   text-shadow: 1px 1px 1px rgba(0,0,0,0.1); 
 }
 .hsid-break-line{
@@ -31,22 +39,27 @@ div.hsid{
 #proposal{
   padding: 0 200px;
   height:auto;
-  width: 100%;
+    width: 100%;
   background-color:black; 
 }
 #love-story .container, #love-story-timeline .container, 
-#rvsp .container, #waze .container{
+#rvsp .container, #waze .container, {
 	width:100%; 
 	box-sizing:border-box;
+}
+#faq .container {
+  width: 100%;
+  padding:30px;
 }
 .white{
   color: white  ;
 }
 section#bridegroom-section{
-  padding: 30px;
+  padding-bottom: 40px;
 }
 section#timeline-section{
-  width:70%;
+  /*width:70%;*/
+  width:100%;
   margin: auto;
 }
 div.waze-qr{
@@ -54,26 +67,42 @@ div.waze-qr{
   width:100px;
 }
 .faq-section{
-  width:100%;
-}
+  /*width:100%;*/
+  margin:auto;
+}/*
 .site-header{
   background:rgba(0,0,0,0.85);
-}
-.menu-wrap {
+}*/
+/*.menu-wrap {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 999999;
+}*/
+
+
+@media only screen and (max-width: 768px) {
+  body.custom-background { 
+    background-image: none !important; 
+    /*background-color:#C38D9E;*/
+    /*background-color:#DAAD86;*/
+    /*background-color:#907163;*/
+    background-color:#E3AFBC;
+    /*background-color:#EDC7B7;*/
+    }
+
+  .hearticon{
+      padding-top:50px;
+  }
 }
 /* --------------------------- Message box :: START ------------------------------*/
 
 .isa_info, .isa_success, .isa_warning, .isa_error {
-margin: 10px 0px;
-padding:12px;
-width: 100%;
- 
+  margin: 10px 0px;
+  padding:12px;
+  width: 100%;
 }
 .isa_info {
     color: #00529B;
@@ -93,7 +122,7 @@ width: 100%;
 }
 .isa_info i, .isa_success i, .isa_warning i, .isa_error i {
     margin:10px 22px;
-    font-size:2em;
+    /*font-size:2em;*/
     vertical-align:middle;
 }
 
@@ -107,24 +136,39 @@ button#rvsp-regret{
 
 /* --------------------------- COUNTDOWN :: START ------------------------------*/
 
-h1, h2, h3, h4, h5, h6, p, a, ul, span, li, img, inpot, button{ margin: 0; padding: 0;}
+h1, h2, h3, h4, h5, h6, p, a, ul, span, li, img, input, button, 
+span.contact100-form-title, .welcome-content h3, a.notify-btn, a{ 
+  margin: 0; padding-top: 0;
+  font: 21px Roboto, sans-serif;  
+  line-height: 1.5; font-weight: inherit;
+}
 
-h1,h2,h3,h4,h5,h6{ line-height: 1.5; font-weight: inherit; }
+#waze h3, #faq h1{
+  padding-top:20px;
+}
 h1{
   color:white; 
 }
 
-h1.countdown-timer,h2,h3{ font-family: 'Poppins', sans-serif; }
+/*h1.countdown-timer,h2,h3{ font-family: 'Poppins', sans-serif; }*/
 
-p{ line-height: 1.6; font-size: 1.05em; font-weight: 400; color: #555; }
+/*p{ line-height: 1.6; font-size: 1.05em; font-weight: 400; color: #555; }*/
 
-h1.countdown-timer{ font-size: 3.5em; line-height: 1; }
-h2{ font-size: 3em; line-height: 1.1; }
+p{
+  font: 14px "Roboto Light", sans-serif;  
+}
+
+section#welcome-section{
+  padding-bottom:30px;
+}
+
+/*h1.countdown-timer{ font-size: 3.5em; line-height: 1; }*/
+/*h2{ font-size: 3em; line-height: 1.1; }
 h3{ font-size: 2.5em; }
 h4{ font-size: 1.5em; }
 h5{ font-size: 1.2em; }
 h6{ font-size: .9em; letter-spacing: 1px; }
-
+*/
 /* --------------------------- COUNTDOWN :: END ------------------------------*/
 
 /*

@@ -119,7 +119,7 @@ function wedding_bells_lite_scripts() {
 	wp_enqueue_style( 'css-countdown-timer', get_template_directory_uri()."/css/countdown.css" );
 
   	// timeline
-	wp_enqueue_style( 'css-timeline', get_template_directory_uri()."/css/timeline.css" );
+	// wp_enqueue_style( 'css-timeline', get_template_directory_uri()."/css/timeline.css" );
 
 	// Contact Form
 	wp_enqueue_style( 'font-awesome', get_template_directory_uri()."/fonts/font-awesome-4.7.0/css/font-awesome.min.css" );
@@ -158,8 +158,8 @@ function wedding_bells_lite_scripts() {
 
 
 	// timeline
-	wp_enqueue_script( 'timeline-js', get_template_directory_uri() . '/js/timeline.js' );	
-	wp_enqueue_script( 'timeline-js-script', get_template_directory_uri() . '/js/timeline-script.js' );
+	// wp_enqueue_script( 'timeline-js', get_template_directory_uri() . '/js/timeline.js' );	
+	// wp_enqueue_script( 'timeline-js-script', get_template_directory_uri() . '/js/timeline-script.js' );
 
 
 	// RVSP
@@ -167,11 +167,11 @@ function wedding_bells_lite_scripts() {
 	wp_localize_script( 'rvsp-form', 'admin_url', array('ajax_url' => admin_url( 'admin-ajax.php' ) ) );	
 
 	// Proposal
-	wp_enqueue_script( 'jgallery', get_template_directory_uri() . '/js/jgallery.min.js' );
+	// wp_enqueue_script( 'jgallery', get_template_directory_uri() . '/js/jgallery.min.js' );
 
-	wp_enqueue_script( 'proposal', get_template_directory_uri() . '/js/proposal.js' );
-	wp_localize_script( 'proposal', 'image_dir', get_template_directory_uri() . '/images/proposal' );		
-	wp_localize_script( 'proposal', 'video_dir', get_template_directory_uri() . '/videos/proposal' );		
+	// wp_enqueue_script( 'proposal', get_template_directory_uri() . '/js/proposal.js' );
+	// wp_localize_script( 'proposal', 'image_dir', get_template_directory_uri() . '/images/proposal' );		
+	// wp_localize_script( 'proposal', 'video_dir', get_template_directory_uri() . '/videos/proposal' );		
 
 	// Jhesed style
 	wp_enqueue_script( 'han-sed-i-do-js', get_template_directory_uri() . '/js/han-sed-i-do.js' );

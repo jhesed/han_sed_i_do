@@ -208,7 +208,7 @@ h2.sectiontitle{font-weight:600; font-size:40px; margin-bottom:50px; position:re
 -------------------------------------------------------------- */
 #bridegroom-section{ background-color:#f1f1f1; text-align:center; padding:0;}
 #bridegroom-section .container{ width:100%; box-sizing:border-box;}
-.twocolumnbox{ background-color:#fff; width:35%; display:inline-block; margin:0 15% 0 auto; padding:50px 25px; position:relative; box-sizing:border-box; text-align:center;}
+.twocolumnbox{ background-color:#fff; width:35%; display:inline-block; margin:0 15% 0 auto; padding:5px 5px; position:relative; box-sizing:border-box; text-align:center;}
 .twocolumnbox p{ margin-bottom:40px; font-size:16px;  }
 .twocolumnbox h3{ font-size:30px; font-weight:400; color:#404040; margin:0 0 25px;}
 .twocolumnbox h3 span{ font-size:20px; color:#555; display:block;}

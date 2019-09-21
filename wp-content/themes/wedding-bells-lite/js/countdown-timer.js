@@ -29,7 +29,8 @@ jQuery(document).ready(function($) {
 				+ '<div class="time-sec"><h3 class="main-time">%D</h3> <span>Days</span></div>'
 				+ '<div class="time-sec"><h3 class="main-time">%H</h3> <span>Hours</span></div>'
 				+ '<div class="time-sec"><h3 class="main-time">%M</h3> <span>Mins</span></div>'
-				+ '<div class="time-sec"><h3 class="main-time">%S</h3> <span>Sec</span></div>'));
+				));
+				// + '<div class="time-sec"><h3 class="main-time">%S</h3> <span>Sec</span></div>'));
 		});
 	}
 	
