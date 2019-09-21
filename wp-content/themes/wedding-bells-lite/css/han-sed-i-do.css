@@ -94,7 +94,17 @@ div.waze-qr{
     }
 
   .hearticon{
-      padding-top:50px;
+    display: none;
+  }
+
+  ul#menu-menu{
+      background-color:#E3AFBC;
+  }
+  .header-menu ul li a{
+      padding:0 15px !important;
+      color:maroon;
+      font-weight: normal;
+      font-size: 16px;
   }
 }
 /* --------------------------- Message box :: START ------------------------------*/
